@@ -1,1 +1,19 @@
+--User(UserID, FirstName, LastName, UserName, UserPassword, (UserPhone, AddressLine1, AddressLine2, Pueblo, City, ZipCode), UserType)  
 
+(admin supervises/administers other users)* 
+
+--UserAddress(UserPhone, AddressLine1, AddressLine2, Pueblo, City, ZipCode) 
+
+Every user has one address viceversa 
+
+--Resource(ResourceID, ResourceName, UserID, costo, ReservedAmmount, BuyableAmmount, ResourceType) 
+
+--Transaction(ResourceID, UserIDSupplier, UserIDBuyer, AmmountReserved, AmmountBought, Date) 
+
+El user puede ser supplier y buyer/reciever? 
+
+El location de los resources es el mismo del user q lo hizo submit o puede tener location diferente? 
+
+Como guardamos el location? Se puede guardar la informacion del pin de googlemaps en la tabla? 
+
+Como bregamos con el resource type para agua/fuel? 
