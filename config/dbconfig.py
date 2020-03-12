@@ -1,5 +1,5 @@
 pg_config = {
-    'user' : 'dbstudents',
-    'passwd' : 'icom5016',
+    'user' : 'ingshiroe',
+    'passwd' : ' ',
     'dbname' : 'dbdisaster'
 }
