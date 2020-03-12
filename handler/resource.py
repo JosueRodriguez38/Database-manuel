@@ -5,8 +5,8 @@ from dao.resources import ResourcesDAO
 class ResourceHandler:
     def build_resource_dict(self, row):
         result = {}
-        result['pid'] = row[0]
-        result['pname'] = row[1]
+        result['rid'] = row[0]
+        result['rname'] = row[1]
         result['pmaterial'] = row[2]
         result['pcolor'] = row[3]
         result['pprice'] = row[4]
@@ -20,10 +20,10 @@ class ResourceHandler:
         result['sphone'] = row[3]
         return result
 
-    def build_resource_attributes(self, pid, pname, pcolor, pmaterial, pprice):
+    def build_resource_attributes(self, rid, rname, pcolor, pmaterial, pprice):
         result = {}
-        result['pid'] = pid
-        result['pname'] = pname
+        result['rid'] = rid
+        result['rname'] = rname
         result['pmaterial'] = pcolor
         result['pcolor'] = pmaterial
         result['pprice'] = pprice
@@ -38,9 +38,9 @@ class ResourceHandler:
             result_list.append(result)
         return jsonify(Resources=result_list)
 
-    def getResourceById(self, pid):
+    def getResourceById(self, rid):
         dao = ResourcesDAO()
-        row = dao.getResourceById(pid)
+        row = dao.getResourceById(rid)
         if not row:
             return jsonify(Error = "Resource Not Found"), 404
         else:
@@ -66,11 +66,11 @@ class ResourceHandler:
             result_list.append(result)
         return jsonify(Resources=result_list)
 
-    def getSuppliersByResourceId(self, pid):
+    def getSuppliersByResourceId(self, rid):
         dao = ResourcesDAO()
-        if not dao.getResourceById(pid):
+        if not dao.getResourceById(rid):
             return jsonify(Error="Resource Not Found"), 404
-        suppliers_list = dao.getSuppliersByResourceId(pid)
+        suppliers_list = dao.getSuppliersByResourceId(rid)
         result_list = []
         for row in suppliers_list:
             result = self.build_supplier_dict(row)
@@ -82,54 +82,54 @@ class ResourceHandler:
         if len(form) != 4:
             return jsonify(Error = "Malformed post request"), 400
         else:
-            pname = form['pname']
+            rname = form['rname']
             pprice = form['pprice']
             pmaterial = form['pmaterial']
             pcolor = form['pcolor']
-            if pcolor and pprice and pmaterial and pname:
+            if pcolor and pprice and pmaterial and rname:
                 dao = ResourcesDAO()
-                pid = dao.insert(pname, pcolor, pmaterial, pprice)
-                result = self.build_resource_attributes(pid, pname, pcolor, pmaterial, pprice)
+                rid = dao.insert(rname, pcolor, pmaterial, pprice)
+                result = self.build_resource_attributes(rid, rname, pcolor, pmaterial, pprice)
                 return jsonify(Resource=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
     def insertResourceJson(self, json):
-        pname = json['pname']
+        rname = json['rname']
         pprice = json['pprice']
         pmaterial = json['pmaterial']
         pcolor = json['pcolor']
-        if pcolor and pprice and pmaterial and pname:
+        if pcolor and pprice and pmaterial and rname:
             dao = ResourcesDAO()
-            pid = dao.insert(pname, pcolor, pmaterial, pprice)
-            result = self.build_resource_attributes(pid, pname, pcolor, pmaterial, pprice)
+            rid = dao.insert(rname, pcolor, pmaterial, pprice)
+            result = self.build_resource_attributes(rid, rname, pcolor, pmaterial, pprice)
             return jsonify(Resource=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
 
-    def deleteResource(self, pid):
+    def deleteResource(self, rid):
         dao = ResourcesDAO()
-        if not dao.getResourceById(pid):
+        if not dao.getResourceById(rid):
             return jsonify(Error = "Resource not found."), 404
         else:
-            dao.delete(pid)
+            dao.delete(rid)
             return jsonify(DeleteStatus = "OK"), 200
 
-    def updateResource(self, pid, form):
+    def updateResource(self, rid, form):
         dao = ResourcesDAO()
-        if not dao.getResourceById(pid):
+        if not dao.getResourceById(rid):
             return jsonify(Error = "Resource not found."), 404
         else:
             if len(form) != 4:
                 return jsonify(Error="Malformed update request"), 400
             else:
-                pname = form['pname']
+                rname = form['rname']
                 pprice = form['pprice']
                 pmaterial = form['pmaterial']
                 pcolor = form['pcolor']
-                if pcolor and pprice and pmaterial and pname:
-                    dao.update(pid, pname, pcolor, pmaterial, pprice)
-                    result = self.build_resource_attributes(pid, pname, pcolor, pmaterial, pprice)
+                if pcolor and pprice and pmaterial and rname:
+                    dao.update(rid, rname, pcolor, pmaterial, pprice)
+                    result = self.build_resource_attributes(rid, rname, pcolor, pmaterial, pprice)
                     return jsonify(Resource=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400

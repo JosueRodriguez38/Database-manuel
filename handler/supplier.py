@@ -13,8 +13,8 @@ class SupplierHandler:
 
     def build_resource_dict(self, row):
         result = {}
-        result['pid'] = row[0]
-        result['pname'] = row[1]
+        result['rid'] = row[0]
+        result['rname'] = row[1]
         result['pmaterial'] = row[2]
         result['pcolor'] = row[3]
         result['pprice'] = row[4]
