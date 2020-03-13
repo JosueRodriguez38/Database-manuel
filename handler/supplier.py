@@ -5,10 +5,13 @@ from dao.supplier import SupplierDAO
 class SupplierHandler:
     def build_supplier_dict(self, row):
         result = {}
+        print (row)
         result['sid'] = row[0]
         result['sname'] = row[1]
-        result['scity'] = row[2]
-        result['sphone'] = row[3]
+        result['sphone'] = row[2]
+        result['semail'] = row[3]
+        result['scity'] = row[4]
+
         return result
 
     def build_resource_dict(self, row):

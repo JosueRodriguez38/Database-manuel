@@ -7,25 +7,31 @@ class SupplierDAO:
         connection_url = "dbname=%s user=%s password=%s " % (pg_config['dbname'],
                                                             pg_config['user'],
                                                             pg_config['passwd'])
-        self.conn = psycopg2._connect(connection_url)
+        self.conn = psycopg2.connect(connection_url)
 
     def getAllSuppliers(self):
 
         r = []
-        r.append('1')
+        r.append(1)
         r.append('Manuel')
-        r.append('Mayaguez')
         r.append('787-123-4567')
+        r.append('manuel.rodriguez7@upr.edu')
+        r.append('mayaguez')
         result=[]
         result.append(r)
         return result
 
     def getSupplierById(self, sid):
-            cursor = self.conn.cursor()
-            query = "select * from supplier where sid = %s;"
-            cursor.execute(query, (sid,))
-            result = cursor.fetchone()
-            return result
+        r = []
+        if sid==1:
+            r.append(1)
+            r.append('Manuel')
+            r.append('787-123-4567')
+            r.append('manuel.rodriguez7@upr.edu')
+            r.append('mayaguez')
+
+
+        return r
 
     def getResourcesBySupplierId(self, sid):
         cursor = self.conn.cursor()
@@ -37,12 +43,16 @@ class SupplierDAO:
         return result
 
     def getSuppliersByCity(self, city):
-        cursor = self.conn.cursor()
-        query = "select * from supplier where scity = %s;"
-        cursor.execute(query, (city,))
+        r = []
         result = []
-        for row in cursor:
-            result.append(row)
+        if city == 'mayaguez':
+            r.append(1)
+            r.append('Manuel')
+            r.append('787-123-4567')
+            r.append('manuel.rodriguez7@upr.edu')
+            r.append('mayaguez')
+            result.append(r)
+
         return result
 
     def insert(self, sname, scity, sphone):
