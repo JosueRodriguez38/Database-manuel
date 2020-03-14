@@ -1,15 +1,16 @@
 from flask import jsonify
-#from dao.resources import ResourcesDAO
+
+from dao.resouce import ResourcesDAO
 
 
 class ResourceHandler:
     def build_resource_dict(self, row):
         result = {}
         result['rid'] = row[0]
-        result['rname'] = row[1]
-        result['pmaterial'] = row[2]
-        result['pcolor'] = row[3]
-        result['pprice'] = row[4]
+        result['sid'] = row[1]
+        result['cost'] = row[2]
+        result['rname'] = row[3]
+        result['resvAmount'] = row[4]
         return result
 
     def build_supplier_dict(self, row):
@@ -20,13 +21,13 @@ class ResourceHandler:
         result['sphone'] = row[3]
         return result
 
-    def build_resource_attributes(self, rid, rname, pcolor, pmaterial, pprice):
+    def build_resource_attributes(self, rid, sid, rname, cost, resvAmount):
         result = {}
         result['rid'] = rid
-        result['rname'] = rname
-        result['pmaterial'] = pcolor
-        result['pcolor'] = pmaterial
-        result['pprice'] = pprice
+        result['sid'] = sid
+        result['cost'] = rname
+        result['rname'] = cost
+        result['resvAmount'] = resvAmount
         return result
 
     def getAllResources(self):
@@ -42,10 +43,10 @@ class ResourceHandler:
         dao = ResourcesDAO()
         row = dao.getResourceById(rid)
         if not row:
-            return jsonify(Error = "Resource Not Found"), 404
+            return jsonify(Error="Resource Not Found"), 404
         else:
             resource = self.build_resource_dict(row)
-            return jsonify(Resource = resource)
+            return jsonify(Resource=resource)
 
     def searchResources(self, args):
         color = args.get("color")
@@ -59,7 +60,7 @@ class ResourceHandler:
         elif (len(args) == 1) and material:
             resources_list = dao.getResourcesByMaterial(material)
         else:
-            return jsonify(Error = "Malformed query string"), 400
+            return jsonify(Error="Malformed query string"), 400
         result_list = []
         for row in resources_list:
             result = self.build_resource_dict(row)
@@ -80,29 +81,29 @@ class ResourceHandler:
     def insertResource(self, form):
         print("form: ", form)
         if len(form) != 4:
-            return jsonify(Error = "Malformed post request"), 400
+            return jsonify(Error="Malformed post request"), 400
         else:
+            sid = form['sid']
+            resvAmount = form['resvAmount']
+            cost = form['cost']
             rname = form['rname']
-            pprice = form['pprice']
-            pmaterial = form['pmaterial']
-            pcolor = form['pcolor']
-            if pcolor and pprice and pmaterial and rname:
+            if rname and resvAmount and cost and sid:
                 dao = ResourcesDAO()
-                rid = dao.insert(rname, pcolor, pmaterial, pprice)
-                result = self.build_resource_attributes(rid, rname, pcolor, pmaterial, pprice)
+                rid = dao.insert(sid, rname, cost, resvAmount)
+                result = self.build_resource_attributes(rid, sid, rname, cost, resvAmount)
                 return jsonify(Resource=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
     def insertResourceJson(self, json):
+        sid = json['sid']
+        resvAmount = json['resvAmount']
+        cost = json['cost']
         rname = json['rname']
-        pprice = json['pprice']
-        pmaterial = json['pmaterial']
-        pcolor = json['pcolor']
-        if pcolor and pprice and pmaterial and rname:
+        if rname and resvAmount and cost and sid:
             dao = ResourcesDAO()
-            rid = dao.insert(rname, pcolor, pmaterial, pprice)
-            result = self.build_resource_attributes(rid, rname, pcolor, pmaterial, pprice)
+            rid = dao.insert(sid, rname, cost, resvAmount)
+            result = self.build_resource_attributes(rid, sid, rname, cost, resvAmount)
             return jsonify(Resource=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -110,33 +111,33 @@ class ResourceHandler:
     def deleteResource(self, rid):
         dao = ResourcesDAO()
         if not dao.getResourceById(rid):
-            return jsonify(Error = "Resource not found."), 404
+            return jsonify(Error="Resource not found."), 404
         else:
             dao.delete(rid)
-            return jsonify(DeleteStatus = "OK"), 200
+            return jsonify(DeleteStatus="OK"), 200
 
     def updateResource(self, rid, form):
         dao = ResourcesDAO()
         if not dao.getResourceById(rid):
-            return jsonify(Error = "Resource not found."), 404
+            return jsonify(Error="Resource not found."), 404
         else:
             if len(form) != 4:
                 return jsonify(Error="Malformed update request"), 400
             else:
+                sid = form['sid']
+                resvAmount = form['resvAmount']
+                cost = form['cost']
                 rname = form['rname']
-                pprice = form['pprice']
-                pmaterial = form['pmaterial']
-                pcolor = form['pcolor']
-                if pcolor and pprice and pmaterial and rname:
-                    dao.update(rid, rname, pcolor, pmaterial, pprice)
-                    result = self.build_resource_attributes(rid, rname, pcolor, pmaterial, pprice)
+                if rname and resvAmount and cost and sid:
+                    dao.update(rid, sid, rname, cost, resvAmount)
+                    result = self.build_resource_attributes(rid, sid, rname, cost, resvAmount)
                     return jsonify(Resource=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
 
     def build_resource_counts(self, resource_counts):
         result = []
-        #print(resource_counts)
+        # print(resource_counts)
         for P in resource_counts:
             D = {}
             D['id'] = P[0]
@@ -148,8 +149,5 @@ class ResourceHandler:
     def getCountByResourceId(self):
         dao = ResourcesDAO()
         result = dao.getCountByResourceId()
-        #print(self.build_resource_counts(result))
-        return jsonify(ResourceCounts = self.build_resource_counts(result)), 200
-
-
-
+        # print(self.build_resource_counts(result))
+        return jsonify(ResourceCounts=self.build_resource_counts(result)), 200
