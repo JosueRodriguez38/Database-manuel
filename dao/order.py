@@ -2,7 +2,7 @@ from config.dbconfig import pg_config
 from config.tuple_config import order
 import psycopg2
 
-class OrdersDAO:
+class OrderDAO:
     def __init__(self):
 
         connection_url = "dbname=%s user=%s password=%s host=127.0.0.1" % (pg_config['dbname'],
