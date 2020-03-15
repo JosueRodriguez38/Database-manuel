@@ -1,0 +1,43 @@
+User(UserID serial primary key, UserName varchar(20), UserPassword varchar(20), FirstName varchar(20), LastName varchar(20), Phone char(10), Email char(20), Location char(40))  
+-Mother entity that holds admin, supplier and consumer information.
+ 
+Admin(AdminID serial primary key, UserID integer refrences User(UserID)) 
+-Supervises consumer and supplier. Admin personal information
+ 
+Supplier(SupplierID serial primary key, UserID integer refrences User(UserID), AdminID integer refrences Admin(AdminID)) 
+-Contains information of the supplier and admin id that supervises the user. Inherits User atributes.
+ 
+Consumer(ConsumerID serial primary key, UserID integer refrences User(UserID), AdminID integer refrences Admin(AdminID)) 
+-Contains information of the Consumer and admin id that supervises the user. Inherits User atributes.
+ 
+Transaction(TransactionID serial primary key, ConsumerID integer references Consumer(ConsumerID), PaymentMethod) 
+-Information about how to pay for resources
+ 
+Resources(ResourceID serial primary key, SupplierID integer references Supplier(SupplierID), ResourceName varchar(10), Cost int, ReservedAmmount int, BuyableAmmount int, Location char(40)) 
+-Information about the resources. 
+ 
+Water(WaterID serial primary key, ResourceID integer references Resource(ResourceID), WaterName varchar(10)) 
+-inherits resource information from Resource. contains distinction between types of water.
+Fuel(FuelID serial primary key, ResourceID integer references Resource(ResourceID), FuelName varchar(10)) 
+-inherits resource information from Resource. contains distinction between types of Fuel.
+ 
+ 
+Supplies(SupplierID integer references Supplier(SupplierID), ResourceID integer references Resource(ResourceID), primary key(SupplierID, ResourceID)) 
+-Relationship that links supplier to resource
+ 
+Order(OrderID serial primary key, ResourceID integer references Resource(ResourceID), ConsumerID integer references Consumer(ConsumerID), Date) 
+-Entity that contains information of an order of a resource that a consumer requested 
+ 
+Belongs(OrderID integer references Order(OrderID), ResourceID integer references Resource(ResourceID), primary key(OrderID, ResourceID)) 
+-Relationship that links and order with a resource requested
+ 
+Pays(TransactionID integer references Transaction(TransactionID), OrderID integer references Order(OrderID), primary key(OrderID, TransactionID)) 
+-Realtionship that links the transaction entity with the order entity.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+

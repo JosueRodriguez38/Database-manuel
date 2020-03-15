@@ -5,13 +5,10 @@ from dao.supplier import SupplierDAO
 class SupplierHandler:
     def build_supplier_dict(self, row):
         result = {}
-        print (row)
         result['sid'] = row[0]
         result['sname'] = row[1]
-        result['sphone'] = row[2]
-        result['semail'] = row[3]
-        result['scity'] = row[4]
-
+        result['scity'] = row[2]
+        result['sphone'] = row[3]
         return result
 
     def build_resource_dict(self, row):
@@ -54,7 +51,7 @@ class SupplierHandler:
         for row in resources_list:
             result = self.build_resource_dict(row)
             result_list.append(result)
-        return jsonify(ResourcesSupply=result_list)
+        return jsonify(ResourcesResources=result_list)
 
     def searchSuppliers(self, args):
         if len(args) > 1:
