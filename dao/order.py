@@ -30,9 +30,6 @@ class OrderDAO:
         #return result
 
     def getOrderById(self, oid):
-        #cursor = self.conn.cursor()
-        #query = "select * from order where oid = %s;"
-        #cursor.execute(query, (oid,))
 
         result = []
         if oid == 9:
@@ -41,9 +38,7 @@ class OrderDAO:
         return result
 
     def getOrderByResourceName(self, rname):
-        # cursor = self.conn.cursor()
-        # query = "select * from order where rname = %s;"
-        # cursor.execute(query, (rname,))
+
         result = []
         for row in order:
             result.append(row)
