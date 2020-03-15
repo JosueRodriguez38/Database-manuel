@@ -15,7 +15,7 @@ CORS(app)
 def greeting():
     return 'Hello, this is the parts DB App!'
 
-@app.route('/supplier', methods=['GET','POST'])
+@app.route('/suppliers', methods=['GET', 'POST'])
 def getAllSuppliers():
     if request.method == 'Post':
         print("REQUEST: ", request.json)
