@@ -5,7 +5,7 @@ from handler.resource import ResourceHandler
 from handler.order import OrderHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
-# machines to access this app
+
 from flask_cors import CORS, cross_origin
 
 # Activate
