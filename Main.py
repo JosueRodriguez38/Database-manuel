@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
-#from handler. import PartHandler
+# from handler. import ResourcesHandler
 from handler.supplier import SupplierHandler
+from handler.resource import ResourceHandler
+from handler.order import OrderHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
 # machines to access this app
@@ -11,31 +13,52 @@ app = Flask(__name__)
 # Apply CORS to this app
 CORS(app)
 
+
 @app.route('/')
 def greeting():
-    return 'Disaster DB App!'
+    return 'Hello, this is the supplies DB App!'
 
-@app.route('/suppliers', methods=['GET','POST'])
+
+@app.route('/supplier', methods=['GET', 'POST'])
 def getAllSuppliers():
     if request.method == 'Post':
         print("REQUEST: ", request.json)
-        return SupplierHandler().insertPartJson(request.json)
+        return SupplierHandler().insertResourcesJson(request.json)
     else:
         if not request.args:
             return SupplierHandler().getAllSuppliers()
         else:
-            return SupplierHandler().searchSuppliers(request.args)
+            return SupplierHandler().searchSuppliers(request.agrs)
 
-@app.route('/suppliers/<int:sid>', methods=['GET', 'PUT', 'DELETE'])
-def getSupplierById(sid):
+
+@app.route('/resources', methods=['GET'])
+def getAllresources():
+    return ResourceHandler().getAllResources()
+
+
+@app.route('/orders', methods=['GET', 'POST'])
+def getAllOrders():
+    if request.method == 'Post':
+        print("REQUEST: ", request.json)
+        return OrderHandler().insertOrderJson(request.json)
+    else:
+        if not request.args:
+            return OrderHandler().getAllOrders()
+        else:
+            return OrderHandler().getOrdersByResourceName()
+
+
+@app.route('/orders/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+def getOrderById(oid):
     if request.method == 'GET':
-        return SupplierHandler().getSupplierById(sid)
+        return OrderHandler().getOrderById(oid)
     elif request.method == 'PUT':
-        pass
+        return OrderHandler().updateOrder(oid, request.form)
     elif request.method == 'DELETE':
-        pass
+        return OrderHandler().deleteOrder(oid)
     else:
         return jsonify(Error = "Method not allowed"), 405
+
 
 
 if __name__ == '__main__':
