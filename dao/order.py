@@ -15,8 +15,10 @@ class OrderDAO:
        # query = "select oid, rname, firstname, ammountbought, ammountsreserved, date from order natural join belongs natural join resources natural join consumer natural join user;"
        # cursor.execute(query)
         result = []
+        r = []
         for row in order:
-            result.append(row)
+            r.append(row)
+        result.append(r)
         return result
 
     #   not used in phase 1
@@ -31,9 +33,11 @@ class OrderDAO:
         #cursor = self.conn.cursor()
         #query = "select * from order where oid = %s;"
         #cursor.execute(query, (oid,))
+
         result = []
-        for row in order:
-            result.append(row)
+        if oid == 9:
+            for row in order:
+                result.append(row)
         return result
 
     def getOrderByResourceName(self, rname):
