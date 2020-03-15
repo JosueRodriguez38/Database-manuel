@@ -72,7 +72,7 @@ class OrderHandler:
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
-    def insertPartJson(self, json):
+    def insertOrderJson(self, json):
         rname = json['rname']
         firstName = json['firstName']
         lastName = json['lastName']
