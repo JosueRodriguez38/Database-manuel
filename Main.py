@@ -36,6 +36,42 @@ def getAllresources():
     return ResourceHandler().getAllResources()
 
 
+@app.route('/consumer', methods=['POST'])
+def insertConsumers():
+    print("REQUEST: ", request.json)
+    return SupplierHandler().insertResourcesJson(request.json)
+
+
+@app.route('/consumer/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+def getConsumerById(cid):
+    if request.method == 'GET':
+        return
+    elif request.method == 'PUT':
+        return
+    elif request.method == 'DELETE':
+        return
+    else:
+        return jsonify(Error = "Method not allowed"), 405
+
+
+@app.route('/admin', methods=['POST'])
+def insertAdmin():
+    print("REQUEST: ", request.json)
+    return SupplierHandler().insertResourcesJson(request.json)
+
+
+@app.route('/admin/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+def getAdminById(aid):
+    if request.method == 'GET':
+        return
+    elif request.method == 'PUT':
+        return
+    elif request.method == 'DELETE':
+        return
+    else:
+        return jsonify(Error = "Method not allowed"), 405
+
+
 @app.route('/orders', methods=['GET', 'POST'])
 def getAllOrders():
     if request.method == 'Post':
