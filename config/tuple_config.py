@@ -1,5 +1,6 @@
 order = []
 order.append(1)  # order ID
+order.append(1)  # consumer ID
 order.append('water')  # resource name
 order.append(212)  # amount reserved
 order.append(200)  # amount bought
