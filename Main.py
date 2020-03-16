@@ -37,7 +37,7 @@ def getAllresources():
 
 
 @app.route('/consumer', methods=['POST'])
-def insertConsumers():
+def insertConsumer():
     print("REQUEST: ", request.json)
     return SupplierHandler().insertResourcesJson(request.json)
 
