@@ -31,9 +31,40 @@ def getAllSuppliers():
             return SupplierHandler().searchSuppliers(request.agrs)
 
 
-@app.route('/resources', methods=['GET'])
+@app.route('/supplier/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+def getSupplierById(sid):
+    if request.method == 'GET':
+        return
+    elif request.method == 'PUT':
+        return
+    elif request.method == 'DELETE':
+        return
+    else:
+        return jsonify(Error = "Method not allowed"), 405
+
+
+@app.route('/resources', methods=['GET', 'POST'])
 def getAllresources():
-    return ResourceHandler().getAllResources()
+    if request.method == 'Post':
+        print("REQUEST: ", request.json)
+        return ResourceHandler().insertResourcesJson(request.json)
+    else:
+        if not request.args:
+            return ResourceHandler().getAllResources()
+        else:
+            return ResourceHandler().searchResources(request.agrs)
+
+
+@app.route('/Resource/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+def getResourceById(rid):
+    if request.method == 'GET':
+        return
+    elif request.method == 'PUT':
+        return
+    elif request.method == 'DELETE':
+        return
+    else:
+        return jsonify(Error = "Method not allowed"), 405
 
 
 @app.route('/consumer', methods=['POST'])
