@@ -55,7 +55,7 @@ def getAllresources():
             return ResourceHandler().searchResources(request.agrs)
 
 
-@app.route('/Resource/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
 def getResourceById(rid):
     if request.method == 'GET':
         return
