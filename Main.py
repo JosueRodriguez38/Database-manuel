@@ -31,7 +31,7 @@ def getAllSuppliers():
             return SupplierHandler().searchSuppliers(request.agrs)
 
 
-@app.route('/supplier/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/supplier/<int:sid>', methods=['GET', 'PUT', 'DELETE'])
 def getSupplierById(sid):
     if request.method == 'GET':
         return
@@ -55,7 +55,7 @@ def getAllresources():
             return ResourceHandler().searchResources(request.agrs)
 
 
-@app.route('/Resource/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/Resource/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
 def getResourceById(rid):
     if request.method == 'GET':
         return
@@ -73,7 +73,7 @@ def insertConsumer():
     return SupplierHandler().insertResourcesJson(request.json)
 
 
-@app.route('/consumer/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/consumer/<int:cid>', methods=['GET', 'PUT', 'DELETE'])
 def getConsumerById(cid):
     if request.method == 'GET':
         return
@@ -91,7 +91,7 @@ def insertAdmin():
     return SupplierHandler().insertResourcesJson(request.json)
 
 
-@app.route('/admin/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/admin/<int:aid>', methods=['GET', 'PUT', 'DELETE'])
 def getAdminById(aid):
     if request.method == 'GET':
         return
