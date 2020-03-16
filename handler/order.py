@@ -43,6 +43,7 @@ class OrderHandler:
     def getOrdersByResourceName(self, rname):
         dao = OrderDAO()
         row = dao.getOrderByResourceName(rname)
+        print (rname)
         if not row:
             return jsonify(Error="Part Not Found"), 404
         else:

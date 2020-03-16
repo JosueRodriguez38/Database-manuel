@@ -14,8 +14,7 @@ class ResourcesDAO:
     def getAllResources(self):
 
         result = []
-        for row in resource:
-            result.append(row)
+        result.append(resource)
         return result
 
     def getResourcesById(self, pid):

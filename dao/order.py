@@ -40,8 +40,9 @@ class OrderDAO:
     def getOrderByResourceName(self, rname):
 
         result = []
-        for row in order:
-            result.append(row)
+        if rname['name'] == 'water':
+            for row in order:
+                result.append(row)
         return result
 
     def insert(self, rname, firstName, ammountReserved, ammountBought, date):

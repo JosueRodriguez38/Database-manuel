@@ -7,9 +7,14 @@ class ResourceHandler:
     def build_resource_dict(self, row):
         result = {}
         result['rid'] = row[0]
-        result['sid'] = row[1]
+        result['rname'] = row[1]
         result['cost'] = row[2]
-        result['rname'] = row[3]
+        result['reserved'] = row[3]
+        result['buyable'] = row[4]
+        result['location'] = row[5]
+
+
+
         result['resvAmount'] = row[4]
         return result
 
@@ -48,9 +53,9 @@ class ResourceHandler:
             resource = self.build_resource_dict(row)
             return jsonify(Resource=resource)
 
-    def searchResources(self, args):
-        color = args.get("color")
-        material = args.get("material")
+    def searchResources(self, args):                                                     #arreglar
+        color = args.get("name")
+        material = args.get("cost")
         dao = ResourcesDAO()
         resources_list = []
         if (len(args) == 2) and color and material:
