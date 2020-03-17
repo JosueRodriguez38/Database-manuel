@@ -1,43 +1,38 @@
-User(UserID serial primary key, UserName varchar(20), UserPassword varchar(20), FirstName varchar(20), LastName varchar(20), Phone char(10), Email char(20), Location char(40))  
+ 
+User(uid serial primary key, userName varchar(20), userPassword varchar(20), firstName varchar(20), lastName varchar(20), phone char(10), email char(20), location char(40))  
 -Mother entity that holds admin, supplier and consumer information.
  
-Admin(AdminID serial primary key, UserID integer refrences User(UserID)) 
+Admin(aid serial primary key, uid integer refrences User(uid)) 
 -Supervises consumer and supplier. Admin personal information
  
-Supplier(SupplierID serial primary key, UserID integer refrences User(UserID), AdminID integer refrences Admin(AdminID)) 
+Supplier(sid serial primary key, uid integer refrences User(uid), aid integer refrences Admin(aid)) 
 -Contains information of the supplier and admin id that supervises the user. Inherits User atributes.
  
-Consumer(ConsumerID serial primary key, UserID integer refrences User(UserID), AdminID integer refrences Admin(AdminID)) 
+Consumer(cid serial primary key, uid integer refrences User(uid), aid integer refrences Admin(aid)) 
 -Contains information of the Consumer and admin id that supervises the user. Inherits User atributes.
  
-Transaction(TransactionID serial primary key, ConsumerID integer references Consumer(ConsumerID), PaymentMethod) 
+Transaction(tid serial primary key, cost int, cid integer references Consumer(cid), paymentMethod) 
 -Information about how to pay for resources
  
-Resources(ResourceID serial primary key, SupplierID integer references Supplier(SupplierID), ResourceName varchar(10), Cost int, ReservedAmmount int, BuyableAmmount int, Location char(40)) 
+Resources(rid serial primary key, rname varcharcost(10), cost int, reservedAmmount int, buyableAmmount int, location char(40)) 
 -Information about the resources. 
  
-Water(WaterID serial primary key, ResourceID integer references Resource(ResourceID), WaterName varchar(10)) 
+Water(wid serial primary key, rid integer references Resource(rid), waterName varchar(10)) 
 -inherits resource information from Resource. contains distinction between types of water.
-Fuel(FuelID serial primary key, ResourceID integer references Resource(ResourceID), FuelName varchar(10)) 
+Fuel(fid serial primary key, rid integer references Resource(rid), fuelName varchar(10)) 
 -inherits resource information from Resource. contains distinction between types of Fuel.
  
  
-Supplies(SupplierID integer references Supplier(SupplierID), ResourceID integer references Resource(ResourceID), primary key(SupplierID, ResourceID)) 
+Supplies(sid integer references Supplier(sid), rid integer references Resource(rid), primary key(sid, sid)) 
 -Relationship that links supplier to resource
  
-Order(OrderID serial primary key, ResourceID integer references Resource(ResourceID), ConsumerID integer references Consumer(ConsumerID), Date) 
--Entity that contains information of an order of a resource that a consumer requested 
  
-Belongs(OrderID integer references Order(OrderID), ResourceID integer references Resource(ResourceID), primary key(OrderID, ResourceID)) 
+Order(oid serial primary key, cid integer references Consumer(cid), resourceName char(10), ammountReserved int, ammountBought int, date int) 
+-Entity that contains information of an order a consumer requested 
+ 
+Belongs(oid integer references Order(oid), rid integer references Resource(rid), primary key(oid, rid)) 
 -Relationship that links and order with a resource requested
  
-Pays(TransactionID integer references Transaction(TransactionID), OrderID integer references Order(OrderID), primary key(OrderID, TransactionID)) 
+Pays(tid integer references Transaction(tid), oid integer references Order(oid), primary key(oid, tid)) 
 -Realtionship that links the transaction entity with the order entity.
  
- 
- 
- 
- 
- 
- 
-
