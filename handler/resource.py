@@ -8,7 +8,7 @@ class ResourceHandler:
         result = {}
         result['rid'] = row[0]
         result['rname'] = row[1]
-        result['price'] = row[2]
+        result['cost'] = row[2]
         result['reserved'] = row[3]
         result['buyable'] = row[4]
         result['location'] = row[5]
@@ -26,12 +26,12 @@ class ResourceHandler:
         result['sphone'] = row[3]
         return result
 
-    def build_resource_attributes(self, rid, sid, rname, price, resvAmount):
+    def build_resource_attributes(self, rid, sid, rname, cost, resvAmount):
         result = {}
         result['rid'] = rid
         result['sid'] = sid
-        result['price'] = rname
-        result['rname'] = price
+        result['cost'] = rname
+        result['rname'] = cost
         result['resvAmount'] = resvAmount
         return result
 
@@ -55,15 +55,15 @@ class ResourceHandler:
 
     def searchResources(self, args):                                                     #Fixed
         name = args.get("name")
-        price = args.get("price")
+        cost = args.get("cost")
         dao = ResourcesDAO()
         resources_list = []
-        if (len(args) == 2) and name and price:
-            resources_list = dao.getResourcesByNameAndPrice(name, price)
+        if (len(args) == 2) and name and cost:
+            resources_list = dao.getResourcesByNameAndCost(name, cost)
         elif (len(args) == 1) and name:
             resources_list = dao.getResourcesByName(name)
-        elif (len(args) == 1) and price:
-            resources_list = dao.getResourcesByPrice(price)
+        elif (len(args) == 1) and cost:
+            resources_list = dao.getResourcesByCost(cost)
         else:
             return jsonify(Error="Malformed query string"), 400
         result_list = []
@@ -90,12 +90,12 @@ class ResourceHandler:
         else:
             sid = form['sid']
             resvAmount = form['resvAmount']
-            price = form['price']
+            cost = form['cost']
             rname = form['rname']
-            if rname and resvAmount and price and sid:
+            if rname and resvAmount and cost and sid:
                 dao = ResourcesDAO()
-                rid = dao.insert(sid, rname, price, resvAmount)
-                result = self.build_resource_attributes(rid, sid, rname, price, resvAmount)
+                rid = dao.insert(sid, rname, cost, resvAmount)
+                result = self.build_resource_attributes(rid, sid, rname, cost, resvAmount)
                 return jsonify(Resource=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
@@ -103,13 +103,13 @@ class ResourceHandler:
     def insertResourceBySupplierIdJson(self,rid, json):
         sid = json['sid']
         resvAmount = json['resvAmount']
-        price = json['price']
+        cost = json['cost']
         rname = json['rname']
-        if rname and resvAmount and price and sid:
+        if rname and resvAmount and pricoste and sid:
             dao = ResourcesDAO()
-            r = dao.insert(rid,sid, rname, price, resvAmount)
+            r = dao.insert(rid,sid, rname, cost, resvAmount)
             if r:
-                result = self.build_resource_attributes(rid, sid, rname, price, resvAmount)
+                result = self.build_resource_attributes(rid, sid, rname, cost, resvAmount)
                 return jsonify(Resource=result), 201
             else:
                 return jsonify(Error="Resource not found or invalid supplier id."), 404
@@ -134,11 +134,11 @@ class ResourceHandler:
             else:
                 sid = form['sid']
                 resvAmount = form['resvAmount']
-                price = form['price']
+                cost = form['cost']
                 rname = form['rname']
-                if rname and resvAmount and price and sid:
-                    dao.update(rid, sid, rname, price, resvAmount)
-                    result = self.build_resource_attributes(rid, sid, rname, price, resvAmount)
+                if rname and resvAmount and cost and sid:
+                    dao.update(rid, sid, rname, cost, resvAmount)
+                    result = self.build_resource_attributes(rid, sid, rname, cost, resvAmount)
                     return jsonify(Resource=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
