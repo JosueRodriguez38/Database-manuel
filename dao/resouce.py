@@ -32,10 +32,10 @@ class ResourcesDAO:
             result.append(row)
         return result
 
-    def getResourcesByNameAndCost(self, name, cost):
+    def getResourcesByNameAndPrice(self, name, price):
         result = []
 
-        if float(cost) == resource[3] and name == resource[2]:
+        if float(price) == resource[3] and name == resource[2]:
             result.append(resource)
 
         return result
@@ -48,15 +48,15 @@ class ResourcesDAO:
 
         return result
 
-    def getResourcesByCost(self,cost):
+    def getResourcesByPrice(self,price):
         result = []
 
-        if float(cost) == resource[3]:
+        if float(price) == resource[3]:
             result.append(resource)
 
         return result
 
-    def insert(self,sid, rname, cost, resvAmount):
+    def insert(self,sid, rname, price, resvAmount):
 
         if sid == resource[1]:
             return 3
