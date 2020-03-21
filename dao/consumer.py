@@ -15,12 +15,12 @@ class ConsumerDAO:
         result.append(user_cons)
         return result
 
-    def update(self,cid,sname,scity,sphone):
+    def update(self,cid,cname,ccity,cphone):
         if cid==user_cons[0]:
             r = []
-            r.append(sname)
-            r.append(scity)
-            r.append(sphone)
+            r.append(cname)
+            r.append(ccity)
+            r.append(cphone)
             return r
         else:
             return
