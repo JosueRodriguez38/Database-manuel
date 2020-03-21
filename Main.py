@@ -103,7 +103,7 @@ def insertAdmin():
     return UserHandler().insertAdminJson(request.json)
 
 
-@app.route('/admin/<int:aid>', methods=['GET', 'PUT', 'DELETE'])                        #implementar
+@app.route('/admin/<int:aid>', methods=['GET', 'PUT', 'DELETE'])                        #finished?
 def getAdminById(aid):
     if request.method == 'GET':
 
@@ -117,11 +117,11 @@ def getAdminById(aid):
         return jsonify(Error = "Method not allowed"), 405
 
 
-@app.route('/orders', methods=['GET', 'POST'])
+@app.route('/orders', methods=['GET', 'POST'])                                    #finished?
 def getAllOrders():
-    if request.method == 'Post':
+    if request.method == 'POST':
         print("REQUEST: ", request.json)
-        return OrderHandler().insertOrderJson(request.json)
+        return OrderHandler().insertOrder(request.json)
     else:
         if not request.args:
             return OrderHandler().getAllOrders()
@@ -134,7 +134,7 @@ def getOrderById(oid):
     if request.method == 'GET':
         return OrderHandler().getOrderById(oid)
     elif request.method == 'PUT':
-        return OrderHandler().updateOrder(oid, request.form)
+        return OrderHandler().updateOrder(oid, request.json)
     elif request.method == 'DELETE':
         return OrderHandler().deleteOrder(oid)
     else:

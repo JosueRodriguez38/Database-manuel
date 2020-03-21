@@ -1,5 +1,5 @@
 from config.dbconfig import pg_config
-from config.tuple_config import order
+from config.tuple_config import order,user_cons
 import psycopg2
 
 class OrderDAO:
@@ -31,11 +31,10 @@ class OrderDAO:
 
     def getOrderById(self, oid):
 
-        result = []
-        if oid == 9:
-            for row in order:
-                result.append(row)
-        return result
+        if oid == order[0]:
+            return order
+        else:
+            return
 
     def getOrderByResourceName(self, rname):
 
@@ -45,25 +44,21 @@ class OrderDAO:
                 result.append(row)
         return result
 
-    def insert(self, rname, firstName, ammountReserved, ammountBought, date):
-        cursor = self.conn.cursor()
-        query = "insert into order(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        cursor.execute(query, (rname, firstName, ammountReserved, ammountBought, date))
-        pid = cursor.fetchone()[0]
-        self.conn.commit()
-        return pid
+    def insert(self, cid,rname, ammountReserved, ammountBought, date):
+        if cid == user_cons[0]:
+            print("HEREEEEEEEEEEEEEE")
+            return 2
+        else:
+            return
 
-    def update(self, oid, rname, firstName, ammountReserved, ammountBought, date):
-        cursor = self.conn.cursor()
-        query = "update order set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where oid = %s) values (%s, %s, %s, %s) returning pid;"
-        cursor.execute(query, (rname, firstName, ammountReserved, ammountBought, date, oid))
-        pid = cursor.fetchone()[0]
-        self.conn.commit()
-        return pid
+    def update(self, oid, cid,rname,  ammountReserved, ammountBought, date):
+        if oid == order[0] and cid == order[1]:
+            return oid
+        else:
+            return
 
     def delete(self, oid):
-        cursor = self.conn.cursor()
-        query = "delete from order where oid = %s;"
-        cursor.execute(query, (oid,))
-        self.conn.commit()
-        return oid
+        if oid == order[0]:
+            return oid
+        else:
+            return

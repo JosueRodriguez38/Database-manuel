@@ -112,8 +112,14 @@ class UserHandler:
             return jsonify(Error="Admin Not Found"), 404
         else:
             admin = self.build_user_dict(row)
-
+            admin['aid']=aid
         return jsonify(Admin=admin)
 
     def deleteAdmin(self, aid):
-        pass
+        dao = UserDAO()
+
+        result = dao.deleteAdmin(aid)
+        if result:
+            return jsonify(Admin=result), 201
+        else:
+            return jsonify(Error="Supplier not found"), 404

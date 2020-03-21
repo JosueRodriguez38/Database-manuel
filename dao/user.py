@@ -1,5 +1,5 @@
 from config.dbconfig import pg_config
-from config.tuple_config import inserted,admin
+from config.tuple_config import inserted,admin,user_supp_admin
 import psycopg2
 
 
@@ -44,4 +44,14 @@ class UserDAO:
             return
 
     def getAdminById(self, aid):
-        pass
+        if aid == admin[0]:
+            return user_supp_admin
+        else:
+            return
+
+    def deleteAdmin(self, aid):
+        if aid == user_supp_admin[0]:
+            result = user_supp_admin
+            return result
+        else:
+            return
