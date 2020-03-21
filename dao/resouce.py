@@ -17,12 +17,11 @@ class ResourcesDAO:
         result.append(resource)
         return result
 
-    def getResourcesById(self, pid):
-        cursor = self.conn.cursor()
-        query = "select pid, pname, pmaterial, pcolor, pprice from supplies where pid = %s;"
-        cursor.execute(query, (pid,))
-        result = cursor.fetchone()
-        return result
+    def getResourceById(self, pid):
+        if pid == resource[0]:
+            return resource
+        else:
+            return
 
     def getSuppliersByResourcesId(self, pid):
         cursor = self.conn.cursor()
@@ -32,3 +31,40 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def getResourcesByNameAndCost(self, name, cost):
+        result = []
+
+        if float(cost) == resource[3] and name == resource[2]:
+            result.append(resource)
+
+        return result
+
+    def getResourcesByName(self,name):
+        result = []
+
+        if name == resource[2]:
+            result.append(resource)
+
+        return result
+
+    def getResourcesByCost(self,cost):
+        result = []
+
+        if float(cost) == resource[3]:
+            result.append(resource)
+
+        return result
+
+    def insert(self,rid,sid, rname, cost, resvAmount):
+
+        if rid==resource[0] and sid == resource[1]:
+            return resource
+        return
+
+    def delete(self, rid):
+
+        if rid==resource[0]:
+            return "ok"
+        else:
+            return

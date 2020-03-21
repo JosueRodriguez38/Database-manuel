@@ -1,4 +1,6 @@
 from config.dbconfig import pg_config
+from config.tuple_config import user_supp_admin
+from config.tuple_config import inserted
 import psycopg2
 
 class SupplierDAO:
@@ -11,25 +13,14 @@ class SupplierDAO:
 
     def getAllSuppliers(self):
 
-        r = []
-        r.append(1)
-        r.append('Manuel')
-        r.append('787-123-4567')
-        r.append('manuel.rodriguez7@upr.edu')
-        r.append('mayaguez')
         result=[]
-        result.append(r)
+        result.append(user_supp_admin)
         return result
 
     def getSupplierById(self, sid):
         r = []
-        if sid==1:
-            r.append(1)
-            r.append('Manuel')
-            r.append('787-123-4567')
-            r.append('manuel.rodriguez7@upr.edu')
-            r.append('mayaguez')
-
+        if sid==user_supp_admin[0]:
+            r=user_supp_admin
 
         return r
 
@@ -43,22 +34,27 @@ class SupplierDAO:
         return result
 
     def getSuppliersByCity(self, city):
-        r = []
         result = []
-        if city == 'mayaguez':
-            r.append(1)
-            r.append('Manuel')
-            r.append('787-123-4567')
-            r.append('manuel.rodriguez7@upr.edu')
-            r.append('mayaguez')
-            result.append(r)
+        if city == user_supp_admin[6]:
+
+            result.append(user_supp_admin)
 
         return result
 
-    def insert(self, sname, scity, sphone):
-        cursor = self.conn.cursor()
-        query = "insert into supplier(sname, scity, sphone) values (%s, %s, %s) returning sid;"
-        cursor.execute(query, (sname, scity, sphone))
-        sid = cursor.fetchone()[0]
-        self.conn.commit()
-        return sid
+    def update(self,sid, sname, scity, sphone):
+        if sid==user_supp_admin[0]:
+            r = []
+            r.append(sname)
+            r.append(scity)
+            r.append(sphone)
+            return r
+        else:
+            return
+
+    def deleteSupplier(self,sid):
+
+        if sid == user_supp_admin[0]:
+            result = user_supp_admin
+            return result
+        else:
+            return

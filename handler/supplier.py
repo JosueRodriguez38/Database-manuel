@@ -5,7 +5,6 @@ from dao.supplier import SupplierDAO
 class SupplierHandler:
     def build_supplier_dict(self, row):
         result = {}
-        print (row)
         result['sid'] = row[0]
         result['sname'] = row[1]
         result['sphone'] = row[2]
@@ -91,4 +90,27 @@ class SupplierHandler:
         else:
             return jsonify(Error="Malformed post request")
 
+    def updateSupplier(self,sid,form):
+        print(form)
+        if form and len(form)==3:
+            sname = form['sname']
+            scity = form['scity']
+            sphone = form['sphone']
+            if sname and scity and sphone:
+                dao = SupplierDAO()
+                result = dao.update(sid,sname, scity, sphone)
 
+                return jsonify(Supplier=result), 201
+            else:
+                return jsonify(Error="Malformed post request")
+        else:
+            return jsonify(Error="Malformed args post request")
+
+    def deleteSupplier(self, sid):
+        dao=SupplierDAO()
+
+        result=dao.deleteSupplier(sid)
+        if result:
+            return jsonify(Supplier=result), 201
+        else:
+            return jsonify(Error="Supplier not found"), 404

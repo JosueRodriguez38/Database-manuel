@@ -3,6 +3,8 @@ from flask import Flask, jsonify, request
 from handler.supplier import SupplierHandler
 from handler.resource import ResourceHandler
 from handler.order import OrderHandler
+from handler.User import UserHandler
+from handler.consumer import ConsumerHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
 # machines to access this app
@@ -19,33 +21,33 @@ def greeting():
     return 'Hello, this is the Disaster supplies DB App!'
 
 
-@app.route('/supplier', methods=['GET', 'POST'])
+@app.route('/supplier', methods=['GET', 'POST'])                                               #args(city) #finished
 def getAllSuppliers():
-    if request.method == 'Post':
+    if request.method == 'POST':
         print("REQUEST: ", request.json)
-        return SupplierHandler().insertResourcesJson(request.json)
+        return UserHandler().insertSupplierJson(request.json)
     else:
         if not request.args:
             return SupplierHandler().getAllSuppliers()
         else:
-            return SupplierHandler().searchSuppliers(request.args)                                  #verificar
+            return SupplierHandler().searchSuppliers(request.args)
 
 
-@app.route('/supplier/<int:sid>', methods=['GET', 'PUT', 'DELETE'])                                 #Implementar
+@app.route('/supplier/<int:sid>', methods=['GET', 'PUT', 'DELETE'])                              #finished?
 def getSupplierById(sid):
     if request.method == 'GET':
-        return
+        return SupplierHandler().getSupplierById(sid)
     elif request.method == 'PUT':
-        return
+        return SupplierHandler().updateSupplier(sid, request.json)
     elif request.method == 'DELETE':
-        return
+        return SupplierHandler().deleteSupplier(sid)
     else:
-        return jsonify(Error = "Method not allowed"), 405
+        return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/resources', methods=['GET', 'POST'])
+@app.route('/resources', methods=['GET', 'POST'])                      #args (cost y name)      #terminado?
 def getAllresources():
-    if request.method == 'Post':
+    if request.method == 'POST':
         print("REQUEST: ", request.json)
         return ResourceHandler().insertResourcesJson(request.json)
     else:
@@ -55,32 +57,42 @@ def getAllresources():
             return ResourceHandler().searchResources(request.args)
 
 
-@app.route('/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])                     #Implementar
+@app.route('/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])                     #finished?
 def getResourceById(rid):
     if request.method == 'GET':
-        return
+        return ResourceHandler().getResourceById(rid)
+
     elif request.method == 'PUT':
-        return
+        return ResourceHandler().insertResourceBySupplierIdJson(rid,request.json)       #by resource id and supplier id
+
     elif request.method == 'DELETE':
-        return
+        return ResourceHandler().deleteResource(rid)
+
     else:
         return jsonify(Error = "Method not allowed"), 405
 
 
-@app.route('/consumer', methods=['POST'])                                       #comentar
-def insertConsumer():
-    print("REQUEST: ", request.json)
-    return SupplierHandler().insertResourcesJson(request.json)
+@app.route('/consumer', methods=['POST','GET'])                                       #falta anadir buscar custumers por lugar
+def getAllconsumer():
+    if request.method == 'POST':
+        print("REQUEST: ", request.json)
+        return UserHandler().insertConsumerJson(request.json)
+    if request.method == 'GET':
+        return ConsumerHandler().getAllConsumer()
 
+#fusionar
 
-@app.route('/consumer/<int:cid>', methods=['GET', 'PUT', 'DELETE'])                         #implementar
+@app.route('/consumer/<int:cid>', methods=['GET', 'PUT', 'DELETE'])                         #finished?
 def getConsumerById(cid):
     if request.method == 'GET':
-        return
+
+        return ConsumerHandler().searchConsumerById(cid)
     elif request.method == 'PUT':
-        return
+
+        return ConsumerHandler().updateConsumer(cid, request.json)
     elif request.method == 'DELETE':
-        return
+
+        return ConsumerHandler().deleteConsumer(cid)
     else:
         return jsonify(Error = "Method not allowed"), 405
 
@@ -88,17 +100,19 @@ def getConsumerById(cid):
 @app.route('/admin', methods=['POST'])                                                  #comentar
 def insertAdmin():
     print("REQUEST: ", request.json)
-    return SupplierHandler().insertResourcesJson(request.json)
+    return UserHandler().insertAdminJson(request.json)
 
 
 @app.route('/admin/<int:aid>', methods=['GET', 'PUT', 'DELETE'])                        #implementar
 def getAdminById(aid):
     if request.method == 'GET':
-        return
+
+        return UserHandler().getAdmin(aid)
     elif request.method == 'PUT':
-        return
+        print("REQUEST: ", request.json)
+        return UserHandler().insertAdmin(aid,request.json)
     elif request.method == 'DELETE':
-        return
+        return UserHandler().deleteAdmin(aid)
     else:
         return jsonify(Error = "Method not allowed"), 405
 
