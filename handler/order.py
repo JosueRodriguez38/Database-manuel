@@ -45,7 +45,7 @@ class OrderHandler:
         row = dao.getOrderByResourceName(rname)
         print (rname)
         if not row:
-            return jsonify(Error="Part Not Found"), 404
+            return jsonify(Error="Order does not exist"), 404
         else:
             order = self.build_order_dict(row)
             return jsonify(Order=order)

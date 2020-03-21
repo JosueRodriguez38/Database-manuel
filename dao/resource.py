@@ -12,9 +12,11 @@ class ResourcesDAO:
         self.conn = psycopg2._connect(connection_url)
 
     def getAllResources(self):
-
         result = []
-        result.append(resource)
+        r = []
+        for row in resource:
+            r.append(row)
+        result.append(r)
         return result
 
     def getResourceById(self, pid):
@@ -56,7 +58,7 @@ class ResourcesDAO:
 
         return result
 
-    def insert(self,rid,sid, rname, cost, resvAmount):
+    def insert(self,rid,sid, rname, cost, resv_amount):
 
         if rid==resource[0] and sid == resource[1]:
             return resource

@@ -11,12 +11,10 @@ class UserHandler:
         result = {}
         result['sid'] = row[0]
         result['sname'] = row[1]
-        result['sphone'] = row[2]
-        result['semail'] = row[3]
-        result['scity'] = row[4]
+        result['sphone'] = row[5]
+        result['scity'] = row[6]
 
         return result
-
     def insertSupplierJson(self, form):
 
 
