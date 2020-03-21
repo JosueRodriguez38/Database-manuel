@@ -17,9 +17,9 @@ class SupplierHandler:
         result = {}
         result['rid'] = row[0]
         result['rname'] = row[1]
-        result['pmaterial'] = row[2]
-        result['pcolor'] = row[3]
-        result['pprice'] = row[4]
+        result['rmaterial'] = row[2]
+        result['rcolor'] = row[3]
+        result['rprice'] = row[4]
         result['quantity'] = row[5]
         return result
 

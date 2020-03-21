@@ -26,7 +26,7 @@ class SupplierDAO:
 
     def getResourcesBySupplierId(self, sid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, pmaterial, pcolor, pprice, qty from resources natural inner join supplier natural inner join supplies where sid = %s;"
+        query = "select rid, rname, rmaterial, rcolor, rprice, qty from resources natural inner join supplier natural inner join supplies where sid = %s;"
         cursor.execute(query, (sid,))
         result = []
         for row in cursor:
