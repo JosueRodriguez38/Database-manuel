@@ -46,7 +46,7 @@ class ResourceHandler:
 
     def getResourceById(self, rid):
         dao = ResourcesDAO()
-        row = dao.getResourcesById(rid)
+        row = dao.getResourceById(rid)
         if not row:
             return jsonify(Error="Resource Not Found"), 404
         else:
