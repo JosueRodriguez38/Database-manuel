@@ -129,7 +129,7 @@ def getAllOrders():
             return OrderHandler().getOrdersByResourceName(request.args)
 
 
-@app.route('/orders/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/orders/<int:oid>', methods=['GET', 'PUT', 'DELETE'])                  #
 def getOrderById(oid):
     if request.method == 'GET':
         return OrderHandler().getOrderById(oid)
