@@ -10,34 +10,34 @@ class UserDAO:
                                                              pg_config['passwd'])
         self.conn = psycopg2.connect(connection_url)
 
-    def insertConsumer(self, sname, scity, sphone):
+    def insertConsumer(self, uname, ucity, uphone):
         #cursor = self.conn.cursor()
-        query = "insert into supplier(sname, scity, sphone) values (%s, %s, %s) returning sid;"
-        #cursor.execute(query, (sname, scity, sphone))
+        query = "insert into supplier(uname, ucity, uphone) values (%s, %s, %s) returning sid;"
+        #cursor.execute(query, (uname, ucity, uphone))
         #sid = cursor.fetchone()[0]
         #self.conn.commit()
 
         return inserted[0]
 
-    def insertAdmin(self, sname, scity, sphone):
+    def insertAdmin(self, uname, ucity, uphone):
         #cursor = self.conn.cursor()
-        query = "insert into supplier(sname, scity, sphone) values (%s, %s, %s) returning sid;"
-        #cursor.execute(query, (sname, scity, sphone))
+        query = "insert into supplier(uname, ucity, uphone) values (%s, %s, %s) returning sid;"
+        #cursor.execute(query, (uname, ucity, uphone))
         #sid = cursor.fetchone()[0]
         #self.conn.commit()
 
         return inserted[0]
 
-    def insertSupplier(self, sname, scity, sphone):
+    def insertSupplier(self, uname, ucity, uphone):
         #cursor = self.conn.cursor()
-        query = "insert into supplier(sname, scity, sphone) values (%s, %s, %s) returning sid;"
-        #cursor.execute(query, (sname, scity, sphone))
+        query = "insert into supplier(uname, ucity, uphone) values (%s, %s, %s) returning sid;"
+        #cursor.execute(query, (uname, ucity, uphone))
         #sid = cursor.fetchone()[0]
         #self.conn.commit()
 
         return inserted[0]
 
-    def insertAdminById(self, aid, sname, scity, sphone):
+    def insertAdminById(self, aid, uname, ucity, uphone):
         if aid==admin[0]:
             return admin[0]
         else:

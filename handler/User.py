@@ -9,11 +9,11 @@ from dao.user import UserDAO
 class UserHandler:
     def build_user_dict(self, row):
         result = {}
-        result['sid'] = row[0]
-        result['sname'] = row[1]
-        result['sphone'] = row[2]
-        result['semail'] = row[3]
-        result['scity'] = row[4]
+        result['uid'] = row[0]
+        result['uname'] = row[1]
+        result['uphone'] = row[2]
+        result['uemail'] = row[3]
+        result['ucity'] = row[4]
 
         return result
 
@@ -21,17 +21,17 @@ class UserHandler:
 
 
         if form and len(form) == 3:
-            sname = form['sname']
-            scity = form['scity']
-            sphone = form['sphone']
-            if sname and scity and sphone:
+            uname = form['uname']
+            ucity = form['ucity']
+            uphone = form['uphone']
+            if uname and ucity and uphone:
                 dao = UserDAO()
-                sid = dao.insertSupplier(sname, scity, sphone)
+                uid = dao.insertSupplier(uname, ucity, uphone)
                 result = {}
-                result["sid"] = sid
-                result["sname"] = sname
-                result["scity"] = scity
-                result["sphone"] = sphone
+                result["uid"] = uid
+                result["uname"] = uname
+                result["ucity"] = ucity
+                result["uphone"] = uphone
                 return jsonify(Supplier=result), 201
             else:
                 return jsonify(Error="Malformed post request")
@@ -41,20 +41,20 @@ class UserHandler:
     def insertConsumerJson(self, form):
 
         if form and len(form) == 3:
-            sname = form["sname"]
-            scity = form["scity"]
-            sphone =form["sphone"]
-            #print(sname +" "+scity+" "+" "+sphone)
-            value = sname and scity and sphone
+            uname = form["uname"]
+            ucity = form["ucity"]
+            uphone =form["uphone"]
+            #print(uname +" "+ucity+" "+" "+uphone)
+            value = uname and ucity and uphone
             print(value)
             if value:
                 dao = UserDAO()
-                sid = dao.insertConsumer(sname, scity, sphone)
+                uid = dao.insertConsumer(uname, ucity, uphone)
                 result = {}
-                result["sid"] = sid
-                result["sname"] = sname
-                result["scity"] = scity
-                result["sphone"] = sphone
+                result["uid"] = uid
+                result["uname"] = uname
+                result["ucity"] = ucity
+                result["uphone"] = uphone
                 return jsonify(Consumer=result), 201
             else:
                 return jsonify(Error="Malformed post request")
@@ -64,17 +64,17 @@ class UserHandler:
     def insertAdminJson(self, form):
 
         if form and len(form) == 3:
-            sname = form['sname']
-            scity = form['scity']
-            sphone = form['sphone']
-            if sname and scity and sphone:
+            uname = form['uname']
+            ucity = form['ucity']
+            uphone = form['uphone']
+            if uname and ucity and uphone:
                 dao = UserDAO()
-                sid = dao.insertAdmin(sname, scity, sphone)
+                uid = dao.insertAdmin(uname, ucity, uphone)
                 result = {}
-                result["sid"] = sid
-                result["sname"] = sname
-                result["scity"] = scity
-                result["sphone"] = sphone
+                result["uid"] = uid
+                result["uname"] = uname
+                result["ucity"] = ucity
+                result["uphone"] = uphone
                 return jsonify(Admin=result), 201
             else:
                 return jsonify(Error="Malformed post request")
@@ -93,9 +93,9 @@ class UserHandler:
                 if aid:
                     result = {}
                     result["aid"] = aid
-                    result["sname"] = name
-                    result["scity"] = city
-                    result["sphone"] = phone
+                    result["uname"] = name
+                    result["ucity"] = city
+                    result["uphone"] = phone
                     return jsonify(Admin=result), 201
                 else:
                     return jsonify(Error="Admin not found"),404
