@@ -7,20 +7,17 @@ class SupplierHandler:
         result = {}
         result['sid'] = row[0]
         result['sname'] = row[1]
-        result['sphone'] = row[2]
-        result['semail'] = row[3]
-        result['scity'] = row[4]
+        result['sphone'] = row[5]
+        result['scity'] = row[6]
 
         return result
 
-    def build_resource_dict(self, row):
+    def build_resource_attributes(self, sid, usrname, phone, city):
         result = {}
-        result['rid'] = row[0]
-        result['rname'] = row[1]
-        result['rmaterial'] = row[2]
-        result['rcolor'] = row[3]
-        result['rprice'] = row[4]
-        result['quantity'] = row[5]
+        result['sid'] = sid
+        result['user name'] = usrname
+        result['phone'] = phone
+        result['city'] = city
         return result
 
     def getAllSuppliers(self):
@@ -41,8 +38,8 @@ class SupplierHandler:
         if not row:
             return jsonify(Error="Supplier Not Found"), 404
         else:
-            resource = self.build_supplier_dict(row)
-        return jsonify(Resource=resource)
+            supplier = self.build_supplier_dict(row)
+        return jsonify(Supplier=supplier)
 
     def getResourcesBySupplierId(self, sid):
         dao = SupplierDAO()

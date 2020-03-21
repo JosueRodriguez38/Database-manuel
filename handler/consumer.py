@@ -5,11 +5,12 @@ class ConsumerHandler:
 
     def build_consumer_dict(self, row):
         result = {}
-        result['cid'] = row[0]
-        result['cname'] = row[1]
-        result['cphone'] = row[2]
-        result['cemail'] = row[3]
-        result['ccity'] = row[4]
+        result['sid'] = row[0]
+        result['sname'] = row[1]
+        result['sphone'] = row[5]
+        result['scity'] = row[6]
+
+        return result
 
         return result
 

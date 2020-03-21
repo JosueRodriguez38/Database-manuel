@@ -14,7 +14,10 @@ class ResourcesDAO:
     def getAllResources(self):
 
         result = []
-        result.append(resource)
+        r = []
+        for row in resource:
+            r.append(row)
+        result.append(r)
         return result
 
     def getResourceById(self, pid):
@@ -56,7 +59,7 @@ class ResourcesDAO:
 
         return result
 
-    def insert(self,sid, rname, cost, resvAmount):
+    def insert(self,rid,sid, rname, cost, resv_amount):
 
         if sid == resource[1]:
             return 3

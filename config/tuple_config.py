@@ -17,7 +17,7 @@ user_cons.append('calorina')
 
 user_supp_admin = []  # a second user
 user_supp_admin.append(1)
-user_supp_admin.append('Pablo_Escobar')
+user_supp_admin.append('Antobici')
 user_supp_admin.append('wordpass')
 user_supp_admin.append('Antonio')
 user_supp_admin.append('Bicicletas')

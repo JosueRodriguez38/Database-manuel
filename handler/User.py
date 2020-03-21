@@ -9,14 +9,12 @@ from dao.user import UserDAO
 class UserHandler:
     def build_user_dict(self, row):
         result = {}
-        result['uid'] = row[0]
-        result['uname'] = row[1]
-        result['uphone'] = row[2]
-        result['uemail'] = row[3]
-        result['ucity'] = row[4]
+        result['sid'] = row[0]
+        result['sname'] = row[1]
+        result['sphone'] = row[5]
+        result['scity'] = row[6]
 
         return result
-
     def insertSupplierJson(self, form):
 
 
