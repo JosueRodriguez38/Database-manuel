@@ -21,7 +21,7 @@ def greeting():
     return 'Hello, this is the Disaster supplies DB App!'
 
 
-@app.route('/supplier', methods=['GET', 'POST'])                                               #args(city) #finished
+@app.route('/supplier', methods=['GET', 'POST'])  # args(city) #finished
 def getAllSuppliers():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
@@ -33,7 +33,7 @@ def getAllSuppliers():
             return SupplierHandler().searchSuppliers(request.args)
 
 
-@app.route('/supplier/<int:sid>', methods=['GET', 'PUT', 'DELETE'])                              #finished?
+@app.route('/supplier/<int:sid>', methods=['GET', 'PUT', 'DELETE'])  # finished?
 def getSupplierById(sid):
     if request.method == 'GET':
         return SupplierHandler().getSupplierById(sid)
@@ -45,7 +45,7 @@ def getSupplierById(sid):
         return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/resources', methods=['GET', 'POST'])                      #args (cost y name)      #terminado?
+@app.route('/resources', methods=['GET', 'POST'])  # args (cost y name)      #terminado?
 def getAllresources():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
@@ -57,22 +57,22 @@ def getAllresources():
             return ResourceHandler().searchResources(request.args)
 
 
-@app.route('/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])                     #finished?
+@app.route('/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])  # finished?
 def getResourceById(rid):
     if request.method == 'GET':
         return ResourceHandler().getResourceById(rid)
 
     elif request.method == 'PUT':
-        return ResourceHandler().insertResourceBySupplierIdJson(rid,request.json)       #by resource id and supplier id
+        return ResourceHandler().insertResourceBySupplierIdJson(rid, request.json)  # by resource id and supplier id
 
     elif request.method == 'DELETE':
         return ResourceHandler().deleteResource(rid)
 
     else:
-        return jsonify(Error = "Method not allowed"), 405
+        return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/consumer', methods=['POST','GET'])                                       #falta anadir buscar custumers por lugar
+@app.route('/consumer', methods=['POST', 'GET'])  # falta anadir buscar custumers por lugar
 def getAllconsumer():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
@@ -80,9 +80,10 @@ def getAllconsumer():
     if request.method == 'GET':
         return ConsumerHandler().getAllConsumer()
 
-#fusionar
 
-@app.route('/consumer/<int:cid>', methods=['GET', 'PUT', 'DELETE'])                         #finished?
+# fusionar
+
+@app.route('/consumer/<int:cid>', methods=['GET', 'PUT', 'DELETE'])  # finished?
 def getConsumerById(cid):
     if request.method == 'GET':
 
@@ -94,30 +95,30 @@ def getConsumerById(cid):
 
         return ConsumerHandler().deleteConsumer(cid)
     else:
-        return jsonify(Error = "Method not allowed"), 405
+        return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/admin', methods=['POST'])                                                  #comentar
+@app.route('/admin', methods=['POST'])  # comentar
 def insertAdmin():
     print("REQUEST: ", request.json)
     return UserHandler().insertAdminJson(request.json)
 
 
-@app.route('/admin/<int:aid>', methods=['GET', 'PUT', 'DELETE'])                        #finished?
+@app.route('/admin/<int:aid>', methods=['GET', 'PUT', 'DELETE'])  # finished?
 def getAdminById(aid):
     if request.method == 'GET':
 
         return UserHandler().getAdmin(aid)
     elif request.method == 'PUT':
         print("REQUEST: ", request.json)
-        return UserHandler().insertAdmin(aid,request.json)
+        return UserHandler().insertAdmin(aid, request.json)
     elif request.method == 'DELETE':
         return UserHandler().deleteAdmin(aid)
     else:
-        return jsonify(Error = "Method not allowed"), 405
+        return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/orders', methods=['GET', 'POST'])                                    #finished?
+@app.route('/orders', methods=['GET', 'POST'])  # finished?
 def getAllOrders():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
@@ -129,7 +130,7 @@ def getAllOrders():
             return OrderHandler().getOrdersByResourceName(request.args)
 
 
-@app.route('/orders/<int:oid>', methods=['GET', 'PUT', 'DELETE'])                  #
+@app.route('/orders/<int:oid>', methods=['GET', 'PUT', 'DELETE'])  #
 def getOrderById(oid):
     if request.method == 'GET':
         return OrderHandler().getOrderById(oid)
@@ -138,8 +139,7 @@ def getOrderById(oid):
     elif request.method == 'DELETE':
         return OrderHandler().deleteOrder(oid)
     else:
-        return jsonify(Error = "Method not allowed"), 405
-
+        return jsonify(Error="Method not allowed"), 405
 
 
 if __name__ == '__main__':
