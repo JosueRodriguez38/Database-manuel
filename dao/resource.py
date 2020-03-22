@@ -20,16 +20,16 @@ class ResourcesDAO:
         result.append(r)
         return result
 
-    def getResourceById(self, pid):
-        if pid == resource[0]:
+    def getResourcesById(self, rid):
+        if rid == resource[0]:
             return resource
         else:
             return
 
-    def getSuppliersByResourcesId(self, pid):
+    def getSuppliersByResourcesId(self, rid):
         cursor = self.conn.cursor()
-        query = "select sid, sname, scity, sphone from supplies natural inner join supplier natural inner join supplies where pid = %s;"
-        cursor.execute(query, (pid,))
+        query = "select sid, sname, scity, sphone from supplies natural inner join supplier natural inner join supplies where rid = %s;"
+        cursor.execute(query, (rid,))
         result = []
         for row in cursor:
             result.append(row)
