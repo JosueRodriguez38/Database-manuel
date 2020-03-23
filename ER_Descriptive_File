@@ -1,5 +1,5 @@
  
-User(uid serial primary key, userName varchar(20), userPassword varchar(20), firstName varchar(20), lastName varchar(20), phone char(10), email char(20), location char(40))  
+User(uid serial primary key, uName varchar(20), uPassword varchar(20), firstName varchar(20), lastName varchar(20), phone char(10), email char(20), location char(40))  
 -Mother entity that holds admin, supplier and consumer information.
  
 Admin(aid serial primary key, uid integer refrences User(uid)) 
@@ -14,12 +14,12 @@ Consumer(cid serial primary key, uid integer refrences User(uid), aid integer re
 Transaction(tid serial primary key, cost int, cid integer references Consumer(cid), paymentMethod) 
 -Information about how to pay for resources
  
-Resources(rid serial primary key, rname varcharcost(10), cost int, reservedAmmount int, buyableAmmount int, location char(40)) 
+Resources(rid serial primary key, rname varchar(10), cost int, reservedAmmount int, buyableAmmount int, location char(40)) 
 -Information about the resources. 
  
 Water(wid serial primary key, rid integer references Resource(rid), waterName varchar(10)) 
 -inherits resource information from Resource. contains distinction between types of water.
-Fuel(fid serial primary key, rid integer references Resource(rid), fuelName varchar(10)) 
+Fuel(fid serial primary key, rid integer references Resource(rid), fName varchar(10)) 
 -inherits resource information from Resource. contains distinction between types of Fuel.
  
  
@@ -27,7 +27,7 @@ Supplies(sid integer references Supplier(sid), rid integer references Resource(r
 -Relationship that links supplier to resource
  
  
-Order(oid serial primary key, cid integer references Consumer(cid), resourceName char(10), ammountReserved int, ammountBought int, date int) 
+Order(oid serial primary key, cid integer references Consumer(cid), rName char(10), ammountReserved int, ammountBought int, date int) 
 -Entity that contains information of an order a consumer requested 
  
 Belongs(oid integer references Order(oid), rid integer references Resource(rid), primary key(oid, rid)) 
