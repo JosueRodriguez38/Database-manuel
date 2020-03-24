@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request
 from handler.supplier import SupplierHandler
 from handler.resource import ResourceHandler
 from handler.order import OrderHandler
-from handler.User import UserHandler
+from handler.user import UserHandler
 from handler.consumer import ConsumerHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
