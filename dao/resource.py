@@ -58,10 +58,10 @@ class ResourcesDAO:
 
         return result
 
-    def insert(self,rid,sid, rname, cost, resv_amount):
+    def insert(self,sid, rname, cost, resv_amount):
 
-        if rid==resource[0] and sid == resource[1]:
-            return resource
+        if sid == resource[1]:
+            return resource[0]
         return
 
     def delete(self, rid):

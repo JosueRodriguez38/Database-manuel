@@ -31,7 +31,7 @@ resource.append('salchicha')  # resource name
 resource.append(0.60)  # resource price
 resource.append(100)  # amount that this supplier has that can be reserved
 resource.append(230)  # amount that this supplier has that can be bought
-resource.append('nose q va aqui')  # location
+resource.append('Mayaguez')  # location
 
 transaction = []
 transaction.append(1)  # transaction ID

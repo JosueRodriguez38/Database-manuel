@@ -47,7 +47,7 @@ class ResourceHandler:
 
     def getResourceById(self, rid):
         dao = ResourcesDAO()
-        row = dao.getResourcesById(rid)
+        row = dao.getResourceById(rid)
         if not row:
             return jsonify(Error="Resource Not Found"), 404
         else:
@@ -108,10 +108,9 @@ class ResourceHandler:
         rname = json['rname']
         if rname and resv_amount and cost and sid:
             dao = ResourcesDAO()
-            r = dao.insert(rid,sid, rname, cost, resv_amount)
+            r = dao.insert(sid, rname, cost, resv_amount)
             if r:
-                result = self.build_resource_attributes(rid, sid, rname, cost, resv_amount)
-                return jsonify(Resource=result), 201
+                return jsonify(PutStatus="OK"), 200
             else:
                 return jsonify(Error="Resource not found or invalid supplier id."), 404
         else:

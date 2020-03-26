@@ -30,7 +30,7 @@ class UserHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(Supplier=result), 201
+                return jsonify(PutStatus="OK"), 200
             else:
                 return jsonify(Error="Malformed post request")
         else:
@@ -53,7 +53,7 @@ class UserHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(Consumer=result), 201
+                return jsonify(PutStatus="OK"), 200
             else:
                 return jsonify(Error="Malformed post request")
         else:
@@ -73,7 +73,7 @@ class UserHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(Admin=result), 201
+                return jsonify(PutStatus="OK"), 200
             else:
                 return jsonify(Error="Malformed post request")
         else:
@@ -94,7 +94,7 @@ class UserHandler:
                     result["sname"] = name
                     result["scity"] = city
                     result["sphone"] = phone
-                    return jsonify(Admin=result), 201
+                    return jsonify(PutStatus="OK"), 200
                 else:
                     return jsonify(Error="Admin not found"),404
             else:
@@ -116,8 +116,7 @@ class UserHandler:
     def deleteAdmin(self, aid):
         dao = UserDAO()
 
-        result = dao.deleteAdmin(aid)
-        if result:
-            return jsonify(Admin=result), 201
+        if dao.deleteAdmin(aid):
+            return jsonify(DeleteStatus="OK"), 200
         else:
             return jsonify(Error="Supplier not found"), 404

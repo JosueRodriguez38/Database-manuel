@@ -63,7 +63,7 @@ class SupplierHandler:
                 result_list = []
                 for row in supplier_list:
                     result = self.build_supplier_dict(row)
-                    result_list.append(row)
+                    result_list.append(result)
                 return jsonify(Suppliers=result_list)
             else:
                 return jsonify(Error="Malformed search string."), 400
@@ -81,7 +81,7 @@ class SupplierHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(Supplier=result), 201
+                return jsonify(InsertStatus=result), 200
             else:
                 return jsonify(Error="Malformed post request")
         else:
@@ -95,9 +95,11 @@ class SupplierHandler:
             sphone = form['sphone']
             if sname and scity and sphone:
                 dao = SupplierDAO()
-                result = dao.update(sid,sname, scity, sphone)
+                if dao.update(sid,sname, scity, sphone):
 
-                return jsonify(Supplier=result), 201
+                    return jsonify(PutStatus="OK"), 200
+                else:
+                    return jsonify(Error="Invalid Sid")
             else:
                 return jsonify(Error="Malformed post request")
         else:
@@ -106,8 +108,7 @@ class SupplierHandler:
     def deleteSupplier(self, sid):
         dao=SupplierDAO()
 
-        result=dao.deleteSupplier(sid)
-        if result:
-            return jsonify(Supplier=result), 201
+        if dao.delete(sid):
+            return jsonify(DeleteStatus="OK"), 200
         else:
             return jsonify(Error="Supplier not found"), 404

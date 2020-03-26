@@ -25,7 +25,7 @@ class ConsumerDAO:
         else:
             return
 
-    def deleteConsumer(self,cid):
+    def delete(self,cid):
         if cid == user_cons[0]:
             result = user_cons
             return result

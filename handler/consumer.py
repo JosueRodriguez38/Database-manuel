@@ -43,7 +43,7 @@ class ConsumerHandler:
                 dao = ConsumerDAO()
                 result = dao.update(cid, sname, scity, sphone)
                 if result:
-                    return jsonify(Supplier=result), 201
+                    return jsonify(PutStatus="OK"), 200
                 else:
                     return jsonify(Error="Consumer not found"), 404
             else:
@@ -54,8 +54,8 @@ class ConsumerHandler:
     def deleteConsumer(self,cid):
         dao = ConsumerDAO()
 
-        result = dao.deleteConsumer(cid)
-        if result:
-            return jsonify(Consumer=result), 201
+
+        if dao.delete(cid):
+            return jsonify(DeleteStatus="OK"), 200
         else:
             return jsonify(Error="Consumer not found"), 404
