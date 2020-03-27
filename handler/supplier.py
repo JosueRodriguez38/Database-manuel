@@ -97,7 +97,7 @@ class SupplierHandler:
                 dao = SupplierDAO()
                 if dao.update(sid,sname, scity, sphone):
 
-                    return jsonify(PutStatus="OK"), 200
+                    return jsonify(PutStatus="Updated information"), 200
                 else:
                     return jsonify(Error="Invalid Sid")
             else:
@@ -109,6 +109,6 @@ class SupplierHandler:
         dao=SupplierDAO()
 
         if dao.delete(sid):
-            return jsonify(DeleteStatus="OK"), 200
+            return jsonify(DeleteStatus="Supplier deleted"), 200
         else:
             return jsonify(Error="Supplier not found"), 404

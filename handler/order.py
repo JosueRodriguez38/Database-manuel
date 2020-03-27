@@ -78,13 +78,13 @@ class OrderHandler:
         ammountBought = json['ammountBought']
         date = json['date']
         if rname and firstName and lastName and ammountReserved and ammountBought and date:
-          #  dao = OrderDAO()           *comentado porque el response va a estar hardcoded
+          # dao = OrderDAO()           *comentado porque el response va a estar hardcoded
           # cid = dao.getConsumerIdByName(firstName, lastName)
           # oid = dao.insert(rname, firstName, ammountReserved, ammountBought, date)
             cid = 1
             oid = 1
             result = self.build_order_attributes(oid, cid, rname, ammountReserved, ammountBought, date)
-            return jsonify(PutStatus="OK"), 200
+            return jsonify(PostStatus="OK"), 200
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
 
@@ -108,7 +108,7 @@ class OrderHandler:
                         return jsonify(Error="Invalid costumer"), 404
                     else:
                         result = self.build_order_attributes(oid, cid, rname, ammountReserved, ammountBought, date)
-                        return jsonify(PutStatus="OK"), 200
+                        return jsonify(PutStatus="Updated order"), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
 
@@ -116,7 +116,7 @@ class OrderHandler:
         dao = OrderDAO()
 
         if dao.delete(oid):
-            return jsonify(DeleteStatus = "Ok"), 200
+            return jsonify(DeleteStatus = "Order deleted"), 200
         else:
             return jsonify(Error = "Order not found."), 404
 

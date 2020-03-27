@@ -110,7 +110,7 @@ class ResourceHandler:
             dao = ResourcesDAO()
             r = dao.insert(sid, rname, cost, resv_amount)
             if r:
-                return jsonify(PutStatus="OK"), 200
+                return jsonify(PostStatus="Resource added"), 200
             else:
                 return jsonify(Error="Resource not found or invalid supplier id."), 404
         else:
@@ -122,7 +122,7 @@ class ResourceHandler:
             return jsonify(Error="Resource not found."), 404
         else:
             dao.delete(rid)
-            return jsonify(DeleteStatus="OK"), 200
+            return jsonify(DeleteStatus="Resource deleted"), 200
 
     def updateResource(self, rid, form):
         dao = ResourcesDAO()

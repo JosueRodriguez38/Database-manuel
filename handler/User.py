@@ -30,11 +30,11 @@ class UserHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(PutStatus="OK"), 200
+                return jsonify(PostStatus="Supplier added"), 200
             else:
-                return jsonify(Error="Malformed post request")
+                return jsonify(Error="Malformed post request"), 400
         else:
-            return jsonify(Error="Malformed post request")
+            return jsonify(Error="Malformed post request"), 400
 
     def insertConsumerJson(self, form):
 
@@ -53,11 +53,11 @@ class UserHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(PutStatus="OK"), 200
+                return jsonify(PostStatus="Consumer added"), 200
             else:
-                return jsonify(Error="Malformed post request")
+                return jsonify(Error="Malformed post request"), 400
         else:
-            return jsonify(Error="Malformed args post request")
+            return jsonify(Error="Malformed args post request"), 400
 
     def insertAdminJson(self, form):
 
@@ -73,11 +73,11 @@ class UserHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(PutStatus="OK"), 200
+                return jsonify(PostStatus="Admin added"), 200
             else:
-                return jsonify(Error="Malformed post request")
+                return jsonify(Error="Malformed post request"), 400
         else:
-            return jsonify(Error="Malformed post request")
+            return jsonify(Error="Malformed post request"), 400
 
     def insertAdmin(self,aid,form):
 
@@ -94,13 +94,13 @@ class UserHandler:
                     result["sname"] = name
                     result["scity"] = city
                     result["sphone"] = phone
-                    return jsonify(PutStatus="OK"), 200
+                    return jsonify(PostStatus="Admin added"), 200
                 else:
-                    return jsonify(Error="Admin not found"),404
+                    return jsonify(Error="Admin not found"), 404
             else:
-                return jsonify(Error="Malformed post request")
+                return jsonify(Error="Malformed post request"), 400
         else:
-            return jsonify(Error="Malformed post request")
+            return jsonify(Error="Malformed post request"), 400
 
     def getAdmin(self, aid):
         dao = UserDAO()
@@ -117,6 +117,6 @@ class UserHandler:
         dao = UserDAO()
 
         if dao.deleteAdmin(aid):
-            return jsonify(DeleteStatus="OK"), 200
+            return jsonify(DeleteStatus="Admin deleted"), 200
         else:
             return jsonify(Error="Supplier not found"), 404

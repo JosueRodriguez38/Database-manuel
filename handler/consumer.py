@@ -43,19 +43,19 @@ class ConsumerHandler:
                 dao = ConsumerDAO()
                 result = dao.update(cid, sname, scity, sphone)
                 if result:
-                    return jsonify(PutStatus="OK"), 200
+                    return jsonify(PutStatus="Updated information"), 200
                 else:
                     return jsonify(Error="Consumer not found"), 404
             else:
-                return jsonify(Error="Malformed post request")
+                return jsonify(Error="Malformed post request"), 400
         else:
-            return jsonify(Error="Malformed args post request")
+            return jsonify(Error="Malformed args post request"), 400
 
     def deleteConsumer(self,cid):
         dao = ConsumerDAO()
 
 
         if dao.delete(cid):
-            return jsonify(DeleteStatus="OK"), 200
+            return jsonify(DeleteStatus="Consumer deleted"), 200
         else:
             return jsonify(Error="Consumer not found"), 404
