@@ -9,12 +9,10 @@ class ConsumerHandler:
     # Builds the consumer dictionary, adding to an array the values of consumer id, name, phone, and city
     def build_consumer_dict(self, row):
         result = {}
-        result['sid'] = row[0]
-        result['sname'] = row[1]
-        result['sphone'] = row[5]
-        result['scity'] = row[6]
-
-        return result
+        result['cid'] = row[0]
+        result['cname'] = row[1]
+        result['cphone'] = row[5]
+        result['ccity'] = row[6]
 
         return result
 
@@ -43,12 +41,12 @@ class ConsumerHandler:
     def updateConsumer(self, cid, form):
         print(form)
         if form and len(form) == 3:
-            sname = form['sname']
-            scity = form['scity']
-            sphone = form['sphone']
-            if sname and scity and sphone:
+            cname = form['cname']
+            ccity = form['ccity']
+            cphone = form['cphone']
+            if cname and ccity and cphone:
                 dao = ConsumerDAO()
-                result = dao.update(cid, sname, scity, sphone)
+                result = dao.update(cid, cname, ccity, cphone)
                 if result:
                     return jsonify(PutStatus="Updated information"), 200
                 else:
