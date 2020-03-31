@@ -1,38 +1,42 @@
+Describing ER Model
  
-User(uid serial primary key, uName varchar(20), uPassword varchar(20), firstName varchar(20), lastName varchar(20), phone char(10), email char(20), location char(40))  
--Mother entity that holds admin, supplier and consumer information.
+*Tablas en Bold
+**variables no tendrán exactamente el mismo nombre en las tablas
  
-Admin(aid serial primary key, uid integer refrences User(uid)) 
--Supervises consumer and supplier. Admin personal information
+User(uid serial primary key, userName varchar(20), userPassword varchar(20), firstName varchar(20), lastName varchar(20), phone char(10), email char(20), location char(40))  
+Tabla que contiene la información general de cada usuario
  
-Supplier(sid serial primary key, uid integer refrences User(uid), aid integer refrences Admin(aid)) 
--Contains information of the supplier and admin id that supervises the user. Inherits User atributes.
+Admin(aid serial primary key, uid integer references User(uid))
+Tabla que contiene la información para saber que un usuario es admin
  
-Consumer(cid serial primary key, uid integer refrences User(uid), aid integer refrences Admin(aid)) 
--Contains information of the Consumer and admin id that supervises the user. Inherits User atributes.
+Supplier(sid serial primary key, uid integer refrences User(uid), aid integer references Admin(aid)) 
+Tabla que contiene la información para saber que un usuario es Supplier y el admin que le corresponde
+ 
+Consumer(cid serial primary key, uid integer references User(uid), aid integer references Admin(aid)) 
+Tabla que contiene la información para saber que un usuario es Consumer y el admin que le corresponde
  
 Transaction(tid serial primary key, cost int, cid integer references Consumer(cid), paymentMethod) 
--Information about how to pay for resources
+Tabla que contiene la información de cómo se pagará por los Resources
  
-Resources(rid serial primary key, rname varchar(10), cost int, reservedAmmount int, buyableAmmount int, location char(40)) 
--Information about the resources. 
+Resources(rid serial primary key, resourceName varchar(10), cost int, reservedAmmount int, buyableAmmount int, location char(40)) 
+Tabla que contiene la información de los Resources
  
 Water(wid serial primary key, rid integer references Resource(rid), waterName varchar(10)) 
--inherits resource information from Resource. contains distinction between types of water.
+Sub Tabla para información que solamente tiene el agua
+ 
 Fuel(fid serial primary key, rid integer references Resource(rid), fName varchar(10)) 
--inherits resource information from Resource. contains distinction between types of Fuel.
+Sub Tabla para información que solamente tiene el Fuel
  
  
 Supplies(sid integer references Supplier(sid), rid integer references Resource(rid), primary key(sid, sid)) 
--Relationship that links supplier to resource
+Tabla que indica quien suple los recursos, conecta el Supplier con los Resources
  
  
-Order(oid serial primary key, cid integer references Consumer(cid), rName char(10), ammountReserved int, ammountBought int, date int) 
--Entity that contains information of an order a consumer requested 
+Order(oid serial primary key, cid integer references Consumer(cid), resourceName char(10), ammountReserved int, ammountBought int, date int) 
+Tabla que contiene la información de una orden de recursos que llena el consumidor
  
 Belongs(oid integer references Order(oid), rid integer references Resource(rid), primary key(oid, rid)) 
--Relationship that links and order with a resource requested
+Tabla que conecta la orden con el recurso comprado/reservado
  
 Pays(tid integer references Transaction(tid), oid integer references Order(oid), primary key(oid, tid)) 
--Realtionship that links the transaction entity with the order entity.
- 
+Tabla que conecta el método de pago (Transaction) con la orden del consumidor
