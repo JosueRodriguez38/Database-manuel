@@ -1,8 +1,12 @@
 from flask import jsonify
 from dao.consumer import ConsumerDAO
 
+# The consumer handler takes the information extracted from the consumerDAO
+# and jsonify the results for the localhost
+
 class ConsumerHandler:
 
+    # Builds the consumer dictionary, adding to an array the values of consumer id, name, phone, and city
     def build_consumer_dict(self, row):
         result = {}
         result['sid'] = row[0]
@@ -14,6 +18,7 @@ class ConsumerHandler:
 
         return result
 
+    # this method calls the DAO method in order to add all the consumers to a list, and jsonifies it
     def getAllConsumer(self):
         dao = ConsumerDAO()
         consumer_list = dao.getAllConsumer()
@@ -23,17 +28,19 @@ class ConsumerHandler:
             result_list.append(result)
         return jsonify(Consumers=result_list)
 
-
-    def searchConsumerById(self,cid):
+    # Uses DAO method to compare the input id
+    def searchConsumerById(self, cid):
         dao = ConsumerDAO()
         row = dao.getConsumerById(cid)
         if not row:
             return jsonify(Error="Consumer Not Found"), 404
         else:
-            resource = self.build_consumer_dict(row)
-        return jsonify(Consumer=resource)
+            result = self.build_consumer_dict(row)
+        return jsonify(Consumer=result)
 
-    def updateConsumer(self,cid,form):
+    # This method finds the consumer and updates their information, with various json messages in case
+    # of success or an error arising
+    def updateConsumer(self, cid, form):
         print(form)
         if form and len(form) == 3:
             sname = form['sname']
@@ -51,9 +58,10 @@ class ConsumerHandler:
         else:
             return jsonify(Error="Malformed args post request"), 400
 
-    def deleteConsumer(self,cid):
+    # Uses the DAO method to delete a consumer and returns a json indicating if successful or if the consumer
+    # was not found
+    def deleteConsumer(self, cid):
         dao = ConsumerDAO()
-
 
         if dao.delete(cid):
             return jsonify(DeleteStatus="Consumer deleted"), 200
