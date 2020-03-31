@@ -2,6 +2,7 @@ from config.dbconfig import pg_config
 from config.tuple_config import resource
 import psycopg2
 
+# The purpose of the resource DAO is to extract the information of a resource that has been requested
 
 class ResourcesDAO:
     def __init__(self):
@@ -11,6 +12,7 @@ class ResourcesDAO:
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
+    # returns all the resources in the Resources table
     def getAllResources(self):
 
         result = []
@@ -20,12 +22,14 @@ class ResourcesDAO:
         result.append(r)
         return result
 
+    # Resources have an id, this functions searches for the resource with the id input if it exists
     def getResourcesById(self, rid):
         if rid == resource[0]:
             return resource
         else:
             return
 
+    # uses the input resource id to find the suppliers that supplies a specific resource
     def getSuppliersByResourcesId(self, rid):
         cursor = self.conn.cursor()
         query = "select sid, sname, scity, sphone from supplies natural inner join supplier natural inner join supplies where rid = %s;"
@@ -35,6 +39,7 @@ class ResourcesDAO:
             result.append(row)
         return result
 
+    # returns the resources with the same name and costs as the input
     def getResourcesByNameAndCost(self, name, cost):
         result = []
 
@@ -43,6 +48,7 @@ class ResourcesDAO:
 
         return result
 
+    # returns the resource with the same name as input
     def getResourcesByName(self,name):
         result = []
 
@@ -51,6 +57,7 @@ class ResourcesDAO:
 
         return result
 
+    # returns the resource with a specified cost
     def getResourcesByCost(self,cost):
         result = []
 
@@ -59,12 +66,14 @@ class ResourcesDAO:
 
         return result
 
+    # inserts a resource with its id, supplier id, name, cost, and reserved amount
     def insert(self,rid,sid, rname, cost, resv_amount):
 
         if sid == resource[1]:
             return 3
         return
 
+    # deletes a resource (specified by id) if it exists
     def delete(self, rid):
 
         if rid==resource[0]:
