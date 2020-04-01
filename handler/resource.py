@@ -2,8 +2,12 @@ from flask import jsonify
 
 from dao.resource import ResourcesDAO
 
+# Uses resource DAO to build results for displaying in localhost
+#this class involves supplier,
 
 class ResourceHandler:
+
+    # builds resource tuple with the space required to insert the information required
     def build_resource_dict(self, row):
         result = {}
         result['rid'] = row[0]
@@ -18,6 +22,7 @@ class ResourceHandler:
 
         return result
 
+    #builds supplier tuple with the space required to insert the information required
     def build_supplier_dict(self, row):
         result = {}
         result['sid'] = row[0]
@@ -27,6 +32,7 @@ class ResourceHandler:
         result['scity'] = row[4]
         return result
 
+    # builds tuple for resource with specified field values
     def build_resource_attributes(self, rid, sid, rname, cost, resv_amount):
         result = {}
         result['rid'] = rid
@@ -36,6 +42,7 @@ class ResourceHandler:
         result['resv_amount'] = resv_amount
         return result
 
+    # uses DAO method to access all resource tuples and adds them to a list, where jsonify is used
     def getAllResources(self):
         dao = ResourcesDAO()
         resources_list = dao.getAllResources()
@@ -45,6 +52,7 @@ class ResourceHandler:
             result_list.append(result)
         return jsonify(Resources=result_list)
 
+    # uses DAO method to find a specific resource tuple
     def getResourceById(self, rid):
         dao = ResourcesDAO()
         row = dao.getResourceById(rid)
@@ -54,6 +62,8 @@ class ResourceHandler:
             resource = self.build_resource_dict(row)
             return jsonify(Resource=resource)
 
+    # Searches for a resource, the way it is done depends on the input and its length,
+    # name and cost are the 2 parameters this method accepts
     def searchResources(self, args):                                                     #Fixed
         name = args.get("name")
         cost = args.get("cost")
@@ -73,6 +83,7 @@ class ResourceHandler:
             result_list.append(result)
         return jsonify(Resources=result_list)
 
+    # Uses DAO method of the same name to find the resource with a specific id
     def getSuppliersByResourceId(self, rid):
         dao = ResourcesDAO()
         if not dao.getResourceById(rid):
@@ -84,6 +95,9 @@ class ResourceHandler:
             result_list.append(result)
         return jsonify(Suppliers=result_list)
 
+    # inserts a resource into the database,
+    # Restrictions: must be proper length to fill all attributes, which need to be properly matched
+    #(no numbers in name field)
     def insertResourcesJson(self, form):
         print("form: ", form)
         if len(form) != 4:
@@ -101,6 +115,7 @@ class ResourceHandler:
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
+    # allocates a specified resource and the amount(by id) to a specific supplier
     def insertResourceBySupplierIdJson(self,rid, json):
         sid = json['sid']
         resv_amount = json['resv_amount']
@@ -116,6 +131,7 @@ class ResourceHandler:
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
 
+    # Uses DAO to delete a resource by id
     def deleteResource(self, rid):
         dao = ResourcesDAO()
         if not dao.getResourceById(rid):
@@ -124,6 +140,8 @@ class ResourceHandler:
             dao.delete(rid)
             return jsonify(DeleteStatus="Resource deleted"), 200
 
+    # updates a resource's attributes if it exists
+    # input must have the right length and proper arguments
     def updateResource(self, rid, form):
         dao = ResourcesDAO()
         if not dao.getResourceById(rid):
@@ -143,6 +161,7 @@ class ResourceHandler:
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
 
+    # Used to establish the amount of resources
     def build_resource_counts(self, resource_counts):
         result = []
         # print(resource_counts)
@@ -154,6 +173,7 @@ class ResourceHandler:
             result.append(D)
         return result
 
+    # returns the amount of the specified resource (using id)
     def getCountByResourceId(self):
         dao = ResourcesDAO()
         result = dao.getCountByResourceId()
