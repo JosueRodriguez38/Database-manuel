@@ -28,6 +28,7 @@ def getAllSuppliers():
         return UserHandler().insertSupplierJson(request.json)
     else:
         if not request.args:
+
             return SupplierHandler().getAllSuppliers()
         else:
             return SupplierHandler().searchSuppliers(request.args)

@@ -6,20 +6,21 @@ import psycopg2
 
 class UserDAO:
     def __init__(self):
-        connection_url = "dbname=%s user=%s password=%s " % (pg_config['dbname'],
+        connection_url = "dbname=%s user=%s password=%s host=24.54.205.36" % (pg_config['dbname'],
                                                              pg_config['user'],
                                                              pg_config['passwd'])
         self.conn = psycopg2.connect(connection_url)
 
     # inserts a user's name, city and phone linked to and account (name, user, password)
     def insertConsumer(self, sname, scity, sphone):
-        #cursor = self.conn.cursor()
-        query = "insert into supplier(sname, scity, sphone) values (%s, %s, %s) returning sid;"
-        #cursor.execute(query, (sname, scity, sphone))
-        #sid = cursor.fetchone()[0]
-        #self.conn.commit()
+        cursor = self.conn.cursor()
+        #query = "insert into supplier(sname, scity, sphone) values (%s, %s, %s) returning sid;"
+        query = "insert into usuario(userName, location, phone) values (%s, %s, %s) returning uid;"
+        cursor.execute(query, (sname, scity, sphone))
+        sid = cursor.fetchone()[0]
+        self.conn.commit()
 
-        return inserted[0]
+        return sid
 
     # inserts an admin user with their name, city and phone
     def insertAdmin(self, sname, scity, sphone):

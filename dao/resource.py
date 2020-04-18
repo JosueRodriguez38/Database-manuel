@@ -7,7 +7,7 @@ import psycopg2
 class ResourcesDAO:
     def __init__(self):
 
-        connection_url = "dbname=%s user=%s password=%s host=127.0.0.1" % (pg_config['dbname'],
+        connection_url = "dbname=%s user=%s password=%s host=24.54.205.36" % (pg_config['dbname'],
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
@@ -24,7 +24,7 @@ class ResourcesDAO:
     # Resources have an id, this functions finds the resource with the id input, if it exists
     def getResourceById(self, pid):
         if pid == resource[0]:
-            return resource
+            return 1
         else:
             return
 

@@ -8,7 +8,7 @@ import psycopg2
 class SupplierDAO:
     def __init__(self):
 
-        connection_url = "dbname=%s user=%s password=%s " % (pg_config['dbname'],
+        connection_url = "dbname=%s user=%s password=%s host=24.54.205.36" % (pg_config['dbname'],
                                                             pg_config['user'],
                                                             pg_config['passwd'])
         self.conn = psycopg2.connect(connection_url)
