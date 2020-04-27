@@ -10,20 +10,19 @@ class OrderDAO:
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
-
         # ALGUNOS DE ESTOS YA ESTAN EN LOS FILES ESTO ES SOLO PARA ESTAR SEGUROS Y FINALIZAR
         # A LA MAYPRIA LES CAMBIE ALGO, VERIFIQUEN Y ME AVISAN SI ESTA BIEN PARA ESCRIBIRLOS EN EL LUGAR CORRECTO
 
     # 1
-    def getUsersOrders(self, uid):
-         cursor = self.conn.cursor()
-         query = "select * from order where uid = %s"
-         cursor.execute(query, (uid,))
-         result = cursor.fetchone()
-         return result
+    def getUserInfoFromorder(self, uid):
+        cursor = self.conn.cursor()
+        query = "select * from user where uid = (select uid from order where uid = %s)"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchone()
+        return result
 
-
-    # 2 Esta en el file order, creo que el query deberia seleccionar todo. cambie el return ahora devuleve todas las ordenes de ese resource
+    # 2 Esta en el file order, creo que el query deberia seleccionar todo. cambie el return ahora devuleve todas las
+    #  ordenes de ese resource
     def getOrdersByresourceName(self, resourceName):
         cursor = self.conn.cursor()
         query = "select resourceName, date from Order where resourceName = %s"
@@ -42,6 +41,7 @@ class OrderDAO:
         for row in cursor:
             result.append(row)
         return result
+
     # Chequea si 1 resource en especifico esta disponible
     def getResourceById(self, rid):
         cursor = self.conn.cursor()
@@ -50,4 +50,21 @@ class OrderDAO:
         result = cursor.fetchone()
         return result
 
-    #4
+    # 4 no entendi la diferenca entre esta y el 3
+
+    #5
+    def getUsersOrders(self, uid):
+        cursor = self.conn.cursor()
+        query = "select * from order where uid = %s"
+        cursor.execute(query, (uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    # asi o como en el siguiente ( verificar tablas y preguntar a Ismael
+    def getUsersOrders(self, uid):
+        cursor = self.conn.cursor()
+        query = "select * from order where uid = %s"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchone()
+        return result
