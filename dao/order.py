@@ -12,12 +12,12 @@ class OrderDAO:
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
-    # returns all the orders, the items and amounts bought, via a natural join from
+    # returns all the Order, the items and amounts bought, via a natural join from
     # the tables Resources, Consumer, and User, and the relationship Belongs
     def getAllOrders(self):
-       # cursor = self.conn.cursor()
-       # query = "select oid, rname, firstname, ammountbought, ammountsreserved, date from order natural join belongs natural join resources natural join consumer natural join user;"
-       # cursor.execute(query)
+        cursor = self.conn.cursor()
+        query = "select oid, rname, firstname, ammountbought, ammountsreserved, date from order natural join resources natural join consumer;"
+        cursor.execute(query)
         result = []
         r = []
         for row in order:
@@ -25,31 +25,29 @@ class OrderDAO:
         result.append(r)
         return result
 
-    #   not used in phase 1
-    #def getConsumerIdByName(self, firstname, lastname):
-        # cursor = self.conn.cursor()
-        # query = "select cid from consumer where firstname = %s and lastname = %s;"
-        # cursor.execute(query, (firstName, lastName))
-        #result = cursor.fetchone()
-        #return result
+
+    def getConsumerIdByName(self, firstName, lastName):
+        cursor = self.conn.cursor()
+        query = "select cid from consumer where firstname = %s and lastname = %s;"
+        cursor.execute(query, (firstName, lastName))
+        result = cursor.fetchone()
+        return result
 
     # Returns an order if its id matches the input
     def getOrderById(self, oid):
-
-        if oid == order[0]:
-            return order
-        else:
-            return
-
-    # Returns the orders that have the resource specified by the input
-    def getOrderByResourceName(self, rname):
-
-        result = []
-        if rname['name'] == 'water':
-            for row in order:
-                result.append(row)
+        cursor = self.conn.cursor()
+        query = "select resourceName from Order where oid = %s"
+        cursor.execute(query, (oid,))
+        result = cursor.fetchone()
         return result
 
+    # Returns the Order that have the resource specified by the input
+    def getOrderByresourceName(self, resourceName):
+        cursor = self.conn.cursor()
+        query = "select resourceName, date from Order where resourceName = %s"
+        cursor.execute(query, (resourceName,))
+        result = cursor.fetchone()
+        return result
     # inserts an order, linked to a consumer's id
     def insert(self, cid,rname, ammountReserved, ammountBought, date):
         if cid == user_cons[0]:

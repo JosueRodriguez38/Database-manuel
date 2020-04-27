@@ -1,7 +1,7 @@
 from flask import jsonify
 from dao.order import OrderDAO
 
-# Builds and inserts orders via the use or the order DAO
+# Builds and inserts Order via the use or the order DAO
 
 class OrderHandler:
 
@@ -27,12 +27,12 @@ class OrderHandler:
         result['date'] = date
         return result
 
-    # obtains a list of all the orders, compiles them in a list, which is then jsonified
+    # obtains a list of all the Order, compiles them in a list, which is then jsonified
     def getAllOrders(self):
         dao = OrderDAO()
-        orders_list = dao.getAllOrders()
+        Order_list = dao.getAllOrders()
         result_list = []
-        for row in orders_list:
+        for row in Order_list:
             result = self.build_order_dict(row)
             result_list.append(result)
         return jsonify(Orders=result_list)
@@ -48,9 +48,9 @@ class OrderHandler:
             return jsonify(Order = order)
 
     # Uses resource name to find order, json used as return message
-    def getOrdersByResourceName(self, rname):
+    def getOrdersByresourceName(self, rname):
         dao = OrderDAO()
-        row = dao.getOrderByResourceName(rname)
+        row = dao.getOrderByresourceName(rname)
         print (rname)
         if not row:
             return jsonify(Error="Order does not exist"), 404

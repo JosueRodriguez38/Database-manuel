@@ -13,7 +13,7 @@ Consumer(ConsumerID serial primary key, UserID integer refrences User(UserID), A
 Transaction(TransactionID serial primary key, ConsumerID integer references Consumer(ConsumerID), PaymentMethod) 
 -Information about how to pay for resources
  
-Resources(ResourceID serial primary key, SupplierID integer references Supplier(SupplierID), ResourceName varchar(10), Cost int, ReservedAmmount int, BuyableAmmount int, Location char(40)) 
+Resources(ResourceID serial primary key, SupplierID integer references Supplier(SupplierID), resourceName varchar(10), Cost int, reservedAmmount int, buyableAmmount int, Location char(40))
 -Information about the resources. 
  
 Water(WaterID serial primary key, ResourceID integer references Resource(ResourceID), WaterName varchar(10)) 

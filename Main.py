@@ -118,7 +118,7 @@ def getAdminById(aid):
         return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/orders', methods=['GET', 'POST'])  # finished?
+@app.route('/Order', methods=['GET', 'POST'])  # finished?
 def getAllOrders():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
@@ -127,10 +127,10 @@ def getAllOrders():
         if not request.args:
             return OrderHandler().getAllOrders()
         else:
-            return OrderHandler().getOrdersByResourceName(request.args)
+            return OrderHandler().getOrdersByresourceName(request.args)
 
 
-@app.route('/orders/<int:oid>', methods=['GET', 'PUT', 'DELETE'])  #
+@app.route('/Order/<int:oid>', methods=['GET', 'PUT', 'DELETE'])  #
 def getOrderById(oid):
     if request.method == 'GET':
         return OrderHandler().getOrderById(oid)

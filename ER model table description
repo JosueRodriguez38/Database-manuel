@@ -6,9 +6,9 @@
 
 Every user has one address viceversa 
 
---Resource(ResourceID, ResourceName, UserID, costo, ReservedAmmount, BuyableAmmount, ResourceType) 
+--Resource(ResourceID, resourceName, UserID, costo, reservedAmmount, buyableAmmount, ResourceType)
 
---Transaction(ResourceID, UserIDSupplier, UserIDBuyer, AmmountReserved, AmmountBought, Date) 
+--Transaction(ResourceID, UserIDSupplier, UserIDBuyer, AmmountReserved, ammountBought, Date)
 
 El user puede ser supplier y buyer/reciever? 
 
