@@ -53,7 +53,7 @@ class OrderDAO:
     # inserts an order, linked to a consumer's id
     def insert(self, cid,rname, ammountReserved, ammountBought, date):
         if cid == user_cons[0]:
-            print("HEREEEEEEEEEEEEEE")
+
             return 2
         else:
             return
