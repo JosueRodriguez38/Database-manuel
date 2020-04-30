@@ -76,7 +76,7 @@ class OrderHandler:
                 if oid:
 
                     result = self.build_order_attributes(oid,cid, rname, ammountReserved, ammountBought, date)
-                    return jsonify(Order=result), 201
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 

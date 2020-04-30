@@ -111,7 +111,7 @@ class ResourceHandler:
                 dao = ResourcesDAO()
                 rid = dao.insert(sid, rname, cost, resv_amount)
                 result = self.build_resource_attributes(rid, sid, rname, cost, resv_amount)
-                return jsonify(Resource=result), 201
+                return jsonify(PostStatus="New resources added"), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
@@ -125,7 +125,7 @@ class ResourceHandler:
             dao = ResourcesDAO()
             r = dao.insert(sid, rname, cost, resv_amount)
             if r:
-                return jsonify(PostStatus="Resource added"), 200
+                return jsonify(PutStatus="Resource added"), 200
             else:
                 return jsonify(Error="Resource not found or invalid supplier id."), 404
         else:

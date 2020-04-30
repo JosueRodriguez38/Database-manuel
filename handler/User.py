@@ -30,7 +30,7 @@ class UserHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(PostStatus="Supplier added"), 200
+                return jsonify(PostStatus="New Supplier added"), 200
             else:
                 return jsonify(Error="Malformed post request"), 400
         else:
@@ -53,7 +53,7 @@ class UserHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(PostStatus="Consumer added"), 200
+                return jsonify(PostStatus="New Consumer added"), 200
             else:
                 return jsonify(Error="Malformed post request"), 400
         else:
@@ -73,7 +73,7 @@ class UserHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(PostStatus="Admin added"), 200
+                return jsonify(PostStatus="New Admin added"), 200
             else:
                 return jsonify(Error="Malformed post request"), 400
         else:
@@ -94,7 +94,7 @@ class UserHandler:
                     result["sname"] = name
                     result["scity"] = city
                     result["sphone"] = phone
-                    return jsonify(PostStatus="Admin added"), 200
+                    return jsonify(PuStatus="Updated Admin"), 200
                 else:
                     return jsonify(Error="Admin not found"), 404
             else:
