@@ -1,10 +1,10 @@
 from flask import jsonify
-from dao.consumer import ConsumerDAO
+from dao.Customer import CustomerDAO
 
 # The consumer handler takes the information extracted from the consumerDAO
 # and jsonify the results for the localhost
 
-class ConsumerHandler:
+class CustomerHandler:
 
     # Builds the consumer dictionary, adding to an array the values of consumer id, name, phone, and city
     def build_consumer_dict(self, row):
@@ -18,7 +18,7 @@ class ConsumerHandler:
 
     # this method calls the DAO method in order to add all the consumers to a list, and jsonifies it
     def getAllConsumer(self):
-        dao = ConsumerDAO()
+        dao = CustomerDAO()
         consumer_list = dao.getAllConsumer()
         result_list = []
         for row in consumer_list:
@@ -28,7 +28,7 @@ class ConsumerHandler:
 
     # Uses DAO method to compare the input id
     def searchConsumerById(self, cid):
-        dao = ConsumerDAO()
+        dao = CustomerDAO()
         row = dao.getConsumerById(cid)
         if not row:
             return jsonify(Error="Consumer Not Found"), 404
@@ -45,7 +45,7 @@ class ConsumerHandler:
             ccity = form['ccity']
             cphone = form['cphone']
             if cname and ccity and cphone:
-                dao = ConsumerDAO()
+                dao = CustomerDAO()
                 result = dao.update(cid, cname, ccity, cphone)
                 if result:
                     return jsonify(PutStatus="Updated information"), 200
@@ -59,7 +59,7 @@ class ConsumerHandler:
     # Uses the DAO method to delete a consumer and returns a json indicating if successful or if the consumer
     # was not found
     def deleteConsumer(self, cid):
-        dao = ConsumerDAO()
+        dao = CustomerDAO()
 
         if dao.delete(cid):
             return jsonify(DeleteStatus="Consumer deleted"), 200

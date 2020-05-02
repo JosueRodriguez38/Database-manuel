@@ -4,7 +4,7 @@ from handler.supplier import SupplierHandler
 from handler.resource import ResourceHandler
 from handler.order import OrderHandler
 from handler.User import UserHandler
-from handler.consumer import ConsumerHandler
+from handler.Customer import CustomerHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
 # machines to access this app
@@ -79,7 +79,7 @@ def getAllconsumer():
         print("REQUEST: ", request.json)
         return UserHandler().insertConsumerJson(request.json)
     if request.method == 'GET':
-        return ConsumerHandler().getAllConsumer()
+        return CustomerHandler().getAllConsumer()
 
 
 # fusionar
@@ -88,13 +88,13 @@ def getAllconsumer():
 def getConsumerById(cid):
     if request.method == 'GET':
 
-        return ConsumerHandler().searchConsumerById(cid)
+        return CustomerHandler().searchConsumerById(cid)
     elif request.method == 'PUT':
 
-        return ConsumerHandler().updateConsumer(cid, request.json)
+        return CustomerHandler().updateConsumer(cid, request.json)
     elif request.method == 'DELETE':
 
-        return ConsumerHandler().deleteConsumer(cid)
+        return CustomerHandler().deleteConsumer(cid)
     else:
         return jsonify(Error="Method not allowed"), 405
 
