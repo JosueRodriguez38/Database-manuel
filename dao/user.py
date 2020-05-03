@@ -11,55 +11,25 @@ class UserDAO:
                                                              pg_config['passwd'])
         self.conn = psycopg2.connect(connection_url)
 
-    # inserts a user's name, city and phone linked to and account (name, user, password)
-    def insertConsumer(self, sname, scity, sphone):
+    def insertUser(self,accountType, name, lastName, phone, email):
         cursor = self.conn.cursor()
-        #query = "insert into supplier(sname, scity, sphone) values (%s, %s, %s) returning sid;"
-        query = "insert into usuario(userName, location, phone) values (%s, %s, %s) returning uid;"
-        cursor.execute(query, (sname, scity, sphone))
-        sid = cursor.fetchone()[0]
+        query = "insert into users(accounttype,firstname,lastname,phone,email,status) values (%s, %s, %s,%s,%s,true) returning uid;"
+        cursor.execute(query, (accountType, name, lastName, phone, email))
+        uid = cursor.fetchone()[0]
         self.conn.commit()
+        return uid
 
-        return sid
+    def updateUserInfo(self,accountType, name, lastName, phone, email):
+        return
 
-    # inserts an admin user with their name, city and phone
-    def insertAdmin(self, sname, scity, sphone):
-        #cursor = self.conn.cursor()
-        query = "insert into supplier(sname, scity, sphone) values (%s, %s, %s) returning sid;"
-        #cursor.execute(query, (sname, scity, sphone))
-        #sid = cursor.fetchone()[0]
-        #self.conn.commit()
+    def RemoveUserById(self, uid):
+        return
 
-        return inserted[0]
+    def getUserById(self, uid):
+        return
 
-    # inserts a supplier user with their information
-    def insertSupplier(self, sname, scity, sphone):
-        #cursor = self.conn.cursor()
-        query = "insert into supplier(sname, scity, sphone) values (%s, %s, %s) returning sid;"
-        #cursor.execute(query, (sname, scity, sphone))
-        #sid = cursor.fetchone()[0]
-        #self.conn.commit()
+    def getAllUsersByStatus(self,status):
+        return
 
-        return inserted[0]
-
-    # inserts an admin with a specified id
-    def insertAdminById(self, aid, sname, scity, sphone):
-        if aid==admin[0]:
-            return admin[0]
-        else:
-            return
-
-    # returns an admin with the specified admin id if it exists
-    def getAdminById(self, aid):
-        if aid == admin[0]:
-            return user_supp_admin
-        else:
-            return
-
-    # deletes the admin user if it exists
-    def deleteAdmin(self, aid):
-        if aid == user_supp_admin[0]:
-            result = user_supp_admin
-            return result
-        else:
+    def getAllUserByAccountType(self, accountType):
             return
