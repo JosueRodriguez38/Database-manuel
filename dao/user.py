@@ -1,5 +1,5 @@
 from config.dbconfig import pg_config
-from config.tuple_config import inserted,admin,user_supp_admin
+
 import psycopg2
 
 # The purpose of the user DAO is to extract and insert the information regarding a consumer that has been requested
@@ -33,3 +33,12 @@ class UserDAO:
 
     def getAllUserByAccountType(self, accountType):
             return
+
+
+    def getAccountTypes(self):
+        return
+
+
+
+
+
