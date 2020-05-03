@@ -39,6 +39,9 @@ class UserDAO:
         self.conn.commit()
         return users
 
+    def getUsersByAccountTypeAndLocation(self,accountype,location):
+        return
+
 
     def getAccountTypes(self):
         return
