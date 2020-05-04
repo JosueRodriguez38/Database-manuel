@@ -10,3 +10,40 @@ class ToolsDAO:
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
+
+
+    def getToolByResourceId(self,resourceid):
+        cursor = self.conn.cursor()
+        query = "select name,ammount,cost,size from tool natural inner join resources where resourceid=%i;"
+        cursor.execute(query,resourceid)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getALlTools(self):
+        cursor = self.conn.cursor()
+        query = "select name,ammount,cost,size from tool natural inner join resources;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllToolSortedBySizeAsc(self):
+        cursor = self.conn.cursor()
+        query = "select name,ammount,cost,size from tool natural inner join resources order by size asc;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllToolSortedBySizeAsc(self):
+        cursor = self.conn.cursor()
+        query = "select name,ammount,cost,size from tool natural inner join resources order by size desc;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

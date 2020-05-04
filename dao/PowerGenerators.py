@@ -10,3 +10,29 @@ class PowerGeneratorDAO:
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
+
+    def getAllPowerGenerators(self):
+        cursor = self.conn.cursor()
+        query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources ;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    def getPowergeneratorByResourceID(self,resourceID):
+        cursor = self.conn.cursor()
+        query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources where resourceid=%i;"
+        cursor.execute(query,resourceID)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getPowerGeneratorByGneratorFuel(self,generatorfuel):
+        cursor = self.conn.cursor()
+        query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources where generatorfuel=%s order by generatorfuel;"
+        cursor.execute(query,generatorfuel)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
