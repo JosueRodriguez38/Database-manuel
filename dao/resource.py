@@ -14,68 +14,76 @@ class ResourcesDAO:
 
     # returns all the resources in the Resources table
     def getAllResources(self):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where aviable = true order by resourcetypename;"
+        cursor.execute(query)
         result = []
-        r = []
-        for row in resource:
-            r.append(row)
-        result.append(r)
+        for row in cursor:
+            result.append(row)
         return result
 
     # Resources have an id, this functions finds the resource with the id input, if it exists
-    def getResourceById(self, pid):
-        if pid == resource[0]:
-            return 1
-        else:
-            return
+    def getResourceById(self, resourceid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourceid = %s and aviable = true order by resourcetypename;"
+        cursor.execute(query, (resourceid,))
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
 
     # uses the input resource id to find the suppliers that supplies a specific resource
-    def getSuppliersByResourcesId(self, pid):
+    def getAllResourceByUserID(self, userid):
         cursor = self.conn.cursor()
-        query = "select sid, sname, scity, sphone from supplies natural inner join supplier natural inner join supplies where pid = %s;"
-        cursor.execute(query, (pid,))
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join supplies natural inner join users where userid = %s and aviable = true order by resourcetypename;"
+        cursor.execute(query, (userid,))
         result = []
         for row in cursor:
             result.append(row)
         return result
 
     # returns the resources with the same name and cost as the input
-    def getResourcesByNameAndCost(self, name, cost):
+    def getAllResourcesByName(self, resourcetypenumber):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourcetypenumber = %s and aviable = true order by;"
+        cursor.execute(query, (resourcetypenumber,))
         result = []
-
-        if float(cost) == resource[3] and name == resource[2]:
-            result.append(resource)
-
+        for row in cursor:
+            result.append(row)
         return result
 
     # returns the resource with the name that is used in the input
-    def getResourcesByName(self,name):
+    def getAllResourcesByPurchaseType(self, purchasetypenumber):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where purchasetypenumber = %s and aviable = true order by resourcetypename;"
+        cursor.execute(query, (purchasetypenumber,))
         result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-        if name == resource[2]:
-            result.append(resource)
-
+    def getAllResourcesByOrderID(self, orderid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where orderid = %s and aviable = true order by resourcetypename;"
+        cursor.execute(query, (orderid,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     # returns the resource with a specified cost
-    def getResourcesByCost(self,cost):
+    def getAllResourcesOrderByCost(self):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where aviable = true group by cost;"
+        cursor.execute(query)
         result = []
-
-        if float(cost) == resource[3]:
-            result.append(resource)
-
+        for row in cursor:
+            result.append(row)
         return result
 
     # inserts a resource with its id, supplier id, name, cost, and reserved amount
     def insert(self,sid, rname, cost, resv_amount):
-
-        if sid == resource[1]:
-            return resource[0]
         return
 
     # deletes a resource (specified by id) if it exists
     def delete(self, rid):
-
-        if rid==resource[0]:
-            return "ok"
-        else:
             return
