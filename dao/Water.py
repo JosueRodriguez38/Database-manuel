@@ -13,7 +13,7 @@ class WaterDAO:
 
     def getAllWater(self):
         cursor = self.conn.cursor()
-        query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources;"
+        query = "select name, ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources;"
         cursor.execute(query)
         result = []
         for row in cursor:
