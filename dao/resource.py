@@ -70,8 +70,17 @@ class ResourcesDAO:
             result.append(row)
         return result
 
+    def getAllResourcesBeingRequested(self):
+        cursor = self.conn.cursor()
+        query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type aviable = true order by resourcetypename;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
     # returns the resource with a specified cost
-    def getAllResourcesOrderByCost(self):
+    def getAllResourcesOrderedByCost(self):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where aviable = true group by cost;"
         cursor.execute(query)
