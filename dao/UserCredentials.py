@@ -13,20 +13,48 @@ class UserDAO:
 
 
     def getUsernameByUid(self, uid):
-        return
+        cursor = self.conn.cursor()
+        query = "select username from user_credentials natural inner join users where userid = %s"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
 
 
     def getPasswordByUid(self, uid):
-        return
+        cursor = self.conn.cursor()
+        query = "select password from user_credentials natural inner join users where userid = %s"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
+
 
 
     def getCredetialsByUid(self, uid):
-        return
+        cursor = self.conn.cursor()
+        query = "select username, password from user_credentials natural inner join users where userid = %s"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
+
 
 
     def getPasswordByUsername(self, Username):
-        return
+        cursor = self.conn.cursor()
+        query = "select password from user_credentials where username = %s"
+        cursor.execute(query, (Username,))
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
 
 
     def getAllUsersNames(self):
-        return
+        cursor = self.conn.cursor()
+        query = "select * from user_credentials order by username"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

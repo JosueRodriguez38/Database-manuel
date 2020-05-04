@@ -61,10 +61,10 @@ class ResourcesDAO:
             result.append(row)
         return result
 
-    def getAllResourcesByOrderID(self, orderid):
+    def getAllResourcesByOrderID(self, oid):
         cursor = self.conn.cursor()
         query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where orderid = %s and aviable = true order by resourcetypename;"
-        cursor.execute(query, (orderid,))
+        cursor.execute(query, (oid,))
         result = []
         for row in cursor:
             result.append(row)
