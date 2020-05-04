@@ -42,20 +42,20 @@ class ResourcesDAO:
         return result
 
     # returns the resources with the same name and cost as the input
-    def getAllResourcesByName(self, resourcetypenumber):
+    def getAllResourcesByName(self, resourceTypeNumber):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourcetypenumber = %s and aviable = true order by;"
-        cursor.execute(query, (resourcetypenumber,))
+        cursor.execute(query, (resourceTypeNumber,))
         result = []
         for row in cursor:
             result.append(row)
         return result
 
     # returns the resource with the name that is used in the input
-    def getAllResourcesByPurchaseType(self, purchasetypenumber):
+    def getAllResourcesByPurchaseType(self, purchaseTypeNumber):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where purchasetypenumber = %s and aviable = true order by resourcetypename;"
-        cursor.execute(query, (purchasetypenumber,))
+        cursor.execute(query, (purchaseTypeNumber,))
         result = []
         for row in cursor:
             result.append(row)
