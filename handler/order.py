@@ -8,23 +8,27 @@ class OrderHandler:
     # builds a skeleton order tuple
     def build_order_dict(self, row):
         result = {}
-        result['oid'] = row[0]
-        result['cid'] = row[1]
-        result['rname'] = row[2]
-        result['ammountReserved'] = row[3]
-        result['ammountBought'] = row[4]
-        result['date'] = row[5]
+        result['uid'] = row[0]
+        result['firstName'] = row[1]
+        result['lastName'] = row[2]
+        result['oid'] = row[3]
+        result['amount'] = row[4]
+        result['dateOrdered'] = row[5]
+        result['resourceTypeName'] = row[6]
+        result['PurchaseTypeName'] = row[7]
         return result
 
     # defines each of the order's attributes
-    def build_order_attributes(self, oid, cid, rname, ammountBought, ammountReserved, date):
+    def build_order_attributes(self, uid, firstName, lastName, oid, amount, dateOrdered, resourceTypeName, PurchaseTypeName):
         result = {}
+        result['uid'] = uid
+        result['firstName'] = firstName
+        result['lastName'] = lastName
         result['oid'] = oid
-        result['cid'] = cid
-        result['rname'] = rname
-        result['ammountReserved'] = ammountReserved
-        result['ammountBought'] = ammountBought
-        result['date'] = date
+        result['amount'] = amount
+        result['dateOrdered'] = dateOrdered
+        result['resourceTypeName'] = resourceTypeName
+        result['PurchaseTypeName'] = PurchaseTypeName
         return result
 
     # obtains a list of all the orders, compiles them in a list, which is then jsonified

@@ -16,7 +16,7 @@ class OrderDAO:
     # the tables Resources, Consumer, and User, and the relationship Belongs
     def getAllOrders(self):
         cursor = self.conn.cursor()
-        query = "select uid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join users natural inner join Purchase_Type order by resourcetypename"
+        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join users natural inner join Purchase_Type order by resourcetypename"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -26,7 +26,7 @@ class OrderDAO:
     # Returns an order if its id matches the input
     def getOrderById(self, oid):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join users natural inner join Purchase_Type where oid = %s order by resourcetypename"
+        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join users natural inner join Purchase_Type where oid = %s order by resourcetypename"
         cursor.execute(query, (oid,))
         result = cursor.fetchone()
         self.conn.commit()
