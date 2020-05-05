@@ -11,10 +11,38 @@ class DryFoodDAO:
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
-    def getAllBatteries(self):
+    def getAllDryFood(self):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food where aviable = true order by resourceid;"
+        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food where aviable = true order by resourceid;"
         cursor.execute(query)
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
+    def getDryFoodById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and resourceid = %s;"
+        cursor.execute(query, [rid])
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
+
+    def getAllDryfoodByUserID(self, uid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, userid, name, resourceTypeName, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food natural inner join supplies where aviable = true and userid = %s order by name;"
+        cursor.execute(query, [uid])
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
+    def getAllDryfoodByName(self, name):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food where aviable = true and name like %s order by resourceid;"
+        cursor.execute(query, (name,))
         result = cursor.fetchall()
         for row in cursor:
             result.append(row)

@@ -10,3 +10,41 @@ class HeavyEquipmentDAO:
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
+
+    def getAllEquipment(self):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment where aviable = true order by name;"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
+    def getEquipmentById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment where aviable = true and resourceid = %s;"
+        cursor.execute(query, [rid])
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
+
+    def getAllEquipmentByUserID(self, uid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, userid resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment natural inner join supplies where aviable = true and userid = %s order by name;"
+        cursor.execute(query, [uid])
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
+    def getAllEquipmentByName(self, name):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment where aviable = true and name like %s;"
+        cursor.execute(query, (name,))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result

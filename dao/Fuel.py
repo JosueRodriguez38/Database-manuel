@@ -10,3 +10,42 @@ class FuelDAO:
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
+
+    def getAllFuel(self):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, fueltypename, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join fuel natural inner join fuel_type where aviable = true order by fueltypename;"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
+    def getFuelById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, fueltypename, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join fuel natural inner join fuel_type where aviable = true and resourceid = %s;"
+        cursor.execute(query, [rid])
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
+
+    def getAllFuelByUserID(self, uid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, userid,  resourceTypeName, fueltypename, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join fuel natural inner join fuel_type natural inner join supplies where aviable = true order by fueltypename;"
+        cursor.execute(query, [uid])
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
+    def getAllFuelByName(self, uid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, userid,  resourceTypeName, fueltypename, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join fuel natural inner join fuel_type natural inner join supplies where aviable = true order by fueltypename;"
+        cursor.execute(query, [uid])
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
