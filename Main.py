@@ -76,7 +76,7 @@ def getResourceById(rid):
 
 @app.route('/request', methods=['POST', 'GET'])
 def getRequest():
-    if request.method == 'Post':
+    if request.method == 'POST':
         return OrderHandler().insertOrder(request.json)
     elif request.method == 'GET':
         if not request.args:

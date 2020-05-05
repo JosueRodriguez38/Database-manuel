@@ -22,9 +22,9 @@ class ResourcesDAO:
             result.append(row)
         return result
 
-    def getResourceTypeByResouceId(self,resourceid):
+    def getResourceTypeByResourceId(self,resourceid):
         cursor = self.conn.cursor()
-        query = "select resourceTypeName from Resources natural inner join resource_type where resourceid = %s;"
+        query = "select resourceTypeNumber from Resources natural inner join resource_type where resourceid = %s;"
         cursor.execute(query, [resourceid])
         result = cursor.fetchone()
         self.conn.commit()
@@ -113,6 +113,16 @@ class ResourcesDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def getResourcesByName(self,name):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where name ~* %s and aviable = true order by name;"
+        cursor.execute(query, [name])
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
 
     # inserts a resource with its id, supplier id, name, cost, and reserved amount
     def insert(self,sid, rname, cost, resv_amount):

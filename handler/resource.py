@@ -62,16 +62,16 @@ class ResourceHandler:
         dao = ResourcesDAO()
         resources_list = dao.getAllResources()
         result_list = []
-        for row in resources_list:
-            result = self.build_resource_dict(row)
-            result_list.append(result)
-        return jsonify(Resources=result_list)
+        #for row in resources_list:
+           # result = self.build_resource_dict(row)
+            #result_list.append(result)
+        return jsonify(Resources=resources_list)
 
     # uses DAO method to find a specific resource tuple
     def getResourceById(self, rid):
         dao = ResourcesDAO()
-        type = 1#dao.getResourceTypeByResourceId(rid)
-
+        type = dao.getResourceTypeByResourceId(rid)[0]
+        row=[]
         if type==1:
             dao = WaterDAO()
             row = dao.getWaterbyResourceId(rid)
@@ -103,7 +103,7 @@ class ResourceHandler:
             dao = HeavyEquipmentDAO()
             row = dao.getHeavyEquipmentByResourceId(rid)
         elif type == 10:
-            dao = ToolsDAO
+            dao = ToolsDAO()
             row = dao.getToolByResourceId(rid)
         elif type == 11:
             dao = ClothingDAO()
@@ -131,19 +131,19 @@ class ResourceHandler:
         cost = args.get("cost")
         dao = ResourcesDAO()
         resources_list = []
-        if (len(args) == 2) and name and cost:
+        if len(args) == 2 and name and cost:
             resources_list = dao.getResourcesByNameAndCost(name, cost)
-        elif (len(args) == 1) and name:
+        elif len(args) == 1 and name:
             resources_list = dao.getResourcesByName(name)
-        elif (len(args) == 1) and cost:
+        elif len(args) == 1 and cost:
             resources_list = dao.getResourcesByCost(cost)
         else:
             return jsonify(Error="Malformed query string"), 400
-        result_list = []
-        for row in resources_list:
-            result = self.build_resource_dict(row)
-            result_list.append(result)
-        return jsonify(Resources=result_list)
+        #result_list = []
+        #for row in resources_list:
+            #result = self.build_resource_dict(row)
+            #result_list.append(result)
+        return jsonify(Resources=resources_list)
 
     # Uses DAO method of the same name to find the resource with a specific id
     def getSuppliersByResourceId(self, rid):

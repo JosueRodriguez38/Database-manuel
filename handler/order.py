@@ -166,21 +166,20 @@ class OrderHandler:
     # the order is inserted with the required parameters using the DAO method,
     # if not, a json error message will appear
     def insertOrder(self, form):
-        print("form: ", form)
-        if len(form) != 5:
+
+        if len(form) != 4:
             return jsonify(Error="Malformed post request"), 400
         else:
-            cid =form['cid']
-            rname = form['rname']
-            ammountReserved = form['ammountReserved']
-            ammountBought = form['ammountBought']
+            userId =form['userId']
+            resourceId = form['resourceId']
+            ammountOrdered = form['ammountOrdered']
             date = form['date']
-            if rname and ammountReserved and ammountBought and date:
+            if userId and resourceId and ammountOrdered and date:
                 dao = OrderDAO()
-                oid=dao.insert( cid, rname, ammountReserved, ammountBought, date)
+                oid=dao.insertOrder(userId,resourceId,ammountOrdered,date)
                 if oid:
 
-                    result = self.build_order_attributes(oid,cid, rname, ammountReserved, ammountBought, date)
+                    #result = self.build_order_attributes(oid,cid, rname, ammountReserved, ammountBought, date)
                     return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
