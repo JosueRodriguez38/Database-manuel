@@ -22,11 +22,19 @@ class ResourcesDAO:
             result.append(row)
         return result
 
+    def getResourceTypeByResouceId(self,resourceid):
+        cursor = self.conn.cursor()
+        query = "select resourceTypeName from Resources natural inner join resource_type where resourceid = %s;"
+        cursor.execute(query, [resourceid])
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
+
     # Resources have an id, this functions finds the resource with the id input, if it exists
     def getResourceById(self, resourceid):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourceid = %s and aviable = true;"
-        cursor.execute(query, (resourceid,))
+        cursor.execute(query, [resourceid])
         result = cursor.fetchone()
         self.conn.commit()
         return result

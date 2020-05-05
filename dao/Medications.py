@@ -15,43 +15,48 @@ class MedicationDAO:
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,activeingredient,description,concentration,quantity,expirationdate from medication natural inner join resources order by name;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getMedicationByResourceID(self,resourceid):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,activeingredient,description,concentration,quantity,expirationdate from medication natural inner join resources where resourceid=%i;"
-        cursor.execute(query,resourceid)
-        result = []
+        cursor.execute(query,[resourceid])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getMedicationByActiveIngredient(self,active):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,activeingredient,description,concentration,quantity,expirationdate from medication natural inner join resources where activeingredient=%s;"
-        cursor.execute(query,active)
-        result = []
+        cursor.execute(query,(active))
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllMedicationsOrderedByActiveingredientsAsc(self):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,activeingredient,description,concentration,quantity,expirationdate from medication natural inner join resources order by activeingrediente Asc;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllMedicationsOrderedByActiveingredientsDesc(self):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,activeingredient,description,concentration,quantity,expirationdate from medication natural inner join resources order by activeingrediente desc;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result

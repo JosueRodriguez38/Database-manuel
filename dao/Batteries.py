@@ -16,51 +16,66 @@ class BatteriesDAO:
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true order by baterytype;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getBatteryById(self, rid):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and resourceid = %s;"
-        cursor.execute(query, (rid,))
+        cursor.execute(query, [rid])
         result = cursor.fetchone()
+        self.conn.commit()
+        return result
+
+    def getBatteriesByResourceID(self,resourceid):
+        cursor = self.conn.cursor()
+        query = "select name,ammount,cost,batterytype, quantityperpack from batteries natural inner join resources where resourceid=%s;"
+        cursor.execute(query, [resourceid])
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
         self.conn.commit()
         return result
 
     def getAllBatteriesByBatteryType(self, batteryType):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and baterytype = %s;"
-        cursor.execute(query, (batteryType,))
-        result = []
+        cursor.execute(query, (batteryType))
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllBatteriesByUserID(self, uid):
         cursor = self.conn.cursor()
         query = "select resourceid, userid, firstname, lastname, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries natural inner join supplies natural inner join users where aviable = true and userid = %s order by baterytype;"
-        cursor.execute(query, (uid,))
-        result = []
+        cursor.execute(query, [uid])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllBatteriesByCost(self, cost):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and cost <= %s order by baterytype;"
-        cursor.execute(query, (cost,))
-        result = []
+        cursor.execute(query, [cost])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllBatteriesByUserIDAndBatteryType(self, uid, batteryType):
         cursor = self.conn.cursor()
         query = "select resourceid, userid, firstname, lastname, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries natural inner join supplies natural inner join users where aviable = true and userid = %s and baterytype= %s;"
-        cursor.execute(query, (uid, batteryType,))
-        result = []
+        cursor.execute(query, ([uid], batteryType,))
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result

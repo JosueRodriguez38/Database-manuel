@@ -14,7 +14,7 @@ class UserDAO:
     def insertUser(self,accountType, name, lastName, phone, email):
         cursor = self.conn.cursor()
         query = "insert into users(accounttype,firstname,lastname,phone,email,status) values (%s, %s, %s,%s,%s,true) returning userid;"
-        cursor.execute(query, (accountType, name, lastName, phone, email))
+        cursor.execute(query, ([accountType], name, lastName, phone, email))
         uid = cursor.fetchone()[0]
         self.conn.commit()
         return uid
@@ -39,7 +39,7 @@ class UserDAO:
     def getAllUserByAccountType(self, accountType):
         cursor = self.conn.cursor()
         query = "SELECT * FROM users left join account_type on accounttype = accounttypenumber where accounttype=%s;"
-        cursor.execute(query, accountType)
+        cursor.execute(query, [accountType])
         users = cursor.fetchall()
         self.conn.commit()
         return users

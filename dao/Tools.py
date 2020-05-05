@@ -15,43 +15,48 @@ class ToolsDAO:
     def getToolByResourceId(self,resourceid):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,size from tool natural inner join resources where resourceid=%i;"
-        cursor.execute(query,resourceid)
-        result = []
+        cursor.execute(query,[resourceid])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getALlTools(self):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,size from tool natural inner join resources;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllToolSortedBySizeAsc(self):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,size from tool natural inner join resources order by size asc;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllToolSortedBySizeAsc(self):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,size from tool natural inner join resources order by size desc;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
     def insertTools(self,resourceid,size):
         cursor = self.conn.cursor()
         query = "insert into water(resourceidsize) values(%i,%s));"
-        cursor.execute(query, (resourceid, size))
-        result = []
+        cursor.execute(query, [resourceid, size])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result

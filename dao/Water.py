@@ -15,47 +15,51 @@ class WaterDAO:
         cursor = self.conn.cursor()
         query = "select name, ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getWaterbyResourceId(self,resourceid):
         cursor = self.conn.cursor()
         query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources where resourceid=%s;"
-        cursor.execute(query,resourceid)
-        result = []
+        cursor.execute(query,[resourceid])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
-        return
 
     def getAllWaterbyType(self,watertypenumber):
         cursor = self.conn.cursor()
         query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources where watertypenumber=%i;"
-        cursor.execute(query,watertypenumber)
-        result = []
+        cursor.execute(query,[watertypenumber])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
 
     def getWaterByOunces(self,ounces):
         cursor = self.conn.cursor()
         query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources where onces=%f;"
-        cursor.execute(query)
-        result = []
+        cursor.execute(query,[ounces])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getWaterOrderedByOunceDes(self):
         cursor = self.conn.cursor()
         query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources order by ounces desc;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
 
@@ -63,34 +67,38 @@ class WaterDAO:
         cursor = self.conn.cursor()
         query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources order by ounces Asc;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getWaterOrderedByTypeAsc(self):
         cursor = self.conn.cursor()
         query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources order by watertypenumber Asc;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getWaterOrderedByTypeDesc(self):
         cursor = self.conn.cursor()
         query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources order by watertypenumber desc;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def insertWater(self, resourceid, watertypenumber,ounces):
         cursor = self.conn.cursor()
         query = "insert into water(resourceid, watertypenumber,ounces) values(%i,%i,%f));"
-        cursor.execute(query, (resourceid, watertypenumber,ounces))
-        result = []
+        cursor.execute(query, [resourceid, watertypenumber,ounces])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result

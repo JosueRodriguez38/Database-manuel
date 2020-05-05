@@ -15,7 +15,7 @@ class UserCredentialDAO:
     def insertUserCredential(self,username,password,userid):
         cursor = self.conn.cursor()
         query = "insert into user_credentials(username,userpassword,userid) values (%s, %s, %s) returning usercredid;"
-        cursor.execute(query, (username,password,userid))
+        cursor.execute(query, (username,password,[userid]))
         uid = cursor.fetchone()[0]
         self.conn.commit()
         return uid
@@ -24,7 +24,7 @@ class UserCredentialDAO:
     def getUsernameByUid(self, uid):
         cursor = self.conn.cursor()
         query = "select username from user_credentials natural inner join users where userid = %s"
-        cursor.execute(query, (uid,))
+        cursor.execute(query, [uid])
         result = cursor.fetchone()
         self.conn.commit()
         return result
@@ -33,7 +33,7 @@ class UserCredentialDAO:
     def getPasswordByUid(self, uid):
         cursor = self.conn.cursor()
         query = "select password from user_credentials natural inner join users where userid = %s"
-        cursor.execute(query, (uid,))
+        cursor.execute(query, [uid])
         result = cursor.fetchone()
         self.conn.commit()
         return result
@@ -43,7 +43,7 @@ class UserCredentialDAO:
     def getCredetialsByUid(self, uid):
         cursor = self.conn.cursor()
         query = "select username, password from user_credentials natural inner join users where userid = %s"
-        cursor.execute(query, (uid,))
+        cursor.execute(query, [uid])
         result = cursor.fetchone()
         self.conn.commit()
         return result
@@ -53,7 +53,7 @@ class UserCredentialDAO:
     def getPasswordByUsername(self, Username):
         cursor = self.conn.cursor()
         query = "select password from user_credentials where username = %s"
-        cursor.execute(query, (Username,))
+        cursor.execute(query, [Username,])
         result = cursor.fetchone()
         self.conn.commit()
         return result
@@ -63,7 +63,8 @@ class UserCredentialDAO:
         cursor = self.conn.cursor()
         query = "select * from user_credentials order by username"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result

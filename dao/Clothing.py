@@ -15,15 +15,26 @@ class ClothingDAO:
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true order by agecategory;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
-    def getIceByID(self, rid):
+    def getClothingByResourceID(self,resourceid):
+        cursor = self.conn.cursor()
+        query = "select name,ammount,cost,agecategory, size,from clothing natural inner join resources where resourceid=%s;"
+        cursor.execute(query, [resourceid])
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
+    def getClothingByID(self, rid):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true;"
-        cursor.execute(query, (rid,))
+        cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()
         return result
@@ -32,43 +43,48 @@ class ClothingDAO:
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and agecategory = %s order by size;"
         cursor.execute(query, (age,))
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllClothingBySize(self, size):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and size = %s order by agecategory;"
         cursor.execute(query, (size,))
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllClothingByCost(self, cost):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and cost <= %s order by agecategory;"
-        cursor.execute(query, (cost,))
-        result = []
+        cursor.execute(query, [cost])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllClothingByUserID(self, uid):
         cursor = self.conn.cursor()
         query = "select resourceid, uid, firstname, lastname, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing natural inner join supplies natural inner join users where aviable = true and userid = %s order by agecategory;"
-        cursor.execute(query, (uid,))
-        result = []
+        cursor.execute(query, [uid])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getAllClothingByUserIDAndAgeCategory(self, uid, age):
         cursor = self.conn.cursor()
         query = "select resourceid, uid, firstname, lastname, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing natural inner join supplies natural inner join users where aviable = true and userid = %s and agecategory = %s order by size;"
-        cursor.execute(query, (uid, age,))
-        result = []
+        cursor.execute(query, ([uid], age,))
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result

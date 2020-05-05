@@ -15,53 +15,56 @@ class BabyFoodDAO:
         cursor = self.conn.cursor()
         query = "select name, ammount, cost, flavor,size,expirationDate from baby_food natural inner join resources ;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getBabyFoodByResourceID(self,resourceid):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,flavor, size, expirationdate from baby_food natural inner join resources where resourceid=%s;"
-        cursor.execute(query, resourceid)
-        result = []
+        cursor.execute(query, [resourceid])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
-        return
 
     def getBabyFoodByFlavor(self,flavor):
         cursor = self.conn.cursor()
         query = "select name, ammount, cost,size,expirationDate from baby_food natural inner join resources ;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
-    def getBabyFoodBySize(self):
+    def getBabyFoodBySize(self,size):
         cursor = self.conn.cursor()
-        query = "select name, ammount, cost, flavor,expirationDate from baby_food natural inner join resources ;"
-        cursor.execute(query)
-        result = []
+        query = "select name, ammount, cost, flavor,expirationDate from baby_food natural inner join resources where size = %s;"
+        cursor.execute(query, [size])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
-    def getBabyFoodByExpirationDate(self):
+    def getBabyFoodByExpirationDate(self, expirationdate):
         cursor = self.conn.cursor()
-        query = "select name, ammount, cost, flavor,size from baby_food natural inner join resources ;"
-        cursor.execute(query)
-        result = []
+        query = "select name, ammount, cost, flavor,size from baby_food natural inner join resources where expirationdate = %s;"
+        cursor.execute(query,(expirationdate))
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def insertBabyFood(self,resourceid, name, ammount, cost, flavor, size, expirationdate):
         cursor = self.conn.cursor()
         query = "insert into baby_food(resourceid, name,ammount,cost,flavor,expirationdate) values(%i,%i,%f));"
-        cursor.execute(query, (resourceid, name, ammount, cost, flavor, expirationdate))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
+        cursor.execute(query, ([resourceid], name, [ammount], [cost], flavor, expirationdate))
+        babyfoodid = cursor.fetchone()[0]
+        self.conn.commit()
+        return babyfoodid

@@ -15,24 +15,29 @@ class PowerGeneratorDAO:
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources ;"
         cursor.execute(query)
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
+
     def getPowerGeneratorByResourceID(self,resourceID):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources where resourceid=%i;"
-        cursor.execute(query,resourceID)
-        result = []
+        cursor.execute(query,[resourceID])
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
 
     def getPowerGeneratorByGeneratorFuel(self,generatorfuel):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources where generatorfuel=%s order by generatorfuel;"
-        cursor.execute(query,generatorfuel)
-        result = []
+        cursor.execute(query,(generatorfuel))
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
+        self.conn.commit()
         return result
+

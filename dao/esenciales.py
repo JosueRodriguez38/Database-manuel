@@ -39,8 +39,8 @@ class esencialesDAO:
 
     def getResourcebyid(self, resourceid):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName , ammount, cost, purchaseTypeName, name from resources natural inner join resource_type natural inner join purchase_type where aviable = true and resourceid = %i order by resourcetypenumber;"
-        cursor.execute(query,(resourceid))
+        query = "select resourceid, resourceTypeName , ammount, cost, purchaseTypeName, name from resources natural inner join resource_type natural inner join purchase_type where aviable = true and resourceid = %s order by resourcetypenumber;"
+        cursor.execute(query,[resourceid])
         result = cursor.fetchone()
         self.conn.commit()
         return result
