@@ -4,7 +4,7 @@ from handler.supplier import SupplierHandler
 from handler.resource import ResourceHandler
 from handler.order import OrderHandler
 from handler.User import UserHandler
-from handler.Customer import CustomerHandler
+#from handler.Customer import CustomerHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
 # machines to access this app
@@ -21,27 +21,27 @@ def greeting():
     return 'Hello, this is the Disaster supplies DB App!'
 
 
-@app.route('/supplier', methods=['GET', 'POST'])  # args(city) #finished
-def getAllSuppliers():
+@app.route('/user', methods=['GET', 'POST'])  # args(type, location(pueblo)) #finished
+def Users():
     if request.method == 'POST':
         print("REQUEST: ", request.json)
-        return UserHandler().insertSupplierJson(request.json)
+        return UserHandler().insertUserJson(request.json)
     else:
         if not request.args:
 
-            return SupplierHandler().getAllSuppliers()
+            return UserHandler().getAllUsers()
         else:
-            return SupplierHandler().searchSuppliers(request.args)
+            return UserHandler().serachUser(request.args)
 
 
-@app.route('/supplier/<int:sid>', methods=['GET', 'PUT', 'DELETE'])  # finished?
-def getSupplierById(sid):
+@app.route('/user/<int:useridid>', methods=['GET', 'PUT', 'DELETE'])  # finished?
+def getSupplierById(userid):
     if request.method == 'GET':
-        return SupplierHandler().getSupplierById(sid)
+        return UserHandler().getUserById(userid)
     elif request.method == 'PUT':
-        return SupplierHandler().updateSupplier(sid, request.json)
+        return UserHandler().updateUser(userid, request.json)
     elif request.method == 'DELETE':
-        return SupplierHandler().deleteSupplier(sid)
+        return UserHandler().deleteUser(userid)
     else:
         return jsonify(Error="Method not allowed"), 405
 

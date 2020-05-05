@@ -116,20 +116,7 @@ class ResourceHandler:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
     # allocates a specified resource and the amount(by id) to a specific supplier
-    def insertResourceBySupplierIdJson(self,rid, json):
-        sid = json['sid']
-        resv_amount = json['resv_amount']
-        cost = json['cost']
-        rname = json['rname']
-        if rname and resv_amount and cost and sid:
-            dao = ResourcesDAO()
-            r = dao.insert(sid, rname, cost, resv_amount)
-            if r:
-                return jsonify(PutStatus="Resource added"), 200
-            else:
-                return jsonify(Error="Resource not found or invalid supplier id."), 404
-        else:
-            return jsonify(Error="Unexpected attributes in post request"), 400
+
 
     # Uses DAO to delete a resource by id
     def deleteResource(self, rid):

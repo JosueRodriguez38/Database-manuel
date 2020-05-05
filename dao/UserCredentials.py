@@ -4,12 +4,21 @@ import psycopg2
 
 # The purpose of the user DAO is to extract and insert the information regarding a consumer that has been requested
 
-class UserDAO:
+class UserCredentialDAO:
     def __init__(self):
         connection_url = "dbname=%s user=%s password=%s host=24.54.205.36" % (pg_config['dbname'],
                                                              pg_config['user'],
                                                              pg_config['passwd'])
         self.conn = psycopg2.connect(connection_url)
+
+
+    def insertUserCredential(self,username,password,userid):
+        cursor = self.conn.cursor()
+        query = "insert into user_credentials(username,userpassword,userid) values (%s, %s, %s) returning usercredid;"
+        cursor.execute(query, (username,password,userid))
+        uid = cursor.fetchone()[0]
+        self.conn.commit()
+        return uid
 
 
     def getUsernameByUid(self, uid):

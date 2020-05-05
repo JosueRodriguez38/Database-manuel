@@ -1,5 +1,5 @@
 from flask import jsonify
-from dao.transaction import TransactionDAO
+from dao.Transaction import TransactionDAO
 
 class TransactionHandler:
     def build_transaction_dict(self, row):

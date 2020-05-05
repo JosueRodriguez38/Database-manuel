@@ -68,47 +68,4 @@ class SupplierHandler:
             else:
                 return jsonify(Error="Malformed search string."), 400
 
-    def insertSupplier(self, form):
-        if form and len(form) == 3:
-            sname = form['sname']
-            scity = form['scity']
-            sphone = form['sphone']
-            if sname and scity and sphone:
-                dao = UserDAO()
-                sid = dao.insert(sname, scity, sphone)
-                result = {}
-                result["sid"] = sid
-                result["sname"] = sname
-                result["scity"] = scity
-                result["sphone"] = sphone
-                return jsonify(InsertStatus=result), 200
-            else:
-                return jsonify(Error="Malformed post request")
-        else:
-            return jsonify(Error="Malformed post request")
 
-    def updateSupplier(self,sid,form):
-        print(form)
-        if form and len(form)==3:
-            sname = form['sname']
-            scity = form['scity']
-            sphone = form['sphone']
-            if sname and scity and sphone:
-                dao = UserDAO()
-                if dao.update(sid,sname, scity, sphone):
-
-                    return jsonify(PutStatus="Updated information"), 200
-                else:
-                    return jsonify(Error="Invalid Sid")
-            else:
-                return jsonify(Error="Malformed post request")
-        else:
-            return jsonify(Error="Malformed args post request")
-
-    def deleteSupplier(self, sid):
-        dao=UserDAO()
-
-        if dao.delete(sid):
-            return jsonify(DeleteStatus="Supplier deleted"), 200
-        else:
-            return jsonify(Error="Supplier not found"), 404
