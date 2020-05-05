@@ -39,7 +39,7 @@ class IceDAO:
 
     def getIceByCost(self, cost):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice where aviable = true and cost = %s order by resourceid;"
+        query = "select resourceid, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice where aviable = true and cost <= %s order by resourceid;"
         cursor.execute(query, (cost,))
         result = []
         for row in cursor:

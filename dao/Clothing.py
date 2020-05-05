@@ -10,3 +10,65 @@ class ClothingDAO:
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
+
+    def getAllClothing(self):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true order by agecategory;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getIceByID(self, rid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
+
+    def getAllClothingByAgeCategory(self, age):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and agecategory = %s order by size;"
+        cursor.execute(query, (age,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllClothingBySize(self, size):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and size = %s order by agecategory;"
+        cursor.execute(query, (size,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllClothingByCost(self, cost):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and cost <= %s order by agecategory;"
+        cursor.execute(query, (cost,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllClothingByUserID(self, uid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, uid, firstname, lastname, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing natural inner join supplies natural inner join users where aviable = true and userid = %s order by agecategory;"
+        cursor.execute(query, (uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllClothingByUserIDAndAgeCategory(self, uid, age):
+        cursor = self.conn.cursor()
+        query = "select resourceid, uid, firstname, lastname, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing natural inner join supplies natural inner join users where aviable = true and userid = %s and agecategory = %s order by size;"
+        cursor.execute(query, (uid, age,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

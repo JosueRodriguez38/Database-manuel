@@ -49,7 +49,7 @@ class BatteriesDAO:
 
     def getAllBatteriesByCost(self, cost):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and cost = %s order by baterytype;"
+        query = "select resourceid, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and cost <= %s order by baterytype;"
         cursor.execute(query, (cost,))
         result = []
         for row in cursor:

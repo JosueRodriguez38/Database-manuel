@@ -13,7 +13,7 @@ class CannedFoodDAO:
 
     def getAllCannedFood(self):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food where aviable = true order by expirationdate;"
+        query = "select resourceid, resourceTypeName, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food where aviable = true order by primaryingridient;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -46,3 +46,29 @@ class CannedFoodDAO:
             result.append(row)
         return result
 
+    def getAllCannedFoodByCost(self, cost):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food where aviable = true and cost <= %s order by primaryingridient;"
+        cursor.execute(query, (cost,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllCannedFoodByFlavour(self, flavour):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food where aviable = true and primaryingridient = %s;"
+        cursor.execute(query, (flavour,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllCannedFoodByUserIDAndPrimaryIngredient(self, uid, ingredient):
+        cursor = self.conn.cursor()
+        query = "select resourceid, userid, firstname, lastname, resourceTypeName, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food where aviable = true and userid = %s and primaryingridient = %s;"
+        cursor.execute(query, (uid, ingredient,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
