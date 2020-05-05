@@ -11,15 +11,15 @@ class esencialesDAO:
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
-    def insertuserconsumer(self,firstname,lastname,phone,email,status):
+    def insertUserConsumer(self,firstname,lastname,phone,email,status):
         cursor = self.conn.cursor()
-        query = "insert into users(accountype, firstname,lastname,phone,email,status) values (2, %s, %s,%bool) returning uid;"
+        query = "insert into users(accountype, firstname,lastname,phone,email,status) values (2, %s, %s,%true) returning uid;"
         cursor.execute(query, (firstname,lastname,phone,email,status))
         orderid = cursor.fetchone()[0]
         self.conn.commit()
         return orderid
 
-    def insertorder(self, userid, ammount, date, resourceid):
+    def insertOrder(self, userid, ammount, date, resourceid):
         cursor = self.conn.cursor()
         query = "insert into orders(uid, paymentmethodnumber,totalcost,datebought) values (%i, %i, %d,%s) returning oid;"
         cursor.execute(query, (userid,ammount,date,resourceid))
@@ -45,7 +45,7 @@ class esencialesDAO:
         self.conn.commit()
         return result
 
-    def getordersByuser(self,userid):
+    def getOrdersbyUser(self,userid):
         cursor = self.conn.cursor()
         query = "select * from orders wher userid = %i "
         cursor.execute(query,(userid))
@@ -54,7 +54,7 @@ class esencialesDAO:
             result.append(row)
         return result
 
-    def getOrderbyid(self, orderid):
+    def getOrderbyId(self, orderid):
         cursor = self.conn.cursor()
         query = "select * from orders where orderid = %i"
         cursor.execute(query,(orderid))
