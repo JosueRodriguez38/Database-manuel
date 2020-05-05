@@ -39,10 +39,10 @@ class CannedFoodDAO:
         self.conn.commit()
         return result
 
-    def getAllCannedFoodByFlavour(self, flavour):
+    def getAllCannedFoodByFlavor(self, flavor):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food where aviable = true and primaryingridient = %s order by expirationdate;"
-        cursor.execute(query, (flavour,))
+        cursor.execute(query, (flavor,))
         result = cursor.fetchall()
         for row in cursor:
             result.append(row)
