@@ -7,18 +7,17 @@ class SupplierHandler:
         result = {}
         result['sid'] = row[0]
         result['sname'] = row[1]
-        result['scity'] = row[2]
-        result['sphone'] = row[3]
+        result['sphone'] = row[5]
+        result['scity'] = row[6]
+
         return result
 
-    def build_resource_dict(self, row):
+    def build_resource_attributes(self, sid, usrname, phone, city):
         result = {}
-        result['rid'] = row[0]
-        result['rname'] = row[1]
-        result['pmaterial'] = row[2]
-        result['pcolor'] = row[3]
-        result['pprice'] = row[4]
-        result['quantity'] = row[5]
+        result['sid'] = sid
+        result['user name'] = usrname
+        result['phone'] = phone
+        result['city'] = city
         return result
 
     def getAllSuppliers(self):
@@ -39,8 +38,8 @@ class SupplierHandler:
         if not row:
             return jsonify(Error="Supplier Not Found"), 404
         else:
-            resource = self.build_supplier_dict(row)
-        return jsonify(Resource=resource)
+            supplier = self.build_supplier_dict(row)
+        return jsonify(Supplier=supplier)
 
     def getResourcesBySupplierId(self, sid):
         dao = SupplierDAO()
@@ -64,7 +63,7 @@ class SupplierHandler:
                 result_list = []
                 for row in supplier_list:
                     result = self.build_supplier_dict(row)
-                    result_list.append(row)
+                    result_list.append(result)
                 return jsonify(Suppliers=result_list)
             else:
                 return jsonify(Error="Malformed search string."), 400
@@ -82,10 +81,34 @@ class SupplierHandler:
                 result["sname"] = sname
                 result["scity"] = scity
                 result["sphone"] = sphone
-                return jsonify(Supplier=result), 201
+                return jsonify(InsertStatus=result), 200
             else:
                 return jsonify(Error="Malformed post request")
         else:
             return jsonify(Error="Malformed post request")
 
+    def updateSupplier(self,sid,form):
+        print(form)
+        if form and len(form)==3:
+            sname = form['sname']
+            scity = form['scity']
+            sphone = form['sphone']
+            if sname and scity and sphone:
+                dao = SupplierDAO()
+                if dao.update(sid,sname, scity, sphone):
 
+                    return jsonify(PutStatus="Updated information"), 200
+                else:
+                    return jsonify(Error="Invalid Sid")
+            else:
+                return jsonify(Error="Malformed post request")
+        else:
+            return jsonify(Error="Malformed args post request")
+
+    def deleteSupplier(self, sid):
+        dao=SupplierDAO()
+
+        if dao.delete(sid):
+            return jsonify(DeleteStatus="Supplier deleted"), 200
+        else:
+            return jsonify(Error="Supplier not found"), 404
