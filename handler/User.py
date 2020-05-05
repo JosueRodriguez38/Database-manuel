@@ -57,16 +57,29 @@ class UserHandler:
     def getUserById(self, userid):
         dao = UserDAO()
 
-        row = dao.RemoveUserById(userid)
-        if not row:
-            return jsonify(Error="Admin Not Found"), 404
-        else:
-            admin = self.build_user_dict(row)
-            admin['userid']=userid
-        return jsonify(Admin=admin)
+        if userid:
+            data = dao.getUserById(userid)
 
-    def serachUser(self):
-        return
+            result = []
+            for row in data:
+                result.append(row)
+            return jsonify(User=result)
+        else:
+            return jsonify(Error="Not arguments")
+
+    def serachUser(self,arg):
+        type = arg.get('type')
+        if type:
+            dao = UserDAO()
+            data = dao.getAllUserByAccountType(type)
+            result=[]
+            for row in data:
+                result.append(row)
+            return jsonify(AllUsers=result)
+
+        else:
+            return jsonify(Error="Illegal arguments")
+
 
     def getAllUsers(self):
         return

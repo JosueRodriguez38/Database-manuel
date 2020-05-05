@@ -50,7 +50,7 @@ class EsencialesHandler:
         result['resourceid'] = resourceid
         return result
 
-
+    # espesificacion 4
     def insertOrder(self, form):
         print("form: ", form)
         if len(form) != 4:
@@ -61,14 +61,14 @@ class EsencialesHandler:
             date = form['date']
             resourceid = form['resourceid']
             if userid and ammountordered and date and resourceid:
-                dao = esencialesDAO
+                dao = esencialesDAO()
                 orderid = dao.insert(userid,ammountordered,date,resourceid)
                 result = self.build_user_attributes(orderid,userid,ammountordered,date,resourceid)
                 return jsonify(Part=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
-
+    #borrar
     def insertUserConsumer(self,form):
         print("form: ", form)
         if len(form) != 6:
@@ -81,15 +81,16 @@ class EsencialesHandler:
             email = form['email']
             status = form['status']
             if email and status and phone and lastname and firstname and accounttype:
-                dao = esencialesDAO
+                dao = esencialesDAO()
                 userid = dao.insert(accounttype, firstname,lastname,phone,email,status)
                 result = self.build_user_attributes(userid,accounttype, firstname,lastname,phone,email,status)
                 return jsonify(Part=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
+    #especificacion 6
     def getOrdersbyUser(self,userid):
-        udao = UserDAO
+        udao = UserDAO()
         dao = esencialesDAO
         if not udao.getUserById(userid):
             return jsonify(Error="User has no orders"), 404
@@ -100,8 +101,9 @@ class EsencialesHandler:
             result_list.append(result)
         return jsonify(OrdersofUser=result_list)
 
+    #especificacion 4
     def getOrderbyId(self, orderid):
-        dao = esencialesDAO
+        dao = esencialesDAO()
         row = dao.getOrderbyId()
         if not row:
             return jsonify(Error="Order Not Found"), 404
@@ -130,7 +132,7 @@ class EsencialesHandler:
         return result
 
     def getAllResources(self):
-        dao = esencialesDAO
+        dao = esencialesDAO()
         allresources_list = dao.getAllResources()
         result_list = []
         for row in allresources_list:

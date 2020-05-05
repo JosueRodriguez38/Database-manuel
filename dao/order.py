@@ -46,7 +46,7 @@ class OrderDAO:
         cursor = self.conn.cursor()
         query = "select userid, firstname, lastname, orderid, ammountordered, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where resourceTypeNumber = %s order by resourcetypename;"
         cursor.execute(query, (uid,))
-        result = []
+        result = cursor.fetchall()
         for row in cursor:
             result.append(row)
         return result

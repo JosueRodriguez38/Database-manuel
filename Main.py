@@ -35,7 +35,7 @@ def Users():
             return UserHandler().serachUser(request.args)
 
 
-@app.route('/user/<int:useridid>', methods=['GET', 'PUT', 'DELETE'])  # finished?
+@app.route('/user/<int:userid>', methods=['GET', 'PUT', 'DELETE'])  # finished?
 def getSupplierById(userid):
     if request.method == 'GET':
         return UserHandler().getUserById(userid)
