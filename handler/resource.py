@@ -33,8 +33,6 @@ class ResourceHandler:
         result['buyable'] = row[5]
         result['location'] = row[6]
 
-
-
         return result
 
     #builds supplier tuple with the space required to insert the information required

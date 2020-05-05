@@ -51,7 +51,7 @@ class CannedFoodDAO:
 
     def getAllCannedFoodByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "select resourceid, userid, firstname, lastname, resourceTypeName, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food where aviable = true and userid = %s order by primaryingridient;"
+        query = "select resourceid, userid, firstname, lastname, resourceTypeName, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food natural inner join supplies natural inner join users where aviable = true and userid = %s order by primaryingridient;"
         cursor.execute(query, [uid])
         result = cursor.fetchall()
         for row in cursor:
@@ -71,7 +71,7 @@ class CannedFoodDAO:
 
     def getAllCannedFoodByUserIDAndPrimaryIngredient(self, uid, ingredient):
         cursor = self.conn.cursor()
-        query = "select resourceid, userid, firstname, lastname, resourceTypeName, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food where aviable = true and userid = %s and primaryingridient = %s;"
+        query = "select resourceid, userid, firstname, lastname, resourceTypeName, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food natural inner join supplies natural inner join users where aviable = true and userid = %s and primaryingridient = %s;"
         cursor.execute(query, (uid, ingredient,))
         result = cursor.fetchall()
         for row in cursor:
