@@ -10,3 +10,13 @@ class DryFoodDAO:
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
+
+    def getAllBatteries(self):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food where aviable = true order by resourceid;"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
