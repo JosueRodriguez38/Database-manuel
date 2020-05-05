@@ -18,6 +18,7 @@ CORS(app)
 
 @app.route('/')
 def greeting():
+    UserHandler().insertUser()
     return 'Hello, this is the Disaster supplies DB App!'
 
 

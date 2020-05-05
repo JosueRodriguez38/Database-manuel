@@ -25,8 +25,13 @@ class UserDAO:
     def RemoveUserById(self, uid):
         return
 
-    def getUserById(self, uid):
-        return
+    def getUserById(self, userid):
+        cursor = self.conn.cursor()
+        query = "SELECT * FROM users  where userid=%i"
+        cursor.execute(query, userid)
+        users = cursor.fetchone()[0]
+        self.conn.commit()
+        return users
 
     def getAllUsersByStatus(self,status):
         return
