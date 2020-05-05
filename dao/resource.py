@@ -15,7 +15,7 @@ class ResourcesDAO:
     # returns all the resources in the Resources table
     def getAllResources(self):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where aviable = true order by resourcetypenumber;"
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where aviable = true order by resourcetypename;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -25,7 +25,7 @@ class ResourcesDAO:
     # Resources have an id, this functions finds the resource with the id input, if it exists
     def getResourceById(self, resourceid):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourceid = %s and aviable = true order by resourcetypenumber;"
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourceid = %s and aviable = true;"
         cursor.execute(query, (resourceid,))
         result = cursor.fetchone()
         self.conn.commit()
@@ -34,7 +34,7 @@ class ResourcesDAO:
     # uses the input resource id to find the suppliers that supplies a specific resource
     def getAllResourceByUserID(self, userid):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join supplies natural inner join users where userid = %s and aviable = true order by resourcetypenumber;"
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join supplies natural inner join users where userid = %s and aviable = true order by resourcetypename;"
         cursor.execute(query, (userid,))
         result = []
         for row in cursor:
@@ -44,7 +44,7 @@ class ResourcesDAO:
     # returns the resources with the same name and cost as the input
     def getAllResourcesByResourceTypeName(self, resourceTypeNumber):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourcetypenumber = %s and aviable = true order by;"
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourcetypenumber = %s and aviable = true;"
         cursor.execute(query, (resourceTypeNumber,))
         result = []
         for row in cursor:
@@ -54,7 +54,7 @@ class ResourcesDAO:
     # returns the resource with the name that is used in the input
     def getAllResourcesByPurchaseType(self, purchaseTypeNumber):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where purchasetypenumber = %s and aviable = true order by resourcetypenumber;"
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where purchasetypenumber = %s and aviable = true order by resourcetypename;"
         cursor.execute(query, (purchaseTypeNumber,))
         result = []
         for row in cursor:
@@ -71,7 +71,7 @@ class ResourcesDAO:
 
     def getAllResourcesBeingRequested(self):
         cursor = self.conn.cursor()
-        query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join order aviable = true order by resourcetypenumber;"
+        query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join order aviable = true order by resourcetypename;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -90,7 +90,7 @@ class ResourcesDAO:
 
     def getAllResourceByUserIDAndResourceTypeName(self, userid, resourceTypeName):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join supplies natural inner join users where userid = %s and resourcetypenumber = %s and aviable = true order by resourcetypename;"
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join supplies natural inner join users where userid = %s and resourcetypenumber = %s and aviable = true;"
         cursor.execute(query, (userid, resourceTypeName,))
         result = []
         for row in cursor:
@@ -99,7 +99,7 @@ class ResourcesDAO:
 
     def getAllResourcesByResourceTypeNameAndPurchaseType(self, resourceTypeNumber,purchaseTypeNumber):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourcetypenumber = %s and purchaseTypeNumber = %s and aviable = true order by;"
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourcetypenumber = %s and purchaseTypeNumber = %s and aviable = true;"
         cursor.execute(query, (resourceTypeNumber, purchaseTypeNumber))
         result = []
         for row in cursor:
