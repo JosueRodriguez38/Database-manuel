@@ -11,37 +11,78 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
-    def getalltransactionsbydate(self, date):
-        return
-
-
-    def getalltransactionsbycard(self, paymentmethod):
+    def getAllTransactions(self):
         cursor = self.conn.cursor()
-        query = "SELECT * FROM transaction where paymentmthodnumber=1"
-        cursor.execute(query, paymentmethod)
-        users = cursor.fetchone()[0]
-        self.conn.commit()
-        return users
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types order by resourcetypename"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-    def getalltransactionsby_athmovil(self, paymentmethod):
+    def getAllTransactionsByPaymentMethod(self, paymentmethodNumber):
         cursor = self.conn.cursor()
-        query = "SELECT * FROM transaction where paymentmthodnumber=2"
-        cursor.execute(query, paymentmethod)
-        users = cursor.fetchone()[0]
-        self.conn.commit()
-        return users
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where paymentmthodnumber = %s order by resourcetypename"
+        cursor.execute(query, (paymentmethodNumber,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-    def getalltransactions(self):
-         cursor = self.conn.cursor()
-         query = "SELECT * FROM transaction"
-         cursor.execute(query)
-         result = []
-         for row in cursor:
-             result.append(row)
-         return result
+    def getAllTransactionsByUserID(self, uid):
+        cursor = self.conn.cursor()
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where uid = %s order by resourcetypename"
+        cursor.execute(query, (uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-    def gettransactionbyuid(self, uid):
-        return
+    def getTransactionsByID(self, tid):
+        cursor = self.conn.cursor()
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where tid = %s order by resourcetypename"
+        cursor.execute(query, (tid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllTransactionsByResourceName(self, resourceTypeName):
+        cursor = self.conn.cursor()
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where resourceTypeName = %s order by resourcetypename"
+        cursor.execute(query, (resourceTypeName,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getTransactionsByOrderID(self, oid):
+        cursor = self.conn.cursor()
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where oid = %s order by resourcetypename"
+        cursor.execute(query, (oid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getTransactionsByDate(self, dateBought):
+        cursor = self.conn.cursor()
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where dateBought = %s order by resourcetypename"
+        cursor.execute(query, (dateBought,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllTransactionsByUserIDAndResourceName(self, uid, resourceTypeName):
+        cursor = self.conn.cursor()
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where uid = %s and resourceTypeName = %s order by resourcetypename"
+        cursor.execute(query, (uid, resourceTypeName))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
 
     def inserttransaction(self,tid, uid, paymentmethodnumber,totalcost,datebought ):
         cursor = self.conn.cursor()
