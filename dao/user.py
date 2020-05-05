@@ -13,7 +13,7 @@ class UserDAO:
 
     def insertUser(self,accountType, name, lastName, phone, email):
         cursor = self.conn.cursor()
-        query = "insert into users(accounttype,firstname,lastname,phone,email,status) values (%i, %s, %s,%s,%s,true) returning uid;"
+        query = "insert into users(accounttype,firstname,lastname,phone,email,status) values (%s, %s, %s,%s,%s,true) returning userid;"
         cursor.execute(query, (accountType, name, lastName, phone, email))
         uid = cursor.fetchone()[0]
         self.conn.commit()

@@ -177,24 +177,6 @@ class OrderHandler:
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
-    # inserts an order into the database
-    def insertOrderJson(self, json):
-        rname = json['rname']
-        firstName = json['firstName']
-        lastName = json['lastName']
-        ammountReserved = json['ammountReserved']
-        ammountBought = json['ammountBought']
-        date = json['date']
-        if rname and firstName and lastName and ammountReserved and ammountBought and date:
-          # dao = OrderDAO()           *comentado porque el response va a estar hardcoded
-          # cid = dao.getConsumerIdByName(firstName, lastName)
-          # oid = dao.insert(rname, firstName, ammountReserved, ammountBought, date)
-            cid = 1
-            oid = 1
-            result = self.build_order_attributes(oid, cid, rname, ammountReserved, ammountBought, date)
-            return jsonify(PostStatus="OK"), 200
-        else:
-            return jsonify(Error="Unexpected attributes in post request"), 400
 
     # Updates an existing order with new information
     def updateOrder(self, oid, form):
