@@ -1,6 +1,21 @@
 from flask import jsonify
 
 from dao.resource import ResourcesDAO
+from dao.Water import WaterDAO
+from dao.Medications import MedicationDAO
+from dao.BabyFood import BabyFoodDAO
+from dao.CannedFood import CannedFoodDAO
+from dao.DryFood import DryFoodDAO
+from dao.Ice import IceDAO
+from dao.Fuel import FuelDAO
+from dao.MedicalDevices import MedicalDeviceDAO
+from dao.HeavyEquipment import HeavyEquipmentDAO
+from dao.Tools import ToolsDAO
+from dao.Clothing import ClothingDAO
+from dao.PowerGenerators import PowerGeneratorDAO
+from dao.Batteries import BatteriesDAO
+
+
 
 # Uses resource DAO to build results for displaying in localhost
 #this class involves supplier,
@@ -55,12 +70,59 @@ class ResourceHandler:
     # uses DAO method to find a specific resource tuple
     def getResourceById(self, rid):
         dao = ResourcesDAO()
-        row = dao.getResourceById(rid)
+        type = 1#dao.getResourceTypeByResourceId(rid)
+
+        if type==1:
+            dao = WaterDAO()
+            row = dao.getWaterbyResourceId(rid)
+
+        elif type == 2:
+            dao = MedicationDAO()
+            row = dao.getMedicationByResourceID()
+
+        elif type == 3:
+            dao = BabyFoodDAO()
+            row = dao.getBabyFoodByResourceID(rid)
+
+        elif type == 4:
+            dao = CannedFoodDAO()
+            row = dao.getCannedFoodByResouceId(rid)
+        elif type == 5:
+            dao = DryFoodDAO()
+            row = dao.getDryFoodByResourceId(rid)
+        elif type == 6:
+            dao = IceDAO()
+            row = dao.getIceByResourceId(rid)
+        elif type == 7:
+            dao =  FuelDAO()
+            row = dao.getFuelByResourceId(rid)
+        elif type == 8:
+            dao = MedicalDeviceDAO()
+            row = dao.getMedicalDevicesByResourceId(rid)
+        elif type == 9:
+            dao = HeavyEquipmentDAO()
+            row = dao.getHeavyEquipmentByResourceId(rid)
+        elif type == 10:
+            dao = ToolsDAO
+            row = dao.getToolByResourceId(rid)
+        elif type == 11:
+            dao = ClothingDAO()
+            row = dao.getClothingByResourceId(rid)
+        elif type == 12:
+            dao = PowerGeneratorDAO()
+            row = dao.getPowerGeneratorByResourceID(rid)
+        elif type == 13:
+            dao = BatteriesDAO()
+            row = dao.getBatteryById(rid)
+
         if not row:
             return jsonify(Error="Resource Not Found"), 404
         else:
-            resource = self.build_resource_dict(row)
-            return jsonify(Resource=resource)
+            return jsonify(Resource=row)
+
+
+
+
 
     # Searches for a resource, the way it is done depends on the input and its length,
     # name and cost are the 2 parameters this method accepts

@@ -35,8 +35,8 @@ class OrderDAO:
     # Returns the orders that has the resource specified by the input
     def getAllOrdersByResourceName(self, resourceTypeNumber):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, orderid, ammountordered, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where resourceTypeNumber = %s;"
-        cursor.execute(query, (resourceTypeNumber,))
+        query = "select name, ammountordered, date, resourceTypeName, purchaseTypeName from orders natural inner join Resources natural inner join Resource_Type natural inner join Purchase_Type where name like %s;"
+        cursor.execute(query, [resourceTypeNumber])
         result = []
         for row in cursor:
             result.append(row)
