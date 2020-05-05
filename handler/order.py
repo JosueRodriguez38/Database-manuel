@@ -51,16 +51,109 @@ class OrderHandler:
             order = self.build_order_dict(row)
             return jsonify(Order = order)
 
-    # Uses resource name to find order, json used as return message
-    def getOrdersByResourceName(self, rname):
-        dao = OrderDAO()
-        row = dao.getOrderByResourceName(rname)
-        print (rname)
-        if not row:
-            return jsonify(Error="Order does not exist"), 404
+    def searchOrders(selfself, args):
+        uid = args.get("uid")
+        resourceTypeNumber = args.get("resourceTypeNumber")
+        tid = args.get("tid")
+        purchaseTypeNumber = args.get("purchaseTypeNumber")
+        dateOrdered = args.get("dateOrdered")
+        orders_list = []
+        if (len(args) == 2) and uid and resourceTypeNumber:
+            orders_list = dao.getAllOrdersByResourceNameAndUserID(resourceTypeNumber, uid)
+        elif (len(args) == 2) and purchaseTypeNumber and resourceTypeNumber:
+            orders_list = dao.getAllOrdersByPurchaseTypeAndResourceName(purchaseTypeNumber, resourceTypeNumber)
+        elif (len(args) == 2) and purchaseTypeNumber and uid:
+            orders_list = dao.getAllOrdersByPurchaseTypeAndUserID(purchaseTypeNumber, uid)
+        elif (len(args) == 1) and resourceTypeNumber:
+            orders_list = dao.getAllOrdersByResourceName(resourceTypeNumber)
+        elif (len(args) == 1) and uid:
+            orders_list = dao.getALLOrdersByUserID(uid)
+        elif (len(args) == 1) and tid:
+            orders_list = dao.getAllOrdersByTransactionID
+        elif (len(args) == 1) and purchaseTypeNumber:
+            orders_list = dao.getAllOrdersByPurchaseType
+        elif (len(args) == 1) and dateOrdered:
+            orders_list = dao.getAllOrdersByDate(dateOrdered)
         else:
+            return jsonify(Error="Malformed query string"), 400
+        result_list = []
+        for row in orders_list:
             order = self.build_order_dict(row)
-            return jsonify(Order=order)
+            result_list.append(order)
+        return jsonify(Order=result_list)
+
+    # Uses resource name to find order, json used as return message
+    def getOrdersByResourceName(self, resourceTypeNumber):
+        dao = OrderDAO()
+        orders_list = dao.getAllOrdersByResourceName(resourceTypeNumber)
+        result_list = []
+        for row in orders_list:
+            order = self.build_order_dict(row)
+            result_list.append(order)
+        return jsonify(Order=result_list)
+
+    def getOrdersByUserID(self, uid):
+        dao = OrderDAO()
+        orders_list = dao.getALLOrdersByUserID(uid)
+        result_list = []
+        for row in orders_list:
+            order = self.build_order_dict(row)
+            result_list.append(order)
+        return jsonify(Order=result_list)
+
+    def getOrdersByTransactionID(self, tid):
+        dao = OrderDAO()
+        orders_list = dao.getAllOrdersByTransactionID(tid)
+        result_list = []
+        for row in orders_list:
+            order = self.build_order_dict(row)
+            result_list.append(order)
+        return jsonify(Order=result_list)
+
+    def getOrdersByPurchaseType(self, purchaseTypeNumber):
+        dao = OrderDAO()
+        orders_list = dao.getAllOrdersByPurchaseType(purchaseTypeNumber)
+        result_list = []
+        for row in orders_list:
+            order = self.build_order_dict(row)
+            result_list.append(order)
+        return jsonify(Order=result_list)
+
+    def getOrdersByDate(self, dateOrdered):
+        dao = OrderDAO()
+        orders_list = dao.getAllOrdersByDate(dateOrdered)
+        result_list = []
+        for row in orders_list:
+            order = self.build_order_dict(row)
+            result_list.append(order)
+        return jsonify(Order=result_list)
+
+    def getOrdersByResourceNameAndUserid(self, resourceTypeNumber, uid):
+        dao = OrderDAO()
+        orders_list = dao.getAllOrdersByResourceNameAndUserID(resourceTypeNumber, uid)
+        result_list = []
+        for row in orders_list:
+            order = self.build_order_dict(row)
+            result_list.append(order)
+        return jsonify(Order=result_list)
+
+    def getOrdersByResourceNameAndPurchaseType(self, resourceTypeNumber, purchaseTypeNumber):
+        dao = OrderDAO()
+        orders_list = dao.getAllOrdersByPurchaseTypeAndResourceName(resourceTypeNumber, purchaseTypeNumber)
+        result_list = []
+        for row in orders_list:
+            order = self.build_order_dict(row)
+            result_list.append(order)
+        return jsonify(Order=result_list)
+
+    def getOrdersByResourceNameAndPurchaseType(self, uid, purchaseTypeNumber):
+        dao = OrderDAO()
+        orders_list = dao.getAllOrdersByPurchaseTypeAndUserID(uid, purchaseTypeNumber)
+        result_list = []
+        for row in orders_list:
+            order = self.build_order_dict(row)
+            result_list.append(order)
+        return jsonify(Order=result_list)
 
     # the order is inserted with the required parameters using the DAO method,
     # if not, a json error message will appear
