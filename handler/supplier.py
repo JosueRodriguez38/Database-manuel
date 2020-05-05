@@ -1,5 +1,5 @@
 from flask import jsonify
-from dao.supplier import SupplierDAO
+from dao.user import UserDAO
 
 
 class SupplierHandler:
@@ -22,7 +22,7 @@ class SupplierHandler:
 
     def getAllSuppliers(self):
 
-        dao = SupplierDAO()
+        dao = UserDAO()
         suppliers_list = dao.getAllSuppliers()
         result_list = []
         for row in suppliers_list:
@@ -32,7 +32,7 @@ class SupplierHandler:
 
     def getSupplierById(self, sid):
 
-        dao = SupplierDAO()
+        dao = UserDAO()
 
         row = dao.getSupplierById(sid)
         if not row:
@@ -42,7 +42,7 @@ class SupplierHandler:
         return jsonify(Supplier=supplier)
 
     def getResourcesBySupplierId(self, sid):
-        dao = SupplierDAO()
+        dao = UserDAO()
         if not dao.getSupplierById(sid):
             return jsonify(Error="Supplier Not Found"), 404
         resources_list = dao.getResourcesBySupplierId(sid)
@@ -58,7 +58,7 @@ class SupplierHandler:
         else:
             city = args.get("city")
             if city:
-                dao = SupplierDAO()
+                dao = UserDAO()
                 supplier_list = dao.getSuppliersByCity(city)
                 result_list = []
                 for row in supplier_list:
@@ -74,7 +74,7 @@ class SupplierHandler:
             scity = form['scity']
             sphone = form['sphone']
             if sname and scity and sphone:
-                dao = SupplierDAO()
+                dao = UserDAO()
                 sid = dao.insert(sname, scity, sphone)
                 result = {}
                 result["sid"] = sid
@@ -94,7 +94,7 @@ class SupplierHandler:
             scity = form['scity']
             sphone = form['sphone']
             if sname and scity and sphone:
-                dao = SupplierDAO()
+                dao = UserDAO()
                 if dao.update(sid,sname, scity, sphone):
 
                     return jsonify(PutStatus="Updated information"), 200
@@ -106,7 +106,7 @@ class SupplierHandler:
             return jsonify(Error="Malformed args post request")
 
     def deleteSupplier(self, sid):
-        dao=SupplierDAO()
+        dao=UserDAO()
 
         if dao.delete(sid):
             return jsonify(DeleteStatus="Supplier deleted"), 200

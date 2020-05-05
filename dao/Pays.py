@@ -10,3 +10,33 @@ class PaysDAO:
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
+
+    def getAllOrdersOfaTransaction(self,transactionid):
+        cursor = self.conn.cursor()
+        query ="SELECT name, ammountordered, resources.cost , purchasetypename from pays natural inner join orders natural inner join resources natural inner join purchase_type where transactionid = %s order by name;"
+        cursor.execute(query, transactionid)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getOrdersIdByTransactionId(self,transactionid):
+        cursor = self.conn.cursor()
+        query = "SELECT orderid from pays natural inner join orders where transactionid = %s;"
+        cursor.execute(query, transactionid)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def InsertPays(self, transactionid,orderid):
+        cursor = self.conn.cursor()
+        query = "insert into pays(transactionid,orderid) values(%i,%i));"
+        cursor.execute(query, (transactionid,orderid))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def deletePays(self,payid):
+        return

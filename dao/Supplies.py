@@ -10,3 +10,40 @@ class SuppliesDAO:
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
+
+
+    def getAlltheResourcesOfuser(self,userid):
+        cursor = self.conn.cursor()
+        query = "select firstname, name,ammount,cost from users natural inner join supplies natural inner join resources where userid = %i;"
+        cursor.execute(query,userid)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllResourcesIdOfAUser(self,userid):
+        cursor = self.conn.cursor()
+        query = "select resourceid from users natural inner join supplies userid = %i;"
+        cursor.execute(query,userid)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getUserIdFromResourceId(self,resourceid):
+        cursor = self.conn.cursor()
+        query = "select userid from users natural inner join supplies resourceif = %i;"
+        cursor.execute(query,resourceid)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def insertSuppies(self,resourceid,userid):
+        cursor = self.conn.cursor()
+        query = "insert into supplies(resourceid,userid) values(%i,%i));"
+        cursor.execute(query, (resourceid,userid))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
