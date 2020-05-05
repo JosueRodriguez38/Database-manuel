@@ -10,3 +10,39 @@ class IceDAO:
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
+
+    def getAllIce(self):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice where aviable = true order by resourceid;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getIceByID(self, rid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice where aviable = true and resourceid = %s order by resourceid;"
+        cursor.execute(query, (rid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllIceByUserID(self, uid):
+        cursor = self.conn.cursor()
+        query = "select resourceid, userid, firstname, lastname, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice natural inner join supplies natural inner join users where aviable = true and userid = %s order by resourceid;"
+        cursor.execute(query, (uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getIceByCost(self, cost):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice where aviable = true and cost = %s order by resourceid;"
+        cursor.execute(query, (cost,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

@@ -14,7 +14,7 @@ class BatteriesDAO:
 
     def getAllBatteries(self):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, baterytype purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true order by baterytype;"
+        query = "select resourceid, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true order by baterytype;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -23,7 +23,7 @@ class BatteriesDAO:
 
     def getBatteryById(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, baterytype purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and resourceid = %s;"
+        query = "select resourceid, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and resourceid = %s;"
         cursor.execute(query, (rid,))
         result = cursor.fetchone()
         self.conn.commit()
@@ -31,7 +31,7 @@ class BatteriesDAO:
 
     def getAllBatteriesByBatteryType(self, batteryType):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, baterytype purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and baterytype = %s;"
+        query = "select resourceid, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and baterytype = %s;"
         cursor.execute(query, (batteryType,))
         result = []
         for row in cursor:
@@ -40,7 +40,7 @@ class BatteriesDAO:
 
     def getAllBatteriesByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "select resourceid, userid, resourceTypeName, baterytype purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries natural inner join supplies natural inner join users where aviable = true and userid = %s order by baterytype;"
+        query = "select resourceid, userid, firstname, lastname, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries natural inner join supplies natural inner join users where aviable = true and userid = %s order by baterytype;"
         cursor.execute(query, (uid,))
         result = []
         for row in cursor:
@@ -49,7 +49,7 @@ class BatteriesDAO:
 
     def getAllBatteriesByCost(self, cost):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, baterytype purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and cost = %s order by baterytype;"
+        query = "select resourceid, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and cost = %s order by baterytype;"
         cursor.execute(query, (cost,))
         result = []
         for row in cursor:
@@ -58,7 +58,7 @@ class BatteriesDAO:
 
     def getAllBatteriesByUserIDAndBatteryType(self, uid, batteryType):
         cursor = self.conn.cursor()
-        query = "select resourceid, userid, resourceTypeName, baterytype purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries natural inner join supplies natural inner join users where aviable = true and userid = %s and baterytype= %s;"
+        query = "select resourceid, userid, firstname, lastname, resourceTypeName, baterytype, purchaseTypeName, quantityperpack, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries natural inner join supplies natural inner join users where aviable = true and userid = %s and baterytype= %s;"
         cursor.execute(query, (uid, batteryType,))
         result = []
         for row in cursor:
