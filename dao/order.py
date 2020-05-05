@@ -16,7 +16,7 @@ class OrderDAO:
     # the tables Resources, Consumer, and User, and the relationship Belongs
     def getAllOrders(self):
         cursor = self.conn.cursor()
-        query = "select uid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join users natural inner join Purchase_Type order by resourcetypename"
+        query = "select uid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join users natural inner join Purchase_Type order by resourcetypenumber"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -26,7 +26,7 @@ class OrderDAO:
     # Returns an order if its id matches the input
     def getOrderById(self, oid):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join users natural inner join Purchase_Type where oid = %s order by resourcetypename"
+        query = "select userid, firstname, lastname, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join users natural inner join Purchase_Type where oid = %s order by resourcetypenumber"
         cursor.execute(query, (oid,))
         result = cursor.fetchone()
         self.conn.commit()
@@ -44,7 +44,7 @@ class OrderDAO:
 
     def getALLOrdersByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where resourceTypeNumber = %s order by resourcetypename"
+        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where resourceTypeNumber = %s order by resourcetypenumber"
         cursor.execute(query, (uid,))
         result = []
         for row in cursor:
@@ -53,7 +53,7 @@ class OrderDAO:
 
     def getAllOrdersByTransactionID(self, tid):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join Transaction_orders natural inner join Transaction natural inner join Resources naturalinner join Resource_Type natural inner join Purchase_Type where tid = %s order by resourcetypename"
+        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join Transaction_orders natural inner join Transaction natural inner join Resources naturalinner join Resource_Type natural inner join Purchase_Type where tid = %s order by resourcetypenumber"
         cursor.execute(query, (tid,))
         result = []
         for row in cursor:
@@ -62,7 +62,7 @@ class OrderDAO:
 
     def getAllOrdersByPurchaseType(self, purchaseTypeNumer):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where PurchaseTypeNumber = %s order by resourcetypename"
+        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where PurchaseTypeNumber = %s order by resourcetypenumber"
         cursor.execute(query, (purchaseTypeNumer,))
         result = []
         for row in cursor:
@@ -71,7 +71,7 @@ class OrderDAO:
 
     def getAllOrdersByDate(self, dateOrdered):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where dateOrdered = %s order by resourcetypename"
+        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where dateOrdered = %s order by resourcetypenumber"
         cursor.execute(query, (dateOrdered,))
         result = []
         for row in cursor:
@@ -89,19 +89,28 @@ class OrderDAO:
 
     def getAllOrdersByPurchaseTypeAndResourceName(self, purchaseTypeNumer, resourceTypeNumber):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where purchasetypenumber = %s and resourcetypename = %s order by resourcetypename"
+        query = "select userid, firstname, lastname, orderid, ammount, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join order_resource natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where purchasetypenumber = %s and resourcetypenumber = %s order by resourcetypenumber"
         cursor.execute(query, (purchaseTypeNumer, resourceTypeNumber,))
         result = []
         for row in cursor:
             result.append(row)
         return result
 
-    # inserts an order, linked to a consumer's id
-    def insert(self, cid,rname, ammountReserved, ammountBought, dateOrdered):
-            return
+
+        # CHECK FILE ESENCIALES
+    # # inserts an order, linked to a consumer's id
+    # def insert(self, userid,ammount,date,resourceid):
+    #     cursor = self.conn.cursor()
+    #     query = "insert into transaction(uid, paymentmethodnumber,totalcost,datebought) values (%i, %i, %i,%s) returning uid;"
+    #     cursor.execute(query, (userid,ammount,date,resourceid))
+    #     orderid = cursor.fetchone()[0]
+    #     self.conn.commit()
+    #     return orderid
+
+
 
     # updates a consumer's order
-    def update(self, oid, cid,rname,  ammountReserved, ammountBought, date):
+    def update(self, orderid, userid,ammount, date,resourceid):
             return
 
     # deletes an order identified by an input order id
