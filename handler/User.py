@@ -79,6 +79,10 @@ class UserHandler:
         else:
             return jsonify(Error="Malformed post request"), 400
 
+
+    def insertUser(self):
+        dao = UserDAO()
+        dao.insertUser(2,"Jose","Perez","7873334444", "joseperez12@gamil.com")
     def insertAdmin(self,aid,form):
 
         if form and len(form) == 3:
