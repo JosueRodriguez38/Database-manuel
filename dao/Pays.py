@@ -4,46 +4,39 @@ import psycopg2
 
 # The purpose of the consumer DAO is to extract the information regarding a consumer that has been requested
 
-class SuppliesDAO:
+class PaysDAO:
     def __init__(self):
         connection_url = "dbname=%s user=%s password=%s host=24.54.205.36" % (pg_config['dbname'],
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
-
-    def getAlltheResourcesOfuser(self,userid):
+    def getAllOrdersOfaTransaction(self,transactionid):
         cursor = self.conn.cursor()
-        query = "select firstname, name,ammount,cost from users natural inner join supplies natural inner join resources where userid = %i;"
-        cursor.execute(query,userid)
+        query ="SELECT name, ammountordered, resources.cost , purchasetypename from pays natural inner join orders natural inner join resources natural inner join purchase_type where transactionid = %s order by name;"
+        cursor.execute(query, transactionid)
         result = []
         for row in cursor:
             result.append(row)
         return result
 
-    def getAllResourcesIdOfAUser(self,userid):
+    def getOrdersIdByTransactionId(self,transactionid):
         cursor = self.conn.cursor()
-        query = "select resourceid from users natural inner join supplies userid = %i;"
-        cursor.execute(query,userid)
+        query = "SELECT orderid from pays natural inner join orders where transactionid = %s;"
+        cursor.execute(query, transactionid)
         result = []
         for row in cursor:
             result.append(row)
         return result
 
-    def getUserIdFromResourceId(self,resourceid):
+    def InsertPays(self, transactionid,orderid):
         cursor = self.conn.cursor()
-        query = "select userid from users natural inner join supplies resourceif = %i;"
-        cursor.execute(query,resourceid)
+        query = "insert into pays(transactionid,orderid) values(%i,%i));"
+        cursor.execute(query, (transactionid,orderid))
         result = []
         for row in cursor:
             result.append(row)
         return result
 
-    def insertSuppies(self,resourceid,userid):
-        cursor = self.conn.cursor()
-        query = "insert into supplies(resourceid,userid) values(%i,%i));"
-        cursor.execute(query, (resourceid,userid))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
+    def deletePays(self,payid):
+        return

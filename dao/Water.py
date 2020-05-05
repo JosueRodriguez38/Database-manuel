@@ -85,3 +85,12 @@ class WaterDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def insertWater(self, resourceid, watertypenumber,ounces):
+        cursor = self.conn.cursor()
+        query = "insert into water(resourceid, watertypenumber,ounces) values(%i,%i,%f));"
+        cursor.execute(query, (resourceid, watertypenumber,ounces))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

@@ -42,7 +42,7 @@ class ResourcesDAO:
         return result
 
     # returns the resources with the same name and cost as the input
-    def getAllResourcesByName(self, resourceTypeNumber):
+    def getAllResourcesByResourceTypeName(self, resourceTypeNumber):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourcetypenumber = %s and aviable = true order by;"
         cursor.execute(query, (resourceTypeNumber,))
@@ -84,6 +84,24 @@ class ResourcesDAO:
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where aviable = true group by cost;"
         cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllResourceByUserIDAndResourceTypeName(self, userid, resourceTypeName):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join supplies natural inner join users where userid = %s and resourcetypenumber = %s and aviable = true order by resourcetypename;"
+        cursor.execute(query, (userid, resourceTypeName,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllResourcesByResourceTypeNameAndPurchaseType(self, resourceTypeNumber,purchaseTypeNumber):
+        cursor = self.conn.cursor()
+        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourcetypenumber = %s and purchaseTypeNumber = %s and aviable = true order by;"
+        cursor.execute(query, (resourceTypeNumber, purchaseTypeNumber))
         result = []
         for row in cursor:
             result.append(row)

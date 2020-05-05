@@ -47,3 +47,11 @@ class ToolsDAO:
         for row in cursor:
             result.append(row)
         return result
+    def insertTools(self,resourceid,size):
+        cursor = self.conn.cursor()
+        query = "insert into water(resourceidsize) values(%i,%s));"
+        cursor.execute(query, (resourceid, size))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
