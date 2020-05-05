@@ -22,11 +22,10 @@ class IceDAO:
 
     def getIceByID(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice where aviable = true and resourceid = %s order by resourceid;"
+        query = "select resourceid, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice where aviable = true and resourceid = %s;"
         cursor.execute(query, (rid,))
-        result = []
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchone()
+        self.conn.commit()
         return result
 
     def getAllIceByUserID(self, uid):
