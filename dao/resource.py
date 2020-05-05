@@ -53,7 +53,7 @@ class ResourcesDAO:
     def getAllResourcesByResourceTypeName(self, resourceTypeNumber):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where resourcetypenumber = %s and aviable = true;"
-        cursor.execute(query, (resourceTypeNumber,))
+        cursor.execute(query, (resourceTypeNumber))
         result = []
         for row in cursor:
             result.append(row)
