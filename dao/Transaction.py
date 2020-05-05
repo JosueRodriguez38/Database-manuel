@@ -13,7 +13,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getAllTransactions(self):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types order by resourcetypename"
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types order by resourcetypename;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -22,7 +22,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getAllTransactionsByPaymentMethod(self, paymentmethodNumber):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where paymentmthodnumber = %s order by resourcetypename"
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where paymentmthodnumber = %s order by resourcetypename;"
         cursor.execute(query, (paymentmethodNumber,))
         result = []
         for row in cursor:
@@ -31,7 +31,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getAllTransactionsByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where uid = %s order by resourcetypename"
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where uid = %s order by resourcetypename;"
         cursor.execute(query, (uid,))
         result = []
         for row in cursor:
@@ -40,7 +40,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getTransactionsByID(self, tid):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where tid = %s order by resourcetypename"
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where tid = %s order by resourcetypename;"
         cursor.execute(query, (tid,))
         result = []
         for row in cursor:
@@ -49,7 +49,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getAllTransactionsByResourceName(self, resourceTypeName):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where resourceTypeName = %s order by resourcetypename"
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where resourceTypeName = %s order by resourcetypename;"
         cursor.execute(query, (resourceTypeName,))
         result = []
         for row in cursor:
@@ -58,7 +58,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getTransactionsByOrderID(self, oid):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where oid = %s order by resourcetypename"
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where oid = %s order by resourcetypename;"
         cursor.execute(query, (oid,))
         result = []
         for row in cursor:
@@ -67,7 +67,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getTransactionsByDate(self, dateBought):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where dateBought = %s order by resourcetypename"
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where dateBought = %s order by resourcetypename;"
         cursor.execute(query, (dateBought,))
         result = []
         for row in cursor:
@@ -76,7 +76,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getAllTransactionsByUserIDAndResourceName(self, uid, resourceTypeName):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where uid = %s and resourceTypeName = %s order by resourcetypename"
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where uid = %s and resourceTypeName = %s order by resourcetypename;"
         cursor.execute(query, (uid, resourceTypeName))
         result = []
         for row in cursor:
