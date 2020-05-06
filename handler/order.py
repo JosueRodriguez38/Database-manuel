@@ -18,6 +18,20 @@ class OrderHandler:
         result['PurchaseTypeName'] = row[7]
         return result
 
+    def build_purchas_type_order_dict(self, row):
+        result = {}
+        result['oid'] = row[0]
+        result['uid'] = row[1]
+        result['firstName'] = row[2]
+        result['lastName'] = row[3]
+        result['resourceTypeName'] = row[4]
+        result['name'] = row[5]
+        result['amountOrdered'] = row[6]
+        result['PurchaseTypeName'] = row[7]
+        result['date'] = row[8]
+        result['googleMapsURL'] = row[9]
+        return result
+
     # defines each of the order's attributes
     def build_order_attributes(self, uid, firstName, lastName, oid, amount, dateOrdered, resourceTypeName, PurchaseTypeName):
         result = {}

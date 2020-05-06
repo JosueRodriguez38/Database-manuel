@@ -62,7 +62,7 @@ class OrderDAO:
 
     def getAllOrdersByPurchaseType(self, purchaseTypeNumber):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, orderid, ammountordered, dateOrdered, resourceTypeName, purchaseTypeName from orders natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where PurchaseTypeNumber = %s order by resourcetypename;"
+        query = "select orderid, userid, firstname, lastname, resourceTypeName, name, ammountordered, purchaseTypeName, date, googlemapurl from orders natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type natural inner join users natural inner join location where purchasetypenumber = %s order by resourcetypename;"
         cursor.execute(query, (purchaseTypeNumber,))
         result = []
         for row in cursor:
@@ -87,9 +87,9 @@ class OrderDAO:
             result.append(row)
         return result
 
-    def getAllOrdersByPurchaseTypeAndResourceName(self, purchaseTypeNumer, resourceTypeNumber):
+    def getAllOrdersByPurchaseTypeAndResourceNumber(self, purchaseTypeNumer, resourceTypeNumber):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, orderid, ammountordered, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where purchasetypenumber = %s and resourcetypename = %s order by resourcetypename;"
+        query = "select orderid, userid, firstname, lastname, resourceTypeName, name, ammountordered, purchaseTypeName, date, googlemapurl from orders natural inner join Resources natural inner join Resource_Type natural inner join Purchase_Type natural inner join users natural inner join location where purchasetypenumber = %s and resourcetypenumber = %s order by resourcetypename;"
         cursor.execute(query, (purchaseTypeNumer, resourceTypeNumber,))
         result = []
         for row in cursor:
@@ -98,12 +98,14 @@ class OrderDAO:
 
     def getAllOrdersByPurchaseTypeAndUserID(self, purchaseTypeNumer, uid):
         cursor = self.conn.cursor()
-        query = "select userid, firstname, lastname, orderid, ammountordered, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where purchasetypenumber = %s and userid = %s order by resourcetypename;"
+        query = "select orderid, userid, firstname, lastname, resourceTypeName, name, ammountordered, purchaseTypeName, date, googlemapurl from orders natural inner join Resources natural inner join Resource_Type natural inner join Purchase_Type natural inner join users natural inner join location where purchasetypenumber = %s and userid = %s order by resourcetypename;"
         cursor.execute(query, (purchaseTypeNumer, uid,))
         result = []
         for row in cursor:
             result.append(row)
         return result
+
+
 
 
         # CHECK FILE ESENCIALES
