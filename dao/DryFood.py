@@ -21,9 +21,9 @@ class DryFoodDAO:
         self.conn.commit()
         return result
 
-    def getDryFoodById(self, rid):
+    def getDryFoodByResourceId(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join batteries where aviable = true and resourceid = %s;"
+        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food where aviable = true and resourceid = %s;"
         cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()
@@ -41,7 +41,7 @@ class DryFoodDAO:
 
     def getAllDryfoodByName(self, name):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food where aviable = true and name like %s order by resourceid;"
+        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food where aviable = true and name = %s order by resourceid;"
         cursor.execute(query, (name,))
         result = cursor.fetchall()
         for row in cursor:
