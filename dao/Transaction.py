@@ -33,7 +33,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getAllTransactionsByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where uid = %s order by resourcetypename;"
+        query = "SELECT transactionid, firstname,resources.name, ammountordered, paymentmethodname, resources.cost*ammountordered as cost, transaction.date,PurchaseTypeName FROM transaction natural inner join payment_methods natural inner join pays left join orders on pays.orderid=orders.orderid left join resources on orders.resourceid=resources.resourceid natural inner join Purchase_type lef join users on transaction.userid=users.userid where transaction.userid = %s ;"
         cursor.execute(query, [uid])
         result = cursor.fetchall()
         for row in cursor:
@@ -91,11 +91,29 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
         self.conn.commit()
         return result
 
-
-    def inserttransaction(self,tid, uid, paymentmethodnumber,totalcost,datebought ):
+    def getTransactionsByPurchaseType(self,PurchaseTypeNumber):
         cursor = self.conn.cursor()
-        query = "insert into transaction(uid, paymentmethodnumber,totalcost,datebought) values (%i, %i, %i,%s) returning uid;"
-        cursor.execute(query, ([uid], [paymentmethodnumber],[totalcost],datebought))
-        tid = cursor.fetchone()[0]
+        query = "SELECT transactionid, firstname,resources.name, ammountordered, paymentmethodname, resources.cost*ammountordered as cost, transaction.date,PurchaseTypeName FROM transaction natural inner join payment_methods natural inner join pays left join orders on pays.orderid=orders.orderid left join resources on orders.resourceid=resources.resourceid natural inner join Purchase_type lef join users on transaction.userid=users.userid where PurchaseTypeNumber = %s ;"
+        cursor.execute(query, [PurchaseTypeNumber])
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
+    def getResourcesFromTransactionByTransactionId(self,transactionid):
+        cursor = self.conn.cursor()
+        query = "SELECT name, ammount, resourcetypename ,resources.cost, purchasetypename from transaction natural inner join pays left join orders on orders.orderid=pays.orderid left join resources on resources.resourceid=orders.resourceid natural inner join purchase_type natural inner join resource_type where transactionid=%s;"
+        cursor.execute(query, [transactionid])
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+    def inserttransaction(self, uid, paymentmethodnumber,totalcost,datebought ):
+        cursor = self.conn.cursor()
+        query = "insert into transaction(userid, paymentmethodnumber,cost,date) values (%s, %s, %s,%s) returning transactionid;"
+        cursor.execute(query, (uid, paymentmethodnumber,totalcost,datebought))
+        tid = cursor.fetchall()
         self.conn.commit()
         return tid

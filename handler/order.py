@@ -51,8 +51,8 @@ class OrderHandler:
             order = self.build_order_dict(row)
             return jsonify(Order = order)
 
-    def searchOrders(selfself, args):
-        uid = args.get("uid")
+    def searchOrders(self, args):
+        uid = args.get("userid")
         resourceTypeNumber = args.get("resourceTypeNumber")
         tid = args.get("tid")
         purchaseTypeNumber = args.get("purchaseTypeNumber")
@@ -62,11 +62,8 @@ class OrderHandler:
         Name =  args.get('name')
         if Name:
             orders_list =  dao.getAllOrdersByResourceName(Name)
-            return jsonify(Orders=orders_list)
-        else:
-            return jsonify(Error="Invalid Arguments")
-        """
-        if (len(args) == 2) and uid and resourceTypeNumber:
+
+        elif (len(args) == 2) and uid and resourceTypeNumber:
             orders_list = dao.getAllOrdersByResourceNameAndUserID(resourceTypeNumber, uid)
         elif (len(args) == 2) and purchaseTypeNumber and resourceTypeNumber:
             orders_list = dao.getAllOrdersByPurchaseTypeAndResourceName(purchaseTypeNumber, resourceTypeNumber)
@@ -75,6 +72,7 @@ class OrderHandler:
         elif (len(args) == 1) and resourceTypeNumber:
             orders_list = dao.getAllOrdersByResourceName(resourceTypeNumber)
         elif (len(args) == 1) and uid:
+            print("here")
             orders_list = dao.getALLOrdersByUserID(uid)
         elif (len(args) == 1) and tid:
             orders_list = dao.getAllOrdersByTransactionID
@@ -88,7 +86,7 @@ class OrderHandler:
         for row in orders_list:
             order = self.build_order_dict(row)
             result_list.append(order)
-        return jsonify(Order=result_list)"""
+        return jsonify(Order=result_list)
 
     # Uses resource name to find order, json used as return message
     def getOrdersByResourceName(self, resourceTypeNumber):

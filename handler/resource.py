@@ -76,7 +76,7 @@ class ResourceHandler:
 
         elif type == 2:
             dao = MedicationDAO()
-            row = dao.getMedicationByResourceID()
+            row = dao.getMedicationByResourceID(rid)
 
         elif type == 3:
             dao = BabyFoodDAO()
@@ -84,34 +84,34 @@ class ResourceHandler:
 
         elif type == 4:
             dao = CannedFoodDAO()
-            row = dao.getCannedFoodByResouceId(rid)
+            row = dao.getCannedFoodByResourceID(rid)
         elif type == 5:
             dao = DryFoodDAO()
-            row = dao.getDryFoodByResourceId(rid)
+            row = dao.getDryFoodById(rid)
         elif type == 6:
             dao = IceDAO()
-            row = dao.getIceByResourceId(rid)
+            row = dao.getIceByID(rid)
         elif type == 7:
             dao =  FuelDAO()
-            row = dao.getFuelByResourceId(rid)
+            row = dao.getFuelById(rid)
         elif type == 8:
             dao = MedicalDeviceDAO()
-            row = dao.getMedicalDevicesByResourceId(rid)
+            row = dao.getMedicalDeviceById(rid)
         elif type == 9:
             dao = HeavyEquipmentDAO()
-            row = dao.getHeavyEquipmentByResourceId(rid)
+            row = dao.getHeavyEquipmentById(rid)
         elif type == 10:
             dao = ToolsDAO()
             row = dao.getToolByResourceId(rid)
         elif type == 11:
             dao = ClothingDAO()
-            row = dao.getClothingByResourceId(rid)
+            row = dao.getClothingByresourceID(rid)
         elif type == 12:
             dao = PowerGeneratorDAO()
             row = dao.getPowerGeneratorByResourceID(rid)
         elif type == 13:
             dao = BatteriesDAO()
-            row = dao.getBatteryById(rid)
+            row = dao.getBatteryByResourceId(rid)
 
         if not row:
             return jsonify(Error="Resource Not Found"), 404
