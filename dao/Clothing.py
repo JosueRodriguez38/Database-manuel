@@ -21,19 +21,9 @@ class ClothingDAO:
         self.conn.commit()
         return result
 
-    def getClothingByResourceID(self,resourceid):
+    def getClothingByresourceID(self, rid):
         cursor = self.conn.cursor()
-        query = "select name,ammount,cost,agecategory, size,from clothing natural inner join resources where resourceid=%s;"
-        cursor.execute(query, [resourceid])
-        result = cursor.fetchall()
-        for row in cursor:
-            result.append(row)
-        self.conn.commit()
-        return result
-
-    def getClothingByID(self, rid):
-        cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true;"
+        query = "select resourceid, resourceTypeName, name, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and resourceid = %s;"
         cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()
@@ -41,7 +31,7 @@ class ClothingDAO:
 
     def getAllClothingByAgeCategory(self, age):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and agecategory = %s order by size;"
+        query = "select resourceid, resourceTypeName, name, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and agecategory = %s order by size;"
         cursor.execute(query, (age,))
         result = cursor.fetchall()
         for row in cursor:
@@ -51,7 +41,7 @@ class ClothingDAO:
 
     def getAllClothingBySize(self, size):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and size = %s order by agecategory;"
+        query = "select resourceid, resourceTypeName, name, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and size = %s order by agecategory;"
         cursor.execute(query, (size,))
         result = cursor.fetchall()
         for row in cursor:
@@ -61,7 +51,7 @@ class ClothingDAO:
 
     def getAllClothingByCost(self, cost):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and cost <= %s order by agecategory;"
+        query = "select resourceid, resourceTypeName, name, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing where aviable = true and cost <= %s order by agecategory;"
         cursor.execute(query, [cost])
         result = cursor.fetchall()
         for row in cursor:
@@ -71,7 +61,7 @@ class ClothingDAO:
 
     def getAllClothingByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "select resourceid, uid, firstname, lastname, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing natural inner join supplies natural inner join users where aviable = true and userid = %s order by agecategory;"
+        query = "select resourceid, userid, firstname, lastname, resourceTypeName, name, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing natural inner join supplies natural inner join users where aviable = true and userid = %s order by agecategory;"
         cursor.execute(query, [uid])
         result = cursor.fetchall()
         for row in cursor:
@@ -81,7 +71,7 @@ class ClothingDAO:
 
     def getAllClothingByUserIDAndAgeCategory(self, uid, age):
         cursor = self.conn.cursor()
-        query = "select resourceid, uid, firstname, lastname, resourceTypeName, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing natural inner join supplies natural inner join users where aviable = true and userid = %s and agecategory = %s order by size;"
+        query = "select resourceid, userid, firstname, lastname, resourceTypeName, name, agecategory, size, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join clothing natural inner join supplies natural inner join users where aviable = true and userid = %s and agecategory = %s order by size;"
         cursor.execute(query, ([uid], age,))
         result = cursor.fetchall()
         for row in cursor:
