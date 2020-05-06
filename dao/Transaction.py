@@ -13,7 +13,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getAllTransactions(self):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types order by resourcetypename;"
+        query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, transaction.date FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join orders natural inner join resources natural inner join resource_type order by resourcetypename;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:

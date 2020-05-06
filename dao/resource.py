@@ -24,7 +24,7 @@ class ResourcesDAO:
 
     def getResourceTypeByResourceId(self,resourceid):
         cursor = self.conn.cursor()
-        query = "select resourceTypeNumber from Resources natural inner join resource_type where resourceid = %s;"
+        query = "select resourceTypeName,resourceTypeNumber  from Resources natural inner join resource_type where resourceid = %s;"
         cursor.execute(query, [resourceid])
         result = cursor.fetchone()
         self.conn.commit()
@@ -71,7 +71,7 @@ class ResourcesDAO:
 
     def getAllResourcesByOrderID(self, oid):
         cursor = self.conn.cursor()
-        query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where orderid = %s and aviable = true;"
+        query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join orders where orderid = %s and aviable = true;"
         cursor.execute(query, (oid,))
         result = cursor.fetchone()
         self.conn.commit()
@@ -79,7 +79,7 @@ class ResourcesDAO:
 
     def getAllResourcesBeingRequested(self):
         cursor = self.conn.cursor()
-        query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join order aviable = true order by resourcetypename;"
+        query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join orders where aviable = true order by resourcetypename;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -89,7 +89,7 @@ class ResourcesDAO:
     # returns the resource with a specified cost
     def getAllResourcesOrderedByCost(self, cost):
         cursor = self.conn.cursor()
-        query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join order where aviable = true and cost <= %s;"
+        query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join orders where aviable = true and cost <= 0;"
         cursor.execute(query, cost)
         result = []
         for row in cursor:

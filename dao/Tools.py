@@ -42,7 +42,7 @@ class ToolsDAO:
         self.conn.commit()
         return result
 
-    def getAllToolSortedBySizeAsc(self):
+    def getAllToolSortedBySizeDes(self):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,size from tool natural inner join resources order by size desc;"
         cursor.execute(query)

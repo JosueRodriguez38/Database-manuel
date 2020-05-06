@@ -24,7 +24,7 @@ class SuppliesDAO:
 
     def getAllResourcesIdOfAUser(self,userid):
         cursor = self.conn.cursor()
-        query = "select resourceid from users natural inner join supplies userid = %i;"
+        query = "select resourceid from users natural inner join supplies where userid = %i;"
         cursor.execute(query,[userid])
         result = cursor.fetchall()
         for row in cursor:
@@ -34,7 +34,7 @@ class SuppliesDAO:
 
     def getUserIdFromResourceId(self,resourceid):
         cursor = self.conn.cursor()
-        query = "select userid from users natural inner join supplies resourceif = %i;"
+        query = "select userid from users natural inner join supplies where resourceid = %i;"
         cursor.execute(query,[resourceid])
         result = cursor.fetchall()
         for row in cursor:

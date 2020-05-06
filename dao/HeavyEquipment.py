@@ -51,8 +51,8 @@ class HeavyEquipmentDAO:
 
     def getAllHeavyEquipmentByFuelType(self, fuelType):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment where aviable = true and name like %s;"
-        cursor.execute(query, (name,))
+        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment where aviable = true and fueltype like %s;"
+        cursor.execute(query, (fuelType,))
         result = cursor.fetchall()
         for row in cursor:
             result.append(row)

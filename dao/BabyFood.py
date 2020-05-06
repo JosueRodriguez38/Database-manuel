@@ -13,7 +13,7 @@ class BabyFoodDAO:
 
     def getAllBabyFood(self):
         cursor = self.conn.cursor()
-        query = "select name, ammount, cost, flavor,size,expirationDate from baby_food natural inner join resources ;"
+        query = "select name, ammount, cost, flavor,expirationDate from baby_food natural inner join resources ;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:
@@ -23,7 +23,7 @@ class BabyFoodDAO:
 
     def getBabyFoodByResourceID(self,resourceid):
         cursor = self.conn.cursor()
-        query = "select name,ammount,cost,flavor, size, expirationdate from baby_food natural inner join resources where resourceid=%s;"
+        query = "select name,ammount,cost,flavor, expirationdate from baby_food natural inner join resources where resourceid=%s;"
         cursor.execute(query, [resourceid])
         result = cursor.fetchall()
         for row in cursor:
@@ -33,8 +33,8 @@ class BabyFoodDAO:
 
     def getBabyFoodByFlavor(self,flavor):
         cursor = self.conn.cursor()
-        query = "select name, ammount, cost,size,expirationDate from baby_food natural inner join resources ;"
-        cursor.execute(query)
+        query = "select name, ammount, cost,flavor,expirationDate from baby_food natural inner join resources where flavor = %s;"
+        cursor.execute(query, (flavor))
         result = cursor.fetchall()
         for row in cursor:
             result.append(row)
@@ -53,7 +53,7 @@ class BabyFoodDAO:
 
     def getBabyFoodByExpirationDate(self, expirationdate):
         cursor = self.conn.cursor()
-        query = "select name, ammount, cost, flavor,size from baby_food natural inner join resources where expirationdate = %s;"
+        query = "select name, ammount, cost, flavor from baby_food natural inner join resources where expirationdate = %s;"
         cursor.execute(query,(expirationdate))
         result = cursor.fetchall()
         for row in cursor:

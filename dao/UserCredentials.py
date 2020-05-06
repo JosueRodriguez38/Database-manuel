@@ -32,7 +32,7 @@ class UserCredentialDAO:
 
     def getPasswordByUid(self, uid):
         cursor = self.conn.cursor()
-        query = "select password from user_credentials natural inner join users where userid = %s"
+        query = "select userpassword from user_credentials natural inner join users where userid = %s"
         cursor.execute(query, [uid])
         result = cursor.fetchone()
         self.conn.commit()
@@ -42,7 +42,7 @@ class UserCredentialDAO:
 
     def getCredetialsByUid(self, uid):
         cursor = self.conn.cursor()
-        query = "select username, password from user_credentials natural inner join users where userid = %s"
+        query = "select username, userpassword from user_credentials natural inner join users where userid = %s"
         cursor.execute(query, [uid])
         result = cursor.fetchone()
         self.conn.commit()
@@ -52,7 +52,7 @@ class UserCredentialDAO:
 
     def getPasswordByUsername(self, Username):
         cursor = self.conn.cursor()
-        query = "select password from user_credentials where username = %s"
+        query = "select userpassword from user_credentials where username = %s"
         cursor.execute(query, [Username,])
         result = cursor.fetchone()
         self.conn.commit()
