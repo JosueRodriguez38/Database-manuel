@@ -159,18 +159,51 @@ class ResourceHandler:
     # Restrictions: must be proper length to fill all attributes, which need to be properly matched
     #(no numbers in name field)
     def insertResourcesJson(self, form):
-        if len(form) != 4:
+        resourceType = form['resourceTypeNumber']
+        if not resourceType:
             return jsonify(Error="Malformed post request"), 400
         else:
-            sid = form['sid']
-            resv_amount = form['resv_amount']
+            ammount = form['ammount']
             cost = form['cost']
-            rname = form['rname']
-            if rname and resv_amount and cost and sid:
+            aviable = form['aviable']
+            name = form['name']
+            purchaseType = form['purchaseTypeNumber']
+            if ammount and cost and aviable and name and purchaseType:
                 dao = ResourcesDAO()
-                rid = dao.insert(sid, rname, cost, resv_amount)
-                result = self.build_resource_attributes(rid, sid, rname, cost, resv_amount)
-                return jsonify(PostStatus="New resources added"), 201
+                rid = dao.insert(resourceType, ammount, cost, name, name, purchaseType)
+        if resourceType == 1:
+            waterTypeNumber = form['waterTypeNumber']
+            ounces = form['ounces']
+            if waterTypeNumber and ounces:
+                waterdao = WaterDAO()
+                waterid = waterdao.insertWater(rid, watertypenumber, ounces)
+                return jsonify(PostStatus="New resource added"), 201
+            else:
+                return jsonify(Error="Malformed post request"), 400
+
+        elif resourceType == 2:
+            activeIngredient = form['activeIngredient']
+            description = form['description']
+            concentration = form['concentration']
+            quantity = form['quantity']
+            expirationdate = form['expirationdate']
+            if activeIngredient and description and concentration and quantity and expirationdate:
+                medicationdao = MedicationDAO()
+                medicationid = medicationdao.insertMedications(rid, activeIngredient, description, concentration, quantity, expirationdate)
+                return jsonify(PostStatus="New resource added"), 201
+            else:
+                return jsonify(Error="Malformed post request"), 400
+
+        elif resourceType == 3:
+            flavor = form['flavor']
+            expirationdate = form['expirationdate']
+            if flavor and expirationdate:
+                babydao = BabyFoodDAO()
+                babyid = babydao.insertBabyFood(rid, flavor, expirationdate)
+                return jsonify(PostStatus="New resource added"), 201
+            else:
+                return jsonify(Error="Malformed post request"), 400
+
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
