@@ -69,3 +69,13 @@ class BatteriesDAO:
             result.append(row)
         self.conn.commit()
         return result
+
+    def insert(self, resourceid, baterytype, quantityperpack):
+        cursor = self.conn.cursor()
+        query = "insert into batteries(resourceid, baterytype, quantityperpack) values(%s,%s,%s) returning batteriesid"
+        cursor.execute(query, (resourceid, baterytype, quantityperpack))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result

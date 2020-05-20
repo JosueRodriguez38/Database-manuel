@@ -125,8 +125,13 @@ class ResourcesDAO:
 
 
     # inserts a resource with its id, supplier id, name, cost, and reserved amount
-    def insert(self,sid, rname, cost, resv_amount):
-        return
+    def insert(self,resourcetypenumber,ammount,cost, name,  purchasetypenumber):
+        cursor =self.conn.cursor()
+        query ="INSERT INTO resources (resourcetypenumber,ammount,cost,aviable,name,purchasetypenumber) values(%s,%s,%s,true,%s,%s) returning resourceid;"
+        cursor.execute(query, (resourcetypenumber,ammount,cost, name,  purchasetypenumber))
+        result = cursor.fetchall()
+        self.conn.commit()
+        return result
 
     # deletes a resource (specified by id) if it exists
     def delete(self, rid):

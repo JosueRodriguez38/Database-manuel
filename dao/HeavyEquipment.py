@@ -58,3 +58,13 @@ class HeavyEquipmentDAO:
             result.append(row)
         self.conn.commit()
         return result
+
+    def insert(self, resourceid, fueltype):
+        cursor = self.conn.cursor()
+        query = "insert into heavy_equipment(resourceid,fueltype) values(%s,%s) returning heavyequipmentid"
+        cursor.execute(query, (resourceid, fueltype))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result

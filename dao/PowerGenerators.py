@@ -41,3 +41,13 @@ class PowerGeneratorDAO:
         self.conn.commit()
         return result
 
+    def insert(self, resourceid, generatorfuel, capacity, size):
+        cursor = self.conn.cursor()
+        query = "insert into power_generator(resourceid,generatorfuel,capacity,size) values(%s,%s,%s,%s) returning toolid;"
+        cursor.execute(query, (resourceid, generatorfuel, capacity, size))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+

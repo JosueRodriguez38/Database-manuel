@@ -42,7 +42,7 @@ class SuppliesDAO:
         self.conn.commit()
         return result
 
-    def insertSuppies(self,resourceid,userid):
+    def insertSupplies(self,resourceid,userid):
         cursor = self.conn.cursor()
         query = "insert into supplies(resourceid,userid) values(%i,%i));"
         cursor.execute(query, [resourceid,userid])

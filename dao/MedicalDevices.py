@@ -58,3 +58,13 @@ class MedicalDeviceDAO:
             result.append(row)
         self.conn.commit()
         return result
+
+    def insert(self, resourceid, specs):
+        cursor = self.conn.cursor()
+        query ="insert into medical_devices(resourceid,specs) values(%s,%s) returning medicaldevicesid"
+        cursor.execute(query, (resourceid,specs))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result

@@ -11,6 +11,15 @@ class CannedFoodDAO:
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
+    def insert(self ,resourceid, primaryingredient, ounces, expirationdate):
+        cursor = self.conn.cursor()
+        query = "INSERT INTO canned_food(resourceid, primaryingredient, ounces, expirationdate) values(%s,%s,%s,%s) returning cannedfoodid"
+        cursor.execute(query,(resourceid, primaryingredient, ounces, expirationdate))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
     def getAllCannedFood(self):
         cursor = self.conn.cursor()
         query = "select resourceid, resourceTypeName, name, primaryingridient, purchaseTypeName, ounces, expirationdate, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join canned_food where aviable = true order by primaryingridient;"

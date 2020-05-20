@@ -49,3 +49,13 @@ class IceDAO:
         self.conn.commit()
         return result
 
+    def insert(self, resourceid, weight):
+        cursor = self.conn.cursor()
+        query = "insert into ice (resourceid, weight) values(%s,%s)"
+        cursor.execute(query, (resourceid, weight))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+

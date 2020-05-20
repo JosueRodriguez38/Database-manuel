@@ -24,26 +24,26 @@ class TransactionHandler:
         userid=args.get('userid')
         transactionid=args.get('transactionid')
 
-        if purchadetypenumber and userid:
+        if purchadetypenumber and userid and not transactionid:
             results = dao.getTransactionsByPurchaseTypeAndUserId(purchadetypenumber,userid)
 
             result_list = []
             for row in results:
                 result_list.append(self.build_transaction_dict(row))
             return jsonify(Transaction=result_list)
-        elif purchadetypenumber:
+        elif purchadetypenumber and not transactionid:
             results=dao.getTransactionsByPurchaseType(purchadetypenumber)
             result_list=[]
             for row in results:
                 result_list.append(self.build_transaction_dict(row))
             return jsonify(Transaction=result_list)
-        elif userid:
+        elif userid and not transactionid:
             results = dao.getAllTransactionsByUserID(userid)
             result_list = []
             for row in results:
                 result_list.append(self.build_transaction_dict(row))
             return jsonify(Transaction=result_list)
-        elif transactionid and not userid and not type:
+        elif transactionid and not userid and not purchadetypenumber:
             results = dao.get_transaction_by_transactionid(transactionid)
             result_list = []
             for row in results:

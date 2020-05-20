@@ -11,7 +11,7 @@ class RequestHandler:
         date=form['date']
         if userid and resourceid and ammount and date:
             dao =RequestDAO()
-            requestid = dao.insertRequest(userid)
+            requestid = dao.insertrequest(userid)
             dao = SelectedDAO()
             selectedid = dao.insertSelected(requestid,resourceid,ammount,date)
 
@@ -32,14 +32,17 @@ class RequestHandler:
     def searchRequest(self, args):
         userid = args.get("userid")
         name = args.get("name")
-        if userid and not name:
+        requestid = args.get("resourceid")
+        if userid and not name and not requestid:
             dao = RequestDAO()
             results = dao.getUserRequest()
             return jsonify(Requests=results)
-        elif name and not userid:
+        elif name and not userid and not requestid:
             dao = RequestDAO()
             results = dao.getAllResourcesbyResourceName(name)
             return jsonify(Requests=results)
+        elif requestid and not name and not userid:
+            return self.getRequestByRequestID(requestid)
         return
 
     def getAllResourcesByRequestId(self, requestid):

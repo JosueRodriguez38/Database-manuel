@@ -11,6 +11,17 @@ class MedicationDAO:
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
+
+    def insert(self, resourceid,activeingredient,description,concentration,quantity, expirationdate):
+        cursor = self.conn.cursor()
+        query = "INSERT INTO medication (resourceid,activeingredient,description,concentration,quantity, expirationdate) values(%s,%s,%s,%s,%s,%s) returning medicationid"
+        cursor.execute(query,(resourceid,activeingredient,description,concentration,quantity, expirationdate))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
     def getAllMedication(self):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,activeingredient,description,concentration,quantity,expirationdate from medication natural inner join resources order by name;"

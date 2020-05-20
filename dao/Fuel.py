@@ -49,3 +49,13 @@ class FuelDAO:
         self.conn.commit()
         return result
 
+    def insert(self, resourceid, fueltypenumber, litro):
+        cursor = self.conn.cursor()
+        query = "insert into fuel(resourceid, fueltypenumber, litro) values(%s,%s,%s) returning fuelid"
+        cursor.execute(query, (resourceid, fueltypenumber, litro))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+

@@ -48,3 +48,13 @@ class DryFoodDAO:
             result.append(row)
         self.conn.commit()
         return result
+
+    def insert(self, resourceid, ounces, expirationdate):
+        cursor = self.conn.cursor()
+        query = "insert into dry_food (resourceid, ounces, expirationdate) values(%s,%s,%s)"
+        cursor.execute(query, (resourceid, ounces, expirationdate))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result

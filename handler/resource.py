@@ -1,6 +1,7 @@
 from flask import jsonify
 
 from dao.resource import ResourcesDAO
+from dao.Supplies import SuppliesDAO
 from dao.Water import WaterDAO
 from dao.Medications import MedicationDAO
 from dao.BabyFood import BabyFoodDAO
@@ -87,13 +88,13 @@ class ResourceHandler:
             row = dao.getCannedFoodByResourceID(rid)
         elif type == 5:
             dao = DryFoodDAO()
-            row = dao.getDryFoodById(rid)
+            row = dao.getDryFoodByResourceId(rid)
         elif type == 6:
             dao = IceDAO()
-            row = dao.getIceByID(rid)
+            row = dao.getIceByResourceID(rid)
         elif type == 7:
             dao =  FuelDAO()
-            row = dao.getFuelById(rid)
+            row = dao.getFuelByResourceId(rid)
         elif type == 8:
             dao = MedicalDeviceDAO()
             row = dao.getMedicalDeviceById(rid)
@@ -159,21 +160,205 @@ class ResourceHandler:
     # Restrictions: must be proper length to fill all attributes, which need to be properly matched
     #(no numbers in name field)
     def insertResourcesJson(self, form):
+
         print("form: ", form)
-        if len(form) != 4:
-            return jsonify(Error="Malformed post request"), 400
-        else:
-            sid = form['sid']
-            resv_amount = form['resv_amount']
-            cost = form['cost']
-            rname = form['rname']
-            if rname and resv_amount and cost and sid:
-                dao = ResourcesDAO()
-                rid = dao.insert(sid, rname, cost, resv_amount)
-                result = self.build_resource_attributes(rid, sid, rname, cost, resv_amount)
-                return jsonify(PostStatus="New resources added"), 201
+        userid=form['userid']
+        resourcetypenumber = form['resourcetypenumber']
+        ammount = form['ammount']
+        cost = form['cost']
+        name=['name']
+        purchasetypenumber=form['purchasetypenumber']
+
+        if resourcetypenumber ==1:
+            if form.len == 8:
+                watertype = form['watertypenumber']
+                ounces = form['ounces']
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and watertype and ounces:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber,ammount,cost,name,purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid,userid)
+                    wdao = WaterDAO()
+                    wdao.insertWater(resourceid,watertype,ounces)
+
+                    return jsonify("New Resource has been added resourceid: "+resourceid)
+
             else:
-                return jsonify(Error="Unexpected attributes in post request"), 400
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==2:
+            if form.len == 11:
+                active = form['activeingredient']
+                descrp =form['description']
+                concentration = form['concentration']
+                quantity = form['quantity']
+                date = form['expirationdate']
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and active and descrp and concentration and quantity and date :
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    mdao = MedicationDAO()
+                    mdao.insert(resourceid,active,descrp,concentration,quantity, date)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==3:
+            if form.len == 8:
+                flavor = form['flavor']
+                expirationdate =form['expirationdate']
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and flavor and expirationdate:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    Bdao =BabyFoodDAO()
+                    Bdao.insertBabyFood(resourceid,flavor,expirationdate)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==4:
+            if form.len == 9:
+                ingredient = form['primaryingredient']
+                ounces = form['ounces']
+                expirationdate = form['expirationdate']
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and ingredient and ounces and expirationdate :
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    cdao = CannedFoodDAO()
+                    cdao.insert(resourceid, ingredient, ounces, expirationdate)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==5:
+            if form.len == 8:
+                ounces = form['ounces']
+                expirationdate = form['expirationdate']
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and ounces and expirationdate:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    ddao=DryFoodDAO()
+                    ddao.insert(resourceid,ounces,expirationdate)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==6:
+            if form.len == 7:
+                weight = form['weight']
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and weight:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    idao=IceDAO()
+                    idao.insert(resourceid,weight)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==7:
+            if form.len == 8:
+                fueltypenumber=form['fueltypenumber']
+                litro =form['litro']
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and fueltypenumber and litro:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    fdao = FuelDAO()
+                    fdao.insert(resourceid, fueltypenumber,litro)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==8:
+            if form.len == 7:
+                spec = form['spec']
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and spec:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    mdao= MedicalDeviceDAO()
+                    mdao.insert(resourceid,spec)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==9:
+            if form.len == 7:
+                fueltype = form['fueltype']
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and fueltype:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    fdao = HeavyEquipmentDAO()
+                    fdao.insert(resourceid, fueltype)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==10:
+            if form.len == 7:
+                size = form['size']
+
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and size:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    tdao = ToolsDAO()
+                    tdao.insertTools(resourceid, size)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==11:
+            if form.len == 8:
+                agecategory = form['agecategory']
+                size = form['size']
+
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and agecategory and size:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    cdao=ClothingDAO()
+                    cdao.instal(resourceid, agecategory, size)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==12:
+            if form.len == 9:
+                generatorfuel = form['generatorfuel']
+                capacity =form['capacity']
+                size = form['size']
+
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and generatorfuel and capacity and size:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    pdao = PowerGeneratorDAO()
+                    pdao.insert(resourceid, generatorfuel, capacity, size)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+        elif resourcetypenumber ==13:
+            if form.len == 8:
+                baterytype = form['baterytype']
+                quantityperpack = form['quantityperpack']
+                if userid and resourcetypenumber and ammount and cost and name and purchasetypenumber and baterytype and quantityperpack:
+                    rdao = ResourcesDAO()
+                    resourceid = rdao.insert(resourcetypenumber, ammount, cost, name, purchasetypenumber)
+                    sdao = SuppliesDAO()
+                    sdao.insertSupplies(resourceid, userid)
+                    bdao = BatteriesDAO()
+                    bdao.insert(resourceid, baterytype, quantityperpack)
+                    return jsonify("New Resource has been added resourceid: " + resourceid)
+            else:
+                return jsonify(ERROR="Invalid Argumments")
+
+
 
     # allocates a specified resource and the amount(by id) to a specific supplier
 
