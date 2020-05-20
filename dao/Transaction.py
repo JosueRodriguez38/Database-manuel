@@ -110,10 +110,30 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
             result.append(row)
         self.conn.commit()
         return result
-    def inserttransaction(self, uid, paymentmethodnumber,totalcost,datebought ):
+    def inserttransaction(self, requestid,paymentmethodnumber,datebought ):
         cursor = self.conn.cursor()
-        query = "insert into transaction(userid, paymentmethodnumber,cost,date) values (%s, %s, %s,%s) returning transactionid;"
-        cursor.execute(query, (uid, paymentmethodnumber,totalcost,datebought))
+        query = "insert into transaction (paymentmethodnumber, cost, date, requestid) values (%s,(Select sum(ammountselected*cost) from selected natural inner join resources where requestid = %s), %s,%s) returning transactionid;"
+        cursor.execute(query, (paymentmethodnumber, requestid,datebought,requestid))
         tid = cursor.fetchall()
         self.conn.commit()
         return tid
+
+    def getTransactionsByPurchaseTypeAndUserId(self, purchadetypenumber, userid):
+        cursor = self.conn.cursor()
+        query = "SELECT transactionid, firstname,resources.name, ammountordered, paymentmethodname, resources.cost*ammountordered as cost, transaction.date,PurchaseTypeName FROM transaction natural inner join payment_methods natural inner join pays left join orders on pays.orderid=orders.orderid left join resources on orders.resourceid=resources.resourceid natural inner join Purchase_type lef join users on transaction.userid=users.userid where PurchaseTypeNumber = %s ;"
+        cursor.execute(query, (purchadetypenumber, userid))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result
+
+    def get_transaction_by_transactionid(self,transactionid):
+        cursor = self.conn.cursor()
+        query = "SELECT * from transaction where transactionid = %s"
+        cursor.execute(query, (transactionid))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        self.conn.commit()
+        return result

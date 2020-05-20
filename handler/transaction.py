@@ -1,6 +1,9 @@
 from flask import jsonify
 from dao.Transaction import TransactionDAO
 from dao.Pays import PaysDAO
+from dao.Request import RequestDAO
+from dao.Selected import SelectedDAO
+
 class TransactionHandler:
     def build_transaction_dict(self, row):
         result = {}
@@ -19,20 +22,33 @@ class TransactionHandler:
         dao= TransactionDAO()
         purchadetypenumber=args.get('type')
         userid=args.get('userid')
+        transactionid=args.get('transactionid')
 
-        if purchadetypenumber and not userid:
+        if purchadetypenumber and userid:
+            results = dao.getTransactionsByPurchaseTypeAndUserId(purchadetypenumber,userid)
+
+            result_list = []
+            for row in results:
+                result_list.append(self.build_transaction_dict(row))
+            return jsonify(Transaction=result_list)
+        elif purchadetypenumber:
             results=dao.getTransactionsByPurchaseType(purchadetypenumber)
             result_list=[]
             for row in results:
                 result_list.append(self.build_transaction_dict(row))
             return jsonify(Transaction=result_list)
-        elif userid and not purchadetypenumber:
+        elif userid:
             results = dao.getAllTransactionsByUserID(userid)
             result_list = []
             for row in results:
                 result_list.append(self.build_transaction_dict(row))
             return jsonify(Transaction=result_list)
-
+        elif transactionid and not userid and not type:
+            results = dao.get_transaction_by_transactionid(transactionid)
+            result_list = []
+            for row in results:
+                result_list.append(self.build_transaction_dict(row))
+            return
         else:
             return jsonify(ERROR="invalid arguments")
 
@@ -46,15 +62,15 @@ class TransactionHandler:
 
     def inserttransaction(self,form):
         dao = TransactionDAO( )
-        userid=form.get('userid')
-        cost=form.get('cost')
         payment=form.get('paymentmethodnumber')
         date=form.get('date')
-        orderid=form.get('orderid')
-        if userid and payment and date and orderid:
-            tid=dao.inserttransaction(userid,payment,cost,date)
-            dao = PaysDAO()
-            dao.InsertPays(tid,orderid)
-            return jsonify(PostStatus="new Transaction added")
+        requestid=form.get('requestid')
+
+        if payment and date and requestid:
+            tid=dao.inserttransaction(requestid,payment,date)
+            if tid:
+                return jsonify(PostStatus="new Transaction added")
+            else:
+                return jsonify(Error="new Transaction couldn't be inserted")
         else:
             return jsonify(Error="invalid Arguments")
