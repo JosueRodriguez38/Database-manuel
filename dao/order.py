@@ -1,73 +1,136 @@
 from config.dbconfig import pg_config
-from config.tuple_config import order
+from config.tuple_config import order,user_cons
 import psycopg2
+
+# The purpose of the order DAO is to extract the information of an order that has been requested
 
 class OrderDAO:
     def __init__(self):
 
-        connection_url = "dbname=%s user=%s password=%s host=127.0.0.1" % (pg_config['dbname'],
+        connection_url = "dbname=%s user=%s password=%s host=24.54.205.36" % (pg_config['dbname'],
                                                                            pg_config['user'],
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
+    # returns all the orders, the items and amounts bought, via a natural join from
+    # the tables Resources, Consumer, and User, and the relationship Belongs
     def getAllOrders(self):
-       # cursor = self.conn.cursor()
-       # query = "select oid, rname, firstname, ammountbought, ammountsreserved, date from order natural join belongs natural join resources natural join consumer natural join user;"
-       # cursor.execute(query)
+        cursor = self.conn.cursor()
+        query = "select userid, firstname, lastname, orderid, ammountordered, date, resourceTypeName, purchaseTypeName from orders natural inner join Resources natural inner join Resource_Type natural inner join users natural inner join Purchase_Type;"
+        cursor.execute(query)
         result = []
-        r = []
-        for row in order:
-            r.append(row)
-        result.append(r)
-        return result
-
-    #   not used in phase 1
-    #def getConsumerIdByName(self, firstname, lastname):
-        # cursor = self.conn.cursor()
-        # query = "select cid from consumer where firstname = %s and lastname = %s;"
-        # cursor.execute(query, (firstName, lastName))
-        #result = cursor.fetchone()
-        #return result
-
-    def getOrderById(self, oid):
-        #cursor = self.conn.cursor()
-        #query = "select * from order where oid = %s;"
-        #cursor.execute(query, (oid,))
-
-        result = []
-        if oid == 9:
-            for row in order:
-                result.append(row)
-        return result
-
-    def getOrderByResourceName(self, rname):
-        # cursor = self.conn.cursor()
-        # query = "select * from order where rname = %s;"
-        # cursor.execute(query, (rname,))
-        result = []
-        for row in order:
+        for row in cursor:
             result.append(row)
         return result
 
-    def insert(self, rname, firstName, ammountReserved, ammountBought, date):
+    # Returns an order if its id matches the input
+    def getOrderById(self, oid):
         cursor = self.conn.cursor()
-        query = "insert into order(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        cursor.execute(query, (rname, firstName, ammountReserved, ammountBought, date))
-        pid = cursor.fetchone()[0]
-        self.conn.commit()
-        return pid
-
-    def update(self, oid, rname, firstName, ammountReserved, ammountBought, date):
-        cursor = self.conn.cursor()
-        query = "update order set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where oid = %s) values (%s, %s, %s, %s) returning pid;"
-        cursor.execute(query, (rname, firstName, ammountReserved, ammountBought, date, oid))
-        pid = cursor.fetchone()[0]
-        self.conn.commit()
-        return pid
-
-    def delete(self, oid):
-        cursor = self.conn.cursor()
-        query = "delete from order where oid = %s;"
+        query = "select userid, firstname, lastname, orderid, ammountordered, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join Resources natural inner join Resource_Types natural inner join users natural inner join Purchase_Type where oid = %s order by resourcetypename;"
         cursor.execute(query, (oid,))
+        result = cursor.fetchone()
         self.conn.commit()
-        return oid
+        return result
+
+    # Returns the orders that has the resource specified by the input
+    def getAllOrdersByResourceName(self, resourceTypeNumber):
+        cursor = self.conn.cursor()
+        query = "select name, ammountordered, date, resourceTypeName, purchaseTypeName from orders natural inner join Resources natural inner join Resource_Type natural inner join Purchase_Type where name ~* %s;"
+        cursor.execute(query, [resourceTypeNumber])
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getALLOrdersByUserID(self, uid):
+        cursor = self.conn.cursor()
+        query = "select userid, firstname, lastname, orderid, ammountordered, date, resourceTypeName, purchaseTypeName from orders natural inner join Resources natural inner join Resource_Type natural inner join Purchase_Type natural inner join users where userid  = %s order by resourcetypename;"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchall()
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllOrdersByTransactionID(self, tid):
+        cursor = self.conn.cursor()
+        query = "select userid, firstname, lastname, orderid, ammountordered, dateOrdered, resourceTypeName, purchaseTypeName from orders natural inner join Transaction_orders natural inner join Transaction natural inner join Resources naturalinner join Resource_Type natural inner join Purchase_Type where tid = %s order by resourcetypename;"
+        cursor.execute(query, (tid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllOrdersByPurchaseType(self, purchaseTypeNumber):
+        cursor = self.conn.cursor()
+        query = "select orderid, userid, firstname, lastname, resourceTypeName, name, ammountordered, purchaseTypeName, date, googlemapurl from orders natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type natural inner join users natural inner join location where purchasetypenumber = %s order by resourcetypename;"
+        cursor.execute(query, (purchaseTypeNumber,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllOrdersByDate(self, dateOrdered):
+        cursor = self.conn.cursor()
+        query = "select userid, firstname, lastname, orderid, ammountordered, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where dateOrdered = %s order by resourcetypename;"
+        cursor.execute(query, (dateOrdered,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllOrdersByResourceNameAndUserID(self, resourceTypeNumber, userid):
+        cursor = self.conn.cursor()
+        query = "select userid, firstname, lastname, orderid, ammountordered, dateOrdered, resourceTypeName, purchaseTypeName from order natural inner join Resources natural inner join Resource_Types natural inner join Purchase_Type where resourceTypeNumber = %s and userid = %s;"
+        cursor.execute(query, (resourceTypeNumber, userid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllOrdersByPurchaseTypeAndResourceNumber(self, purchaseTypeNumer, resourceTypeNumber):
+        cursor = self.conn.cursor()
+        query = "select orderid, userid, firstname, lastname, resourceTypeName, name, ammountordered, purchaseTypeName, date, googlemapurl from orders natural inner join Resources natural inner join Resource_Type natural inner join Purchase_Type natural inner join users natural inner join location where purchasetypenumber = %s and resourcetypenumber = %s order by resourcetypename;"
+        cursor.execute(query, (purchaseTypeNumer, resourceTypeNumber,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllOrdersByPurchaseTypeAndUserID(self, purchaseTypeNumer, uid):
+        cursor = self.conn.cursor()
+        query = "select orderid, userid, firstname, lastname, resourceTypeName, name, ammountordered, purchaseTypeName, date, googlemapurl from orders natural inner join Resources natural inner join Resource_Type natural inner join Purchase_Type natural inner join users natural inner join location where purchasetypenumber = %s and userid = %s order by resourcetypename;"
+        cursor.execute(query, (purchaseTypeNumer, uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+
+
+
+        # CHECK FILE ESENCIALES
+    # # inserts an order, linked to a consumer's id
+    # def insert(self, userid,ammount,date,resourceid):
+    #     cursor = self.conn.cursor()
+    #     query = "insert into transaction(uid, paymentmethodnumber,totalcost,datebought) values (%i, %i, %i,%s) returning uid;"
+    #     cursor.execute(query, (userid,ammount,date,resourceid))
+    #     orderid = cursor.fetchone()[0]
+    #     self.conn.commit()
+    #     return orderid
+
+
+    def insertOrder(self, userid, ammountOrdered, date, resourceid):
+        cursor = self.conn.cursor()
+        query = "insert into orders(userid,ammountOrdered,date, resourceid) values (%s, %s, %s,%s) returning orderid;"
+        cursor.execute(query, (userid, resourceid, ammountOrdered, date))
+        orderid = cursor.fetchall()
+        self.conn.commit()
+        return orderid
+
+    # updates a consumer's order
+    def update(self, orderid, userid, ammountOrdered, date,resourceid):
+            return
+
+    # deletes an order identified by an input order id
+    def delete(self, oid):
+            return
