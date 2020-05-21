@@ -190,8 +190,6 @@ class OrderHandler:
                 dao = OrderDAO()
                 oid=dao.insertOrder(userId,ammountOrdered,date,resourceId)
                 if oid:
-
-                    #result = self.build_order_attributes(oid,cid, rname, ammountReserved, ammountBought, date)
                     return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
