@@ -127,7 +127,7 @@ class ResourcesDAO:
     # inserts a resource with its
     def insertResources(self, resourceTypeNumber, ammount, cost, aviable, name, purchaseTypeNumber):
         cursor = self.conn.cursor()
-        query = "insert into cards(resourcetypenumber,ammount,cost,aviable,name,purchasetypenumber) values(%i,%i,%f,%b,%s,%i));"
+        query = "insert into resources(resourcetypenumber,ammount,cost,aviable,name,purchasetypenumber) values(%i,%i,%f,%b,%s,%i) return resourceid;"
         cursor.execute(query, ([resourceTypeNumber], [ammount], [cost], aviable, name, [purchaseTypeNumber]))
         rid = cursor.fetchone()[0]
         self.conn.commit()

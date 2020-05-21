@@ -33,8 +33,8 @@ class PaysDAO:
 
     def InsertPays(self, transactionid,orderid):
         cursor = self.conn.cursor()
-        query = "insert into pays(transactionid,orderid) values(%s,%s)returning paysid;"
-        cursor.execute(query,(transactionid,orderid))
+        query = "insert into pays(transactionid, orderid) values(%i,%i)returning paysid;"
+        cursor.execute(query,([transactionid],[orderid]))
         result = cursor.fetchone()[0]
         self.conn.commit()
         return result

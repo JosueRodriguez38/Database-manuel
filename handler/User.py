@@ -69,7 +69,7 @@ class UserHandler:
         else:
             return jsonify(Error="Not arguments")
 
-    def serachUser(self,arg):
+    def searchUser(self,arg):
         type = arg.get('type')
         if type:
             dao = UserDAO()
