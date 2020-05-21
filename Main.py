@@ -3,6 +3,9 @@ from flask import Flask, jsonify, request
 from handler.supplier import SupplierHandler
 from handler.resource import ResourceHandler
 from handler.order import OrderHandler
+from handler.User import UserHandler
+from handler.transaction import TransactionHandler
+#from handler.Customer import CustomerHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
 # machines to access this app
@@ -16,116 +19,98 @@ CORS(app)
 
 @app.route('/')
 def greeting():
-    return 'Hello, this is the supplies DB App!'
+    UserHandler().insertUser()
+    return 'Hello, this is the Disaster supplies DB App!'
 
 
-@app.route('/supplier', methods=['GET', 'POST'])
-def getAllSuppliers():
-    if request.method == 'Post':
+@app.route('/user', methods=['GET', 'POST'])  # args(type, location(pueblo)) #finished
+def Users():
+    if request.method == 'POST':
         print("REQUEST: ", request.json)
-        return SupplierHandler().insertResourcesJson(request.json)
+        return UserHandler().insertUserJson(request.json)
     else:
         if not request.args:
-            return SupplierHandler().getAllSuppliers()
+
+            return UserHandler().getAllUsers()
         else:
-            return SupplierHandler().searchSuppliers(request.agrs)
+            return UserHandler().serachUser(request.args)
 
 
-@app.route('/supplier/<int:sid>', methods=['GET', 'PUT', 'DELETE'])
-def getSupplierById(sid):
+@app.route('/user/<int:userid>', methods=['GET', 'PUT', 'DELETE'])  # finished?
+def getSupplierById(userid):
     if request.method == 'GET':
-        return
+        return UserHandler().getUserById(userid)
     elif request.method == 'PUT':
-        return
+        return UserHandler().updateUser(userid, request.json)
     elif request.method == 'DELETE':
-        return
+        return UserHandler().deleteUser(userid)
     else:
-        return jsonify(Error = "Method not allowed"), 405
+        return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/resources', methods=['GET', 'POST'])
+@app.route('/resources', methods=['GET', 'POST'])  # args (cost y name)      #terminado?
 def getAllresources():
-    if request.method == 'Post':
+    if request.method == 'POST':
         print("REQUEST: ", request.json)
         return ResourceHandler().insertResourcesJson(request.json)
     else:
         if not request.args:
             return ResourceHandler().getAllResources()
         else:
-            return ResourceHandler().searchResources(request.agrs)
+            return ResourceHandler().searchResources(request.args)
 
 
-@app.route('/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])  # finished?
 def getResourceById(rid):
     if request.method == 'GET':
-        return
+        return ResourceHandler().getResourceById(rid)
+
     elif request.method == 'PUT':
-        return
+        return ResourceHandler().insertResourceBySupplierIdJson(rid, request.json)  # by resource id and supplier id
+
     elif request.method == 'DELETE':
-        return
+        return ResourceHandler().deleteResource(rid)
+
     else:
-        return jsonify(Error = "Method not allowed"), 405
+        return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/consumer', methods=['POST'])
-def insertConsumer():
-    print("REQUEST: ", request.json)
-    return SupplierHandler().insertResourcesJson(request.json)
-
-
-@app.route('/consumer/<int:cid>', methods=['GET', 'PUT', 'DELETE'])
-def getConsumerById(cid):
-    if request.method == 'GET':
-        return
-    elif request.method == 'PUT':
-        return
-    elif request.method == 'DELETE':
-        return
-    else:
-        return jsonify(Error = "Method not allowed"), 405
-
-
-@app.route('/admin', methods=['POST'])
-def insertAdmin():
-    print("REQUEST: ", request.json)
-    return SupplierHandler().insertResourcesJson(request.json)
-
-
-@app.route('/admin/<int:aid>', methods=['GET', 'PUT', 'DELETE'])
-def getAdminById(aid):
-    if request.method == 'GET':
-        return
-    elif request.method == 'PUT':
-        return
-    elif request.method == 'DELETE':
-        return
-    else:
-        return jsonify(Error = "Method not allowed"), 405
-
-
-@app.route('/orders', methods=['GET', 'POST'])
-def getAllOrders():
-    if request.method == 'Post':
-        print("REQUEST: ", request.json)
-        return OrderHandler().insertOrderJson(request.json)
-    else:
+@app.route('/request', methods=['POST', 'GET'])
+def getRequest():
+    if request.method == 'POST':
+        return OrderHandler().insertOrder(request.json)
+    elif request.method == 'GET':
         if not request.args:
             return OrderHandler().getAllOrders()
         else:
-            return OrderHandler().getOrdersByResourceName()
-
-
-@app.route('/orders/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
-def getOrderById(oid):
-    if request.method == 'GET':
-        return OrderHandler().getOrderById(oid)
-    elif request.method == 'PUT':
-        return OrderHandler().updateOrder(oid, request.form)
-    elif request.method == 'DELETE':
-        return OrderHandler().deleteOrder(oid)
+            return OrderHandler().searchOrders(request.args)
     else:
-        return jsonify(Error = "Method not allowed"), 405
+        return  jsonify(Error="Method not allowed"), 405
 
+
+
+@app.route('/transaction', methods=['GET', 'POST'])  # finished?
+def getAllTransactions():
+    if request.method == 'POST':
+        print("REQUEST: ", request.json)
+        return TransactionHandler().inserttransaction(request.json)
+    else:
+        if not request.args:
+            return TransactionHandler()
+        else:
+            return TransactionHandler().searchTransaction(request.args)
+
+
+@app.route('/transaction/<int:tid>', methods=['GET', 'PUT', 'DELETE'])  #
+def getTransactionById(tid):
+    if request.method == 'GET':
+        return TransactionHandler().getAllResourcesByTransactionId(tid)
+    elif request.method == 'PUT':
+        return OrderHandler().updateOrder(tid, request.json)
+    elif request.method == 'DELETE':
+        return OrderHandler().deleteOrder(tid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
 
 
 if __name__ == '__main__':

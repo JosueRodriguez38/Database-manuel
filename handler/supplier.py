@@ -1,5 +1,5 @@
 from flask import jsonify
-from dao.supplier import SupplierDAO
+from dao.user import UserDAO
 
 
 class SupplierHandler:
@@ -7,23 +7,22 @@ class SupplierHandler:
         result = {}
         result['sid'] = row[0]
         result['sname'] = row[1]
-        result['scity'] = row[2]
-        result['sphone'] = row[3]
+        result['sphone'] = row[5]
+        result['scity'] = row[6]
+
         return result
 
-    def build_resource_dict(self, row):
+    def build_resource_attributes(self, sid, usrname, phone, city):
         result = {}
-        result['rid'] = row[0]
-        result['rname'] = row[1]
-        result['pmaterial'] = row[2]
-        result['pcolor'] = row[3]
-        result['pprice'] = row[4]
-        result['quantity'] = row[5]
+        result['sid'] = sid
+        result['user name'] = usrname
+        result['phone'] = phone
+        result['city'] = city
         return result
 
     def getAllSuppliers(self):
 
-        dao = SupplierDAO()
+        dao = UserDAO()
         suppliers_list = dao.getAllSuppliers()
         result_list = []
         for row in suppliers_list:
@@ -33,17 +32,17 @@ class SupplierHandler:
 
     def getSupplierById(self, sid):
 
-        dao = SupplierDAO()
+        dao = UserDAO()
 
         row = dao.getSupplierById(sid)
         if not row:
             return jsonify(Error="Supplier Not Found"), 404
         else:
-            resource = self.build_supplier_dict(row)
-        return jsonify(Resource=resource)
+            supplier = self.build_supplier_dict(row)
+        return jsonify(Supplier=supplier)
 
     def getResourcesBySupplierId(self, sid):
-        dao = SupplierDAO()
+        dao = UserDAO()
         if not dao.getSupplierById(sid):
             return jsonify(Error="Supplier Not Found"), 404
         resources_list = dao.getResourcesBySupplierId(sid)
@@ -59,33 +58,14 @@ class SupplierHandler:
         else:
             city = args.get("city")
             if city:
-                dao = SupplierDAO()
+                dao = UserDAO()
                 supplier_list = dao.getSuppliersByCity(city)
                 result_list = []
                 for row in supplier_list:
                     result = self.build_supplier_dict(row)
-                    result_list.append(row)
+                    result_list.append(result)
                 return jsonify(Suppliers=result_list)
             else:
                 return jsonify(Error="Malformed search string."), 400
-
-    def insertSupplier(self, form):
-        if form and len(form) == 3:
-            sname = form['sname']
-            scity = form['scity']
-            sphone = form['sphone']
-            if sname and scity and sphone:
-                dao = SupplierDAO()
-                sid = dao.insert(sname, scity, sphone)
-                result = {}
-                result["sid"] = sid
-                result["sname"] = sname
-                result["scity"] = scity
-                result["sphone"] = sphone
-                return jsonify(Supplier=result), 201
-            else:
-                return jsonify(Error="Malformed post request")
-        else:
-            return jsonify(Error="Malformed post request")
 
 

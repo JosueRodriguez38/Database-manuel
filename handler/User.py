@@ -50,9 +50,7 @@ class UserHandler:
 
                 return jsonify(PostStatus="New User added"), 200
             else:
-                return jsonify(Error="Unexpected attributes in post request"), 400
-        else:
-            return jsonify(Error="Malformed post request"), 400
+                return jsonify(Error="Malformed post request"), 400
 
 
 
@@ -69,7 +67,7 @@ class UserHandler:
         else:
             return jsonify(Error="Not arguments")
 
-    def searchUser(self,arg):
+    def serachUser(self,arg):
         type = arg.get('type')
         if type:
             dao = UserDAO()
