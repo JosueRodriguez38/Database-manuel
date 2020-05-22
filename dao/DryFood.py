@@ -51,7 +51,7 @@ class DryFoodDAO:
 
     def insert(self, resourceid, ounces, expirationdate):
         cursor = self.conn.cursor()
-        query = "insert into dry_food (resourceid, ounces, expirationdate) values(%s,%s,%s)"
+        query = "insert into dry_food (resourceid, ounces, expirationdate) values(%s,%s,%s) returning dryfoodid"
         cursor.execute(query, (resourceid, ounces, expirationdate))
         result = cursor.fetchall()
         for row in cursor:

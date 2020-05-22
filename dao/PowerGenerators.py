@@ -23,7 +23,7 @@ class PowerGeneratorDAO:
 
     def getPowerGeneratorByResourceID(self,resourceID):
         cursor = self.conn.cursor()
-        query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources where resourceid=%i;"
+        query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources where resourceid=%s;"
         cursor.execute(query,[resourceID])
         result = cursor.fetchall()
         for row in cursor:
@@ -43,7 +43,7 @@ class PowerGeneratorDAO:
 
     def insert(self, resourceid, generatorfuel, capacity, size):
         cursor = self.conn.cursor()
-        query = "insert into power_generator(resourceid,generatorfuel,capacity,size) values(%s,%s,%s,%s) returning toolid;"
+        query = "insert into power_generator(resourceid,generatorfuel,capacity,size) values(%s,%s,%s,%s) returning powergeneratorid;"
         cursor.execute(query, (resourceid, generatorfuel, capacity, size))
         result = cursor.fetchall()
         for row in cursor:

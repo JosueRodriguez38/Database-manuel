@@ -112,7 +112,7 @@ class OrderDAO:
     # # inserts an order, linked to a consumer's id
     # def insert(self, userid,ammount,date,resourceid):
     #     cursor = self.conn.cursor()
-    #     query = "insert into transaction(uid, paymentmethodnumber,totalcost,datebought) values (%i, %i, %i,%s) returning uid;"
+    #     query = "insert into transaction(uid, paymentmethodnumber,totalcost,datebought) values (%s, %s, %s,%s) returning uid;"
     #     cursor.execute(query, (userid,ammount,date,resourceid))
     #     orderid = cursor.fetchone()[0]
     #     self.conn.commit()

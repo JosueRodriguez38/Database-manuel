@@ -21,7 +21,7 @@ class esencialesDAO:
 
     def insertOrder(self, userid, ammount, date, resourceid):
         cursor = self.conn.cursor()
-        query = "insert into orders(uid, paymentmethodnumber,totalcost,datebought) values (%i, %i, %d,%s) returning oid;"
+        query = "insert into orders(uid, paymentmethodnumber,totalcost,datebought) values (%s, %s, %d,%s) returning oid;"
         cursor.execute(query, (userid,ammount,date,resourceid))
         orderid = cursor.fetchone()[0]
         self.conn.commit()
@@ -47,7 +47,7 @@ class esencialesDAO:
 
     def getOrdersbyUser(self,userid):
         cursor = self.conn.cursor()
-        query = "select * from orders wher userid = %i "
+        query = "select * from orders wher userid = %s "
         cursor.execute(query,(userid))
         result = []
         for row in cursor:
@@ -56,7 +56,7 @@ class esencialesDAO:
 
     def getOrderbyId(self, orderid):
         cursor = self.conn.cursor()
-        query = "select * from orders where orderid = %i"
+        query = "select * from orders where orderid = %s"
         cursor.execute(query,(orderid))
         result = cursor.fetchone()
         self.conn.commit()

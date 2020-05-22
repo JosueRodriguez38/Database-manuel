@@ -51,7 +51,7 @@ class IceDAO:
 
     def insert(self, resourceid, weight):
         cursor = self.conn.cursor()
-        query = "insert into ice (resourceid, weight) values(%s,%s)"
+        query = "insert into ice (resourceid, weight) values(%s,%s) returning iceid"
         cursor.execute(query, (resourceid, weight))
         result = cursor.fetchall()
         for row in cursor:

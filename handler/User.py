@@ -48,7 +48,7 @@ class UserHandler:
                 daol.addlocation(addressL1,addressL2,pueblo,pais,zipCode,googleMap,userid)
                 daoC.insertUserCredential(userName,userPassword,userid)
 
-                return jsonify(PostStatus="New User added"), 200
+                return jsonify(PostStatus="New User added with userid = "+userid ), 200
             else:
                 return jsonify(Error="Malformed post request"), 400
 

@@ -11,11 +11,13 @@ class RequestHandler:
         date=form['date']
         if userid and resourceid and ammount and date:
             dao =RequestDAO()
-            requestid = dao.insertrequest(userid)
+            requestid = dao.insertrequest(userid)[0]
             dao = SelectedDAO()
-            selectedid = dao.insertSelected(requestid,resourceid,ammount,date)
+            selectedid = dao.insertSelected(requestid,resourceid,ammount,date)[0]
 
-            return jsonify(ResquestID=[requestid,selectedid])
+            return jsonify(ResquestID="New request has been added with resourceid = "+resourceid)
+        else:
+            return jsonify(Error="Invalid Json Arguments")
 
     def getAllRequest(self):
         dao = RequestDAO()
@@ -32,10 +34,10 @@ class RequestHandler:
     def searchRequest(self, args):
         userid = args.get("userid")
         name = args.get("name")
-        requestid = args.get("resourceid")
+        requestid = args.get("requestid")
         if userid and not name and not requestid:
             dao = RequestDAO()
-            results = dao.getUserRequest()
+            results = dao.getUserRequest(userid)
             return jsonify(Requests=results)
         elif name and not userid and not requestid:
             dao = RequestDAO()
@@ -43,7 +45,7 @@ class RequestHandler:
             return jsonify(Requests=results)
         elif requestid and not name and not userid:
             return self.getRequestByRequestID(requestid)
-        return
+        return jsonify(Error="invalid arguments")
 
     def getAllResourcesByRequestId(self, requestid):
 

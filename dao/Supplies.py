@@ -14,7 +14,7 @@ class SuppliesDAO:
 
     def getAlltheResourcesOfuser(self,userid):
         cursor = self.conn.cursor()
-        query = "select firstname, name,ammount,cost from users natural inner join supplies natural inner join resources where userid = %i;"
+        query = "select firstname, name,ammount,cost from users natural inner join supplies natural inner join resources where userid = %s;"
         cursor.execute(query,[userid])
         result = cursor.fetchall()
         for row in cursor:
@@ -24,7 +24,7 @@ class SuppliesDAO:
 
     def getAllResourcesIdOfAUser(self,userid):
         cursor = self.conn.cursor()
-        query = "select resourceid from users natural inner join supplies where userid = %i;"
+        query = "select resourceid from users natural inner join supplies where userid = %s;"
         cursor.execute(query,[userid])
         result = cursor.fetchall()
         for row in cursor:
@@ -34,7 +34,7 @@ class SuppliesDAO:
 
     def getUserIdFromResourceId(self,resourceid):
         cursor = self.conn.cursor()
-        query = "select userid from users natural inner join supplies where resourceid = %i;"
+        query = "select userid from users natural inner join supplies where resourceid = %s;"
         cursor.execute(query,[resourceid])
         result = cursor.fetchall()
         for row in cursor:
@@ -43,9 +43,10 @@ class SuppliesDAO:
         return result
 
     def insertSupplies(self,resourceid,userid):
-        cursor = self.conn.cursor()
-        query = "insert into supplies(resourceid,userid) values(%i,%i));"
-        cursor.execute(query, [resourceid,userid])
-        supplieid = cursor.fetchone()[0]
+        ncursor = self.conn.cursor()
+        query = "INSERT INTO supplies(resourceid,userid) values(%s,%s) returning suppliesid;"
+
+        ncursor.execute(query, (resourceid,userid))
+        suppliedid = ncursor.fetchone()[0]
         self.conn.commit()
-        return supplieid
+        return suppliedid

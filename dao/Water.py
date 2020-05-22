@@ -33,7 +33,7 @@ class WaterDAO:
 
     def getAllWaterbyType(self,watertypenumber):
         cursor = self.conn.cursor()
-        query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources where watertypenumber=%i;"
+        query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources where watertypenumber=%s;"
         cursor.execute(query,[watertypenumber])
         result = cursor.fetchall()
         for row in cursor:
@@ -94,11 +94,11 @@ class WaterDAO:
         return result
 
     def insertWater(self, resourceid, watertypenumber,ounces):
-        cursor = self.conn.cursor()
-        query = "insert into water(resourceid, watertypenumber,ounces) values(%i,%i,%f));"
-        cursor.execute(query, [resourceid, watertypenumber,ounces])
-        result = cursor.fetchall()
-        for row in cursor:
+        wcursor = self.conn.cursor()
+        query = "insert into water(resourceid, watertypenumber,ounces) values(%s,%s,%s) returning waterid;"
+        wcursor.execute(query, (resourceid, watertypenumber,ounces))
+        result = wcursor.fetchall()
+        for row in wcursor:
             result.append(row)
         self.conn.commit()
         return result

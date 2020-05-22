@@ -15,8 +15,8 @@ class UserCredentialDAO:
     def insertUserCredential(self,username,password,userid):
         cursor = self.conn.cursor()
         query = "insert into user_credentials(username,userpassword,userid) values (%s, %s, %s) returning usercredid;"
-        cursor.execute(query, (username,password,[userid]))
-        uid = cursor.fetchone()[0]
+        cursor.execute(query, (username,password,userid))
+        uid = cursor.fetchall()
         self.conn.commit()
         return uid
 

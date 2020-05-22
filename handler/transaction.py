@@ -40,15 +40,15 @@ class TransactionHandler:
         elif userid and not transactionid:
             results = dao.getAllTransactionsByUserID(userid)
             result_list = []
-            for row in results:
-                result_list.append(self.build_transaction_dict(row))
-            return jsonify(Transaction=result_list)
+            #for row in results:
+                #result_list.append(self.build_transaction_dict(row))
+            return jsonify(Transaction=results)
         elif transactionid and not userid and not purchadetypenumber:
             results = dao.get_transaction_by_transactionid(transactionid)
             result_list = []
-            for row in results:
-                result_list.append(self.build_transaction_dict(row))
-            return
+            #for row in results:
+               # result_list.append(self.build_transaction_dict(row))
+            return jsonify(Transaction = results)
         else:
             return jsonify(ERROR="invalid arguments")
 

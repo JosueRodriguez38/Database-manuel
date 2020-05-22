@@ -79,10 +79,10 @@ class ClothingDAO:
         self.conn.commit()
         return result
 
-    def instal(self, resourceid, agecategory, size):
+    def insert(self, resourceid, agecategory, size):
         cursor = self.conn.cursor()
-        query = "insert into clothing(resourceid,agecategory,size) values(%s,s%,%s) returning agecategory;"
-        cursor.execute(query, [resourceid, agecategory,size])
+        query = "insert into clothing(resourceid,agecategory,size) values(%s,%s,%s) returning clothingid;"
+        cursor.execute(query, (resourceid, agecategory,size))
         result = cursor.fetchall()
         for row in cursor:
             result.append(row)

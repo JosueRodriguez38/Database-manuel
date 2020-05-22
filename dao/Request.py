@@ -1,5 +1,4 @@
 from config.dbconfig import pg_config
-from config.tuple_config import user_cons
 import psycopg2
 
 # Atributos de Baby Food: (Name, Flavor, Size, Expiration Date, ResourceID)
@@ -14,7 +13,7 @@ class RequestDAO:
     def insertrequest(self, userid):
         cursor = self.conn.cursor()
         query = "insert into request(userid, status) values(%s,true) returning requestid "
-        cursor.execute(query, (userid))
+        cursor.execute(query, (userid,))
         result = cursor.fetchall()
         self.conn.commit()
         return result
@@ -46,7 +45,7 @@ class RequestDAO:
     def getAllResourcesbyResourceName(self, name):
         cursor = self.conn.cursor()
         query = "Select * from selected natural inner join resources where name = %s "
-        cursor.execute(query, name)
+        cursor.execute(query, [name])
         result = cursor.fetchall()
         self.conn.commit()
         return result
