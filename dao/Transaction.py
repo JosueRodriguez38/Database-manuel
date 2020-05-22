@@ -111,10 +111,10 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
         self.conn.commit()
         return result
 
-    def inserttransaction(self, uid, paymentmethodnumber,totalcost,datebought ):
+    def inserttransaction(self, uid, paymentmethodnumber,totalcost,datebought):
         cursor = self.conn.cursor()
-        query = "insert into transaction(userid, paymentmethodnumber,cost,date) values (%s, %s, %s,%s) returning transactionid;"
-        cursor.execute(query, (uid, paymentmethodnumber,totalcost,datebought))
+        query = "insert into transaction(userid, paymentmethodnumber,cost,date) values (%i, %i, %f,%s) returning transactionid;"
+        cursor.execute(query, ([uid], [paymentmethodnumber],[totalcost],datebought))
         tid = cursor.fetchone()[0]
         self.conn.commit()
         return tid

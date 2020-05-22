@@ -54,7 +54,7 @@ class ToolsDAO:
 
     def insertTools(self,resourceid,size):
         cursor = self.conn.cursor()
-        query = "insert into water(resourceid,size) values(%i,%s));"
+        query = "insert into water(resourceid,size) values(%i,%s) returning toolid;"
         cursor.execute(query, [resourceid], size)
         result = cursor.fetchone()[0]
         self.conn.commit()

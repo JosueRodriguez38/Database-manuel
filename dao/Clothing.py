@@ -81,7 +81,7 @@ class ClothingDAO:
 
     def insertClothing(self, rid, ageCategory, size):
         cursor = self.conn.cursor()
-        query = "insert into cards(resourceid,agecategory,size) values(%i,%s,%s));"
+        query = "insert into cards(resourceid,agecategory,size) values(%i,%s,%s) returning clothingid;"
         cursor.execute(query, ([rid], ageCategory,size))
         clothingid = cursor.fetchone()[0]
         self.conn.commit()

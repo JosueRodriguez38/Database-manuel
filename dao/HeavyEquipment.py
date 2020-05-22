@@ -61,7 +61,7 @@ class HeavyEquipmentDAO:
 
     def insertHeavyEquipment(self, resourceid, fuelType):
         cursor = self.conn.cursor()
-        query = "insert into heavy_equipment(resourceid, fueltype) values(%i,%s));"
+        query = "insert into heavy_equipment(resourceid, fueltype) values(%i,%s) returning heavyequipmentid;"
         cursor.execute(query, ([resourceid], fuelType))
         heavyEquipmentid = cursor.fetchone()[0]
         self.conn.commit()

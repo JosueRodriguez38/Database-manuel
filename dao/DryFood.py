@@ -51,7 +51,7 @@ class DryFoodDAO:
 
     def insertDryFood(self, rid, ounces, expirationDate):
         cursor = self.conn.cursor()
-        query = "insert into cards(resourceid,ounces,expirationdate) values(%i,%f,%s));"
+        query = "insert into cards(resourceid,ounces,expirationdate) values(%i,%f,%s) returning dryfoodid;"
         cursor.execute(query, ([rid], [ounces], expirationDate))
         dryFoodid = cursor.fetchone()[0]
         self.conn.commit()

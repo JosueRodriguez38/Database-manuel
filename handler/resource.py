@@ -181,8 +181,9 @@ class ResourceHandler:
             ounces = form['ounces']
             if waterTypeNumber and ounces:
                 waterdao = WaterDAO()
-                waterdao.insertWater(rid, watertypenumber, ounces)
-                return jsonify(PostStatus="New resource added"), 201
+                waterid = waterdao.insertWater(rid, watertypenumber, ounces)
+                if waterid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -194,8 +195,9 @@ class ResourceHandler:
             expirationdate = form['expirationdate']
             if activeIngredient and description and concentration and quantity and expirationdate:
                 medicationdao = MedicationDAO()
-                medicationdao.insertMedications(rid, activeIngredient, description, concentration, quantity, expirationdate)
-                return jsonify(PostStatus="New resource added"), 201
+                medicationid = medicationdao.insertMedications(rid, activeIngredient, description, concentration, quantity, expirationdate)
+                if medicationid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -204,8 +206,9 @@ class ResourceHandler:
             expirationdate = form['expirationdate']
             if flavor and expirationdate:
                 babydao = BabyFoodDAO()
-                babydao.insertBabyFood(rid, flavor, expirationdate)
-                return jsonify(PostStatus="New resource added"), 201
+                babyFoodid = babydao.insertBabyFood(rid, flavor, expirationdate)
+                if babyFoodid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -215,8 +218,9 @@ class ResourceHandler:
             expirationdate = form['expirationdate']
             if primaryIngredient and ounces and expirationdate:
                 canneddao = CannedFoodDAO()
-                canneddao.insertCannedFood(rid, primaryIngredient, ounces, expirationdate)
-                return jsonify(PostStatus="New resource added"), 201
+                cannedFoodid = canneddao.insertCannedFood(rid, primaryIngredient, ounces, expirationdate)
+                if cannedFoodid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -225,8 +229,9 @@ class ResourceHandler:
             expirationdate = form['expirationdate']
             if ounces and expirationdate:
                 dryfooddao = DryFoodDAO()
-                dryfooddao.insertDryFood(rid, ounces, expirationdate)
-                return jsonify(PostStatus="New resource added"), 201
+                dryFoodid = dryfooddao.insertDryFood(rid, ounces, expirationdate)
+                if dryFoodid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -234,8 +239,9 @@ class ResourceHandler:
             weight = form['weight']
             if weight:
                 icedao = IceDAO()
-                icedao.insertIce(rid, weight)
-                return jsonify(PostStatus="New resource added"), 201
+                iceid = icedao.insertIce(rid, weight)
+                if iceid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -244,8 +250,9 @@ class ResourceHandler:
             litro = form['litro']
             if fuelTypeNumber and litro:
                 fueldao = FuelDAO()
-                fueldao.insertFuel(rid, litro)
-                return jsonify(PostStatus="New resource added"), 201
+                fuelid = fueldao.insertFuel(rid, litro)
+                if fuelid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -253,8 +260,9 @@ class ResourceHandler:
             specs = form['specs']
             if specs:
                 medicalDevicedao = MedicalDeviceDAO()
-                medicalDevicedao.insertMedicalDevices(rid, specs)
-                return jsonify(PostStatus="New resource added"), 201
+                medicalDeviceid = medicalDevicedao.insertMedicalDevices(rid, specs)
+                if medicalDeviceid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -262,8 +270,9 @@ class ResourceHandler:
             fuelType = form['fuelType']
             if fuelType:
                 heavyEquipmentdao = HeavyEquipmentDAO()
-                heavyEquipmentdao.insertHeavyEquipment(rid, fuelType)
-                return jsonify(PostStatus="New resource added"), 201
+                heavyEquipmentid = heavyEquipmentdao.insertHeavyEquipment(rid, fuelType)
+                if heavyEquipmentid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -271,8 +280,9 @@ class ResourceHandler:
             size = form['size']
             if size:
                 tooldao = ToolsDAO()
-                tooldao.insertTools(rid, size)
-                return jsonify(PostStatus="New resource added"), 201
+                toolid = tooldao.insertTools(rid, size)
+                if toolid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -282,8 +292,9 @@ class ResourceHandler:
             size = form['size']
             if generatorFuel and capacity and size:
                 powerGendao = PowerGeneratorDAO()
-                powerGendao.insertPowerGenerators(rid, generatorFuel, capacity, size)
-                return jsonify(PostStatus="New resource added"), 201
+                powerGenid = powerGendao.insertPowerGenerators(rid, generatorFuel, capacity, size)
+                if powerGenid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -292,8 +303,9 @@ class ResourceHandler:
             size = form['size']
             if ageCategory and size:
                 clothingdao = ClothingDAO()
-                clothingdao.insertClothing(rid, ageCategory, size)
-                return jsonify(PostStatus="New resource added"), 201
+                clothingid = clothingdao.insertClothing(rid, ageCategory, size)
+                if clothingid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 
@@ -302,8 +314,9 @@ class ResourceHandler:
             quantityPerPack = form['quantityPerPack']
             if batteryType and quantityPerPack:
                 batterydao = BatteriesDAO()
-                batterydao.insertBatteries(rid, batteryType, quantityPerPack)
-                return jsonify(PostStatus="New resource added"), 201
+                batteryid = batterydao.insertBatteries(rid, batteryType, quantityPerPack)
+                if batteryid:
+                    return jsonify(PostStatus="New Order Added"), 201
             else:
                 return jsonify(Error="Malformed post request"), 400
 

@@ -72,7 +72,7 @@ class BatteriesDAO:
 
     def insertBatteries(self, rid, batteryType, quantityPerPack):
         cursor = self.conn.cursor()
-        query = "insert into cards(resourceid,baterytype,quantityperpack) values(%i,%s,%i));"
+        query = "insert into cards(resourceid,baterytype,quantityperpack) values(%i,%s,%i) returning betteriesid;"
         cursor.execute(query, ([rid], batteryType, [quantityPerPack]))
         batteryid = cursor.fetchone()[0]
         self.conn.commit()

@@ -51,7 +51,7 @@ class FuelDAO:
 
     def insertFuel(self, rid, fuelTypeNumber, litro):
         cursor = self.conn.cursor()
-        query = "insert into cards(resourceid,fueltypenumber,litro) values(%i,%i,%f));"
+        query = "insert into cards(resourceid,fueltypenumber,litro) values(%i,%i,%f) returning fuelid;"
         cursor.execute(query, ([rid], [fuelTypeNumber], [litro]))
         fuelid = cursor.fetchone()[0]
         self.conn.commit()

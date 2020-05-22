@@ -63,7 +63,7 @@ class MedicationDAO:
 
     def insertMedications(self, resourceid, activeIngradient, description, concentration, quantity, expirationdate):
         cursor = self.conn.cursor()
-        query = "insert into medication(resourceid,activeingradient, description, concentration, quantity, expirationdate) values(%i,%s, %s, %s, %i, $f));"
+        query = "insert into medication(resourceid,activeingradient, description, concentration, quantity, expirationdate) values(%i,%s, %s, %s, %i, $f) returning medicationid;"
         cursor.execute(query, ([resourceid], activeIngradient, description, concentration, [quantity], expirationdate))
         medicationid = cursor.fetchone()[0]
         self.conn.commit()

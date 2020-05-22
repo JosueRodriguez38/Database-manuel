@@ -51,7 +51,7 @@ class IceDAO:
 
     def insertIce(self, rid, weight):
         cursor = self.conn.cursor()
-        query = "insert into cards(resourceid,weight) values(%i,%f));"
+        query = "insert into cards(resourceid,weight) values(%i,%f) returning iceid;"
         cursor.execute(query, ([rid], [weight]))
         iceid = cursor.fetchone()[0]
         self.conn.commit()

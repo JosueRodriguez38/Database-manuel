@@ -13,7 +13,7 @@ class CardsDAO:
 
     def insertCard(self, expirationMonth, expirationYear, nameOnCard, userid):
         cursor = self.conn.cursor()
-        query = "insert into cards(expirationmonth,expirationyear,nameoncard,userid) values(%i,%i,%s,%i));"
+        query = "insert into cards(expirationmonth,expirationyear,nameoncard,userid) values(%i,%i,%s,%i) returning cardid;"
         cursor.execute(query, ([expirationMonth], [expirationYear], nameOnCard, [userid]))
         cardid = cursor.fetchone()[0]
         self.conn.commit()

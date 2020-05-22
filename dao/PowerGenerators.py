@@ -43,7 +43,7 @@ class PowerGeneratorDAO:
 
     def insertPowerGenerators(self, rid, generatorFuel, capacity, size):
         cursor = self.conn.cursor()
-        query = "insert into cards(resourceid,generatorfuel,capacity,size) values(%i,%s,%s,%s));"
+        query = "insert into cards(resourceid,generatorfuel,capacity,size) values(%i,%s,%s,%s) returning powergeneratorid;"
         cursor.execute(query, ([rid], generatorFuel, capacity, size))
         powerGenid = cursor.fetchone()[0]
         self.conn.commit()

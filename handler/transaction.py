@@ -47,8 +47,8 @@ class TransactionHandler:
     def inserttransaction(self,form):
         dao = TransactionDAO( )
         userid=form.get('userid')
-        cost=form.get('cost')
         payment=form.get('paymentmethodnumber')
+        cost=form.get('cost')
         date=form.get('date')
         orderid=form.get('orderid')
         if userid and payment and date and orderid:

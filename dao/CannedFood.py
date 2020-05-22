@@ -71,7 +71,7 @@ class CannedFoodDAO:
 
     def insertCannedFood(self, rid, primaryIngredient, ounces, expirationDate):
         cursor = self.conn.cursor()
-        query = "insert into cards(resourceid,primaryingredient,ounces,expirationdate) values(%i,%s,%f,%f));"
+        query = "insert into cards(resourceid,primaryingredient,ounces,expirationdate) values(%i,%s,%f,%f) returning cannedfoodid;"
         cursor.execute(query, ([rid], primaryIngredient, [ounces], expirationDate))
         cannedFoodid = cursor.fetchone()[0]
         self.conn.commit()

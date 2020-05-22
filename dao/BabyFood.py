@@ -63,7 +63,7 @@ class BabyFoodDAO:
 
     def insertBabyFood(self,resourceid, flavor, expirationdate):
         cursor = self.conn.cursor()
-        query = "insert into baby_food(resourceid,flavor,expirationdate) values(%i,%s,%f));"
+        query = "insert into baby_food(resourceid,flavor,expirationdate) values(%i,%s,%f) returning babyfoodid;"
         cursor.execute(query, ([resourceid], flavor, expirationdate))
         babyfoodid = cursor.fetchone()[0]
         self.conn.commit()
