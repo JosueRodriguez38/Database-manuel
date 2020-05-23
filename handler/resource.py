@@ -57,151 +57,309 @@ class ResourceHandler:
         return result
 
 
-
-
-
-    def build_water_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['watertypenumber'] = row[1]
-        result['ounces'] = row[2]
-        return result
-
-
-    def build_water_attributes(self, rid, watertypenunmber,ounces):
-        result = {}
-        result['rid'] = rid
-        result['watertypenumber'] = watertypenunmber
-        result['ounces'] = ounces
-        return result
-
-    def build_tool_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['size'] = row[1]
-        return result
-
-    def build_tool_attributes(self, rid, size):
-        result = {}
-        result['rid'] = rid
-        result['size'] = size
-        return result
-
-    def build_generator_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['generatorfuel'] = row[1]
-        result['capacity'] = row[2]
-        result['size'] = row[3]
-        return result
-
-    def build_generator_attributes(self, rid, generatorfuel, capacity, size):
-        result = {}
-        result['rid'] = rid
-        result['generatorfuel'] = generatorfuel
-        result['capacity'] = capacity
-        result['size'] = size
-        return result
-
-    def build_medication_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['active ingridient'] = row[1]
-        result['description'] = row[2]
-        result['concentration'] = row[3]
-        result['quantity'] = row[4]
-        result['expiration date'] = row[5]
-        return result
-
-    def build_medication_attributes(self, rid,activeingridient, description, concentration, quatity, expirationdate):
-        result = {}
-        result['rid'] = rid
-        result['active ingridient'] = activeingridient
-        result['description'] = description
-        result['concentration'] = concentration
-        result['quantity'] = quatity
-        result['expiration date'] = expirationdate
-        return result
-
-    def build_medicalDevice_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['specs'] = row[1]
-        return result
-
-    def build_medicalDevice_attributes(self, rid, specs):
-        result = {}
-        result['rid'] = rid
-        result['specs'] = specs
-        return result
-
-    def build_ice_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['weight'] = row[1]
-        return result
-
-    def build_ice_attributes(self, rid, weight):
-        result = {}
-        result['rid'] = rid
-        result['weight'] = weight
-        return result
-
-    def build_heavyequip_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['fuel type'] = row[1]
-        return result
-
-    def build_heavyequip_attributes(self, rid, fueltype ):
-        result = {}
-        result['rid'] = rid
-        result['fueltype'] = fueltype
-        return result
-
-    def build_babyfood_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['flavor'] = row[1]
-        result['expiration date'] = row[2]
-        return result
-
-    def build_babyfood_attributes(self, rid, flavor, expirationdate):
-        result = {}
-        result['rid'] = rid
-        result['flavor'] = flavor
-        result['expiration date'] = expirationdate
-        return result
-
-    def build_batteries_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['batterytype'] = row[1]
-        result['quantity per pack'] = row[2]
-        return result
-
-    def build_batteries_attributes(self, rid,batterytype, quantityperpack):
-        result = {}
-        result['rid'] = rid
-        result['batterytype'] = batterytype
-        result['quantity per pack'] = quantityperpack
-        return result
-
-    def build_clothing_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['agecategory'] = row[1]
-        result['size'] = row[2]
-        return result
-
-    def build_clothing_attributes(self, rid, agecategory, size):
-        result = {}
-        result['rid'] = rid
-        result['agecategory'] = agecategory
-        result['size'] = size
-        return result
+    #
+    #
+    #
+    #
+    # def build_water_dict(self, row):
+    #     result = {}
+    #     result['rid'] = row[0]
+    #     result['watertypenumber'] = row[1]
+    #     result['ounces'] = row[2]
+    #     return result
+    #
+    #
+    # def build_water_attributes(self, rid, watertypenunmber,ounces):
+    #     result = {}
+    #     result['rid'] = rid
+    #     result['watertypenumber'] = watertypenunmber
+    #     result['ounces'] = ounces
+    #     return result
+    #
+    # def build_tool_dict(self, row):
+    #     result = {}
+    #     result['rid'] = row[0]
+    #     result['size'] = row[1]
+    #     return result
+    #
+    # def build_tool_attributes(self, rid, size):
+    #     result = {}
+    #     result['rid'] = rid
+    #     result['size'] = size
+    #     return result
+    #
+    # def build_generator_dict(self, row):
+    #     result = {}
+    #     result['rid'] = row[0]
+    #     result['generatorfuel'] = row[1]
+    #     result['capacity'] = row[2]
+    #     result['size'] = row[3]
+    #     return result
+    #
+    # def build_generator_attributes(self, rid, generatorfuel, capacity, size):
+    #     result = {}
+    #     result['rid'] = rid
+    #     result['generatorfuel'] = generatorfuel
+    #     result['capacity'] = capacity
+    #     result['size'] = size
+    #     return result
+    #
+    # def build_medication_dict(self, row):
+    #     result = {}
+    #     result['rid'] = row[0]
+    #     result['active ingridient'] = row[1]
+    #     result['description'] = row[2]
+    #     result['concentration'] = row[3]
+    #     result['quantity'] = row[4]
+    #     result['expiration date'] = row[5]
+    #     return result
+    #
+    # def build_medication_attributes(self, rid,activeingridient, description, concentration, quatity, expirationdate):
+    #     result = {}
+    #     result['rid'] = rid
+    #     result['active ingridient'] = activeingridient
+    #     result['description'] = description
+    #     result['concentration'] = concentration
+    #     result['quantity'] = quatity
+    #     result['expiration date'] = expirationdate
+    #     return result
+    #
+    # def build_medicalDevice_dict(self, row):
+    #     result = {}
+    #     result['rid'] = row[0]
+    #     result['specs'] = row[1]
+    #     return result
+    #
+    # def build_medicalDevice_attributes(self, rid, specs):
+    #     result = {}
+    #     result['rid'] = rid
+    #     result['specs'] = specs
+    #     return result
+    #
+    # def build_ice_dict(self, row):
+    #     result = {}
+    #     result['rid'] = row[0]
+    #     result['weight'] = row[1]
+    #     return result
+    #
+    # def build_ice_attributes(self, rid, weight):
+    #     result = {}
+    #     result['rid'] = rid
+    #     result['weight'] = weight
+    #     return result
+    #
+    # def build_heavyequip_dict(self, row):
+    #     result = {}
+    #     result['rid'] = row[0]
+    #     result['fuel type'] = row[1]
+    #     return result
+    #
+    # def build_heavyequip_attributes(self, rid, fueltype ):
+    #     result = {}
+    #     result['rid'] = rid
+    #     result['fueltype'] = fueltype
+    #     return result
+    #
+    # def build_babyfood_dict(self, row):
+    #     result = {}
+    #     result['rid'] = row[0]
+    #     result['flavor'] = row[1]
+    #     result['expiration date'] = row[2]
+    #     return result
+    #
+    # def build_babyfood_attributes(self, rid, flavor, expirationdate):
+    #     result = {}
+    #     result['rid'] = rid
+    #     result['flavor'] = flavor
+    #     result['expiration date'] = expirationdate
+    #     return result
+    #
+    # def build_batteries_dict(self, row):
+    #     result = {}
+    #     result['rid'] = row[0]
+    #     result['batterytype'] = row[1]
+    #     result['quantity per pack'] = row[2]
+    #     return result
+    #
+    # def build_batteries_attributes(self, rid,batterytype, quantityperpack):
+    #     result = {}
+    #     result['rid'] = rid
+    #     result['batterytype'] = batterytype
+    #     result['quantity per pack'] = quantityperpack
+    #     return result
+    #
+    # def build_clothing_dict(self, row):
+    #     result = {}
+    #     result['rid'] = row[0]
+    #     result['agecategory'] = row[1]
+    #     result['size'] = row[2]
+    #     return result
+    #
+    # def build_clothing_attributes(self, rid, agecategory, size):
+    #     result = {}
+    #     result['rid'] = rid
+    #     result['agecategory'] = agecategory
+    #     result['size'] = size
+    #     return result
 
     # uses DAO method to access all resource tuples and adds them to a list, where jsonify is used
+
+    def build_waterbyresourceid_dict(self,row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['watertypename'] = row[6]
+        result['ounces'] = row[7]
+        return result
+
+    def build_toolbyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['size'] = row[6]
+        return result
+
+    def build_powergeneratorbyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['generatorfuel'] = row[6]
+        result['capacity'] = row[7]
+        result['size'] = row[8]
+        return result
+
+    def build_medicationbyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['activeingridient'] = row[6]
+        result['description'] = row[7]
+        result['concentration'] = row[8]
+        result['quantity'] = row[9]
+        result['expirationdate'] = row[10]
+        return result
+
+    def build_medicaldevicebyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['specs'] = row[6]
+        return result
+
+    def build_icebyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['weight'] = row[6]
+        return result
+
+    def build_heavyequipmentbyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['fueltype'] = row[6]
+        return result
+
+    def build_fuelbyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['fueltypename'] = row[6]
+        return result
+
+    def build_dryfoodbyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['ounces'] = row[6]
+        result['expirationdate'] = row[7]
+        return result
+
+    def build_clothingbyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['agecategory'] = row[6]
+        result['size'] = row[7]
+        return result
+
+    def build_cannedfoodbyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['primaryingredient'] = row[6]
+        result['ounces'] = row[7]
+        result['expirationdate'] = row[8]
+        return result
+
+    def build_batterybyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['baterytype'] = row[6]
+        result['quantityperpack'] = row[7]
+        return result
+
+    def build_babyfoodbyresourceid_dict(self, row):
+        result = {}
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['ammount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename'] = row[5]
+        result['flavor'] = row[6]
+        result['expirationdate'] = row[7]
+        return result
+
     def getAllResources(self):
         dao = ResourcesDAO()
         resources_list = dao.getAllResources()
