@@ -27,7 +27,7 @@ class UserDAO:
 
     def getUserById(self, userid):
         cursor = self.conn.cursor()
-        query = "SELECT * FROM users  where userid= %s;"
+        query = "select userid, accounttypename, firstname, lastname , phone, email,adressline1, adressline2, pueblo, pais, codigopostal,googlemapurl, status from users natural inner join location left join account_type on accounttype=accounttypenumber  where userid= %s;"
         cursor.execute(query, [userid])
         users = cursor.fetchall()
         self.conn.commit()
@@ -38,7 +38,7 @@ class UserDAO:
 
     def getAllUserByAccountType(self, accountType):
         cursor = self.conn.cursor()
-        query = "SELECT * FROM users left join account_type on accounttype = accounttypenumber where accounttype=%s;"
+        query = "select userid, accounttypename, firstname, lastname , phone, email,adressline1, adressline2, pueblo, pais, codigopostal,googlemapurl, status from users natural inner join location left join account_type on accounttype=accounttypenumber where accounttype=%s;"
         cursor.execute(query, [accountType])
         users = cursor.fetchall()
         self.conn.commit()

@@ -120,7 +120,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getTransactionsByPurchaseTypeAndUserId(self, purchadetypenumber, userid):
         cursor = self.conn.cursor()
-        query = "SELECT transactionid, firstname,resources.name, ammountordered, paymentmethodname, resources.cost*ammountordered as cost, transaction.date,PurchaseTypeName FROM transaction natural inner join payment_methods natural inner join pays left join orders on pays.orderid=orders.orderid left join resources on orders.resourceid=resources.resourceid natural inner join Purchase_type lef join users on transaction.userid=users.userid where PurchaseTypeNumber = %s ;"
+        query = "Select transactionid, userid , requestid, paymentmethodname , resources.cost,date from transaction natural inner join payment_methods natural inner join request natural inner join selected left join resources on selected.resourceid = resources.resourceid where PurchaseTypeNumber = %s and userid=%s;"
         cursor.execute(query, (purchadetypenumber, userid))
         result = cursor.fetchall()
         for row in cursor:
@@ -130,7 +130,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def get_transaction_by_transactionid(self,transactionid):
         cursor = self.conn.cursor()
-        query = "SELECT * from transaction where transactionid = %s"
+        query = "Select transactionid, userid , requestid, paymentmethodname , cost,date from transaction natural inner join payment_methods natural inner join request where transactionid = %s"
         cursor.execute(query, (transactionid))
         result = cursor.fetchall()
         for row in cursor:

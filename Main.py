@@ -48,7 +48,6 @@ def get_supplier_by_id(userid):
 @app.route('/resources', methods=['GET', 'POST'])
 def get_all_resources():
     if request.method == 'POST':
-        print("REQUEST: ", request.json)
         return ResourceHandler().insertResourcesJson(request.json)
     else:
         if not request.args:

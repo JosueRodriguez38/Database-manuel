@@ -11,10 +11,19 @@ from dao.UserCredentials import UserCredentialDAO
 class UserHandler:
     def build_user_dict(self, row):
         result = {}
-        result['sid'] = row[0]
-        result['sname'] = row[1]
-        result['sphone'] = row[5]
-        result['scity'] = row[6]
+        result['userid'] = row[0]
+        result['accounttypename'] = row[1]
+        result['firstname'] = row[2]
+        result['lastname'] = row[3]
+        result['phone'] = row[4]
+        result['email'] = row[5]
+        result['adressline1'] = row[6]
+        result['adressline2'] = row[7]
+        result['pueblo'] = row[8]
+        result['pais'] = row[9]
+        result['codigopostal'] = row[10]
+        result['googlemapurl'] = row[11]
+        result['status'] = row[12]
 
         return result
 
@@ -62,7 +71,7 @@ class UserHandler:
 
             result = []
             for row in data:
-                result.append(row)
+                result.append(self.build_user_dict(row))
             return jsonify(User=result)
         else:
             return jsonify(Error="Not arguments")
@@ -72,9 +81,9 @@ class UserHandler:
         if type:
             dao = UserDAO()
             data = dao.getAllUserByAccountType(type)
-            result=[]
+            result = []
             for row in data:
-                result.append(row)
+                result.append(self.build_user_dict(row))
             return jsonify(AllUsers=result)
 
         else:

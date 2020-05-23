@@ -23,7 +23,7 @@ class WaterDAO:
 
     def getWaterbyResourceId(self,resourceid):
         cursor = self.conn.cursor()
-        query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources where resourceid=%s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,watertypename, ounces from (water natural inner join water_type)natural inner join resources natural inner join purchase_type natural inner join resource_type where resourceid=%s;"
         cursor.execute(query,[resourceid])
         result = cursor.fetchall()
         for row in cursor:

@@ -20,7 +20,7 @@ class RequestDAO:
 
     def getallrequest(self):
         cursor = self.conn.cursor()
-        query = "select * from request order by status "
+        query = "select requestid,userid,firstname,lastname,status from request natural inner join users order by status "
         cursor.execute(query)
         result = cursor.fetchall()
         self.conn.commit()
@@ -28,7 +28,7 @@ class RequestDAO:
 
     def getUserRequest(self,userid):
         cursor = self.conn.cursor()
-        query = "select * from request where userid = %s order by status "
+        query = "select requestid,userid,firstname,lastname,status from request natural inner join users where userid = %s order by status "
         cursor.execute(query,[userid])
         result = cursor.fetchall()
         self.conn.commit()

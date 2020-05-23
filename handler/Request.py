@@ -3,6 +3,14 @@ from flask import jsonify
 from dao.Request import RequestDAO
 from dao.Selected import SelectedDAO
 class RequestHandler:
+    def build_request_dict(self, row):
+        result={}
+        result['requestid'] = row[0]
+        result['userid'] = row[1]
+        result['firstname'] = row[2]
+        result['lastname'] = row[3]
+        result['status'] =row[4]
+        return result
 
     def insertRequest(self, form):
         userid=form['userId']
@@ -21,8 +29,11 @@ class RequestHandler:
 
     def getAllRequest(self):
         dao = RequestDAO()
-        results = dao.getallrequest()
-        return jsonify(requests=results)
+        data = dao.getallrequest()
+        result = []
+        for row in data:
+            result.append(self.build_request_dict(row))
+        return jsonify(requests=result)
 
     def getRequestByRequestID(self,requestid):
         dao = RequestDAO()
@@ -37,12 +48,17 @@ class RequestHandler:
         requestid = args.get("requestid")
         if userid and not name and not requestid:
             dao = RequestDAO()
-            results = dao.getUserRequest(userid)
-            return jsonify(Requests=results)
+            data = dao.getUserRequest(userid)
+            result=[]
+            for row in data:
+                result.append(self.build_request_dict(row))
+            return jsonify(Requests=result)
+
         elif name and not userid and not requestid:
             dao = RequestDAO()
             results = dao.getAllResourcesbyResourceName(name)
             return jsonify(Requests=results)
+
         elif requestid and not name and not userid:
             return self.getRequestByRequestID(requestid)
         return jsonify(Error="invalid arguments")
