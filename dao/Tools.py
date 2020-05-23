@@ -14,7 +14,7 @@ class ToolsDAO:
 
     def getToolByResourceId(self,resourceid):
         cursor = self.conn.cursor()
-        query = "select name,ammount,cost,size from tool natural inner join resources where resourceid=%s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,size from  tool natural inner join resources natural inner join purchase_type natural inner join resource_type  where resourceid=%s;"
         cursor.execute(query,[resourceid])
         result = cursor.fetchall()
         for row in cursor:
@@ -24,7 +24,7 @@ class ToolsDAO:
 
     def getALlTools(self):
         cursor = self.conn.cursor()
-        query = "select name,ammount,cost,size from tool natural inner join resources;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,size from  tool natural inner join resources natural inner join purchase_type natural inner join resource_type ;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:
@@ -34,7 +34,7 @@ class ToolsDAO:
 
     def getAllToolSortedBySizeAsc(self):
         cursor = self.conn.cursor()
-        query = "select name,ammount,cost,size from tool natural inner join resources order by size asc;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,size from  tool natural inner join resources natural inner join purchase_type natural inner join resource_type  order by size asc;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:
@@ -44,7 +44,7 @@ class ToolsDAO:
 
     def getAllToolSortedBySizeDes(self):
         cursor = self.conn.cursor()
-        query = "select name,ammount,cost,size from tool natural inner join resources order by size desc;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,size from  tool natural inner join resources natural inner join purchase_type natural inner join resource_type  order by size desc;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:

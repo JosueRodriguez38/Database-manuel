@@ -13,7 +13,7 @@ class FuelDAO:
 
     def getAllFuel(self):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, fueltypename, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join fuel natural inner join fuel_type where aviable = true order by fueltypename;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, fueltypename,litro from fuel natural inner join fuel_type natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true order by fueltypename;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:
@@ -23,7 +23,7 @@ class FuelDAO:
 
     def getFuelByResourceId(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, fueltypename, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join fuel natural inner join fuel_type where aviable = true and resourceid = %s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, fueltypename,litro from fuel natural inner join fuel_type natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
         cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()
@@ -31,7 +31,7 @@ class FuelDAO:
 
     def getAllFuelByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "select resourceid, userid, firstname, lastname, resourceTypeName, fueltypename, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join fuel natural inner join fuel_type natural inner join supplies where aviable = true order by fueltypename;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, fueltypename,litro from fuel natural inner join fuel_type natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true order by fueltypename;"
         cursor.execute(query, [uid])
         result = cursor.fetchall()
         for row in cursor:
@@ -41,7 +41,7 @@ class FuelDAO:
 
     def getAllFuelByFuelTypeName(self, name):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, fueltypename, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join fuel natural inner join fuel_type where aviable = true and fueltypename = %s ;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, fueltypename,litro from fuel natural inner join fuel_type natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and fueltypename = %s ;"
         cursor.execute(query, (name,))
         result = cursor.fetchall()
         for row in cursor:

@@ -13,7 +13,7 @@ class IceDAO:
 
     def getAllIce(self):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice where aviable = true order by resourceid;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, weight from ice natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true order by resourceid;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:
@@ -23,7 +23,7 @@ class IceDAO:
 
     def getIceByResourceID(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice where aviable = true and resourceid = %s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, weight from ice natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
         cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()
@@ -31,7 +31,7 @@ class IceDAO:
 
     def getAllIceByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "select resourceid, userid, firstname, lastname, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice natural inner join supplies natural inner join users where aviable = true and userid = %s order by resourceid;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, weight from ice natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and userid = %s order by resourceid;"
         cursor.execute(query, [uid])
         result = cursor.fetchall()
         for row in cursor:
@@ -41,7 +41,7 @@ class IceDAO:
 
     def getIceByCost(self, cost):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, weight, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join ice where aviable = true and cost <= %s order by resourceid;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, weight from ice natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and cost <= %s order by resourceid;"
         cursor.execute(query, [cost])
         result = cursor.fetchall()
         for row in cursor:
