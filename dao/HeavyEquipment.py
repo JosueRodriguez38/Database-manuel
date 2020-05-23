@@ -13,7 +13,7 @@ class HeavyEquipmentDAO:
 
     def getAllHeavyEquipment(self):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment where aviable = true order by name;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,fueltype from  heavy_equipment natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true order by name;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:
@@ -23,7 +23,7 @@ class HeavyEquipmentDAO:
 
     def getHeavyEquipmentById(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment where aviable = true and resourceid = %s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,fueltype from  heavy_equipment natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
         cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()
@@ -31,7 +31,7 @@ class HeavyEquipmentDAO:
 
     def getAllHeavyEquipmentByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "select resourceid, userid resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment natural inner join supplies where aviable = true and userid = %s order by name;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,fueltype from  heavy_equipment natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and userid = %s order by name;"
         cursor.execute(query, [uid])
         result = cursor.fetchall()
         for row in cursor:
@@ -41,7 +41,7 @@ class HeavyEquipmentDAO:
 
     def getAllHeavyEquipmentByName(self, name):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment where aviable = true and name like %s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,fueltype from  heavy_equipment natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and name like %s;"
         cursor.execute(query, (name,))
         result = cursor.fetchall()
         for row in cursor:
@@ -51,7 +51,7 @@ class HeavyEquipmentDAO:
 
     def getAllHeavyEquipmentByFuelType(self, fuelType):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join heavy_equipment where aviable = true and fueltype like %s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,fueltype from  heavy_equipment natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and fueltype like %s;"
         cursor.execute(query, (fuelType,))
         result = cursor.fetchall()
         for row in cursor:

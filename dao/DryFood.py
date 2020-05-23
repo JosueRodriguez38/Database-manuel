@@ -13,7 +13,7 @@ class DryFoodDAO:
 
     def getAllDryFood(self):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food where aviable = true order by resourceid;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, ounces, expirationdate from dry_food natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true order by resourceid;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:
@@ -23,7 +23,7 @@ class DryFoodDAO:
 
     def getDryFoodByResourceId(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food where aviable = true and resourceid = %s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, ounces, expirationdate from dry_food natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
         cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()
@@ -31,7 +31,7 @@ class DryFoodDAO:
 
     def getAllDryfoodByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "select resourceid, userid, name, resourceTypeName, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food natural inner join supplies where aviable = true and userid = %s order by name;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, ounces, expirationdate from dry_food natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and userid = %s order by name;"
         cursor.execute(query, [uid])
         result = cursor.fetchall()
         for row in cursor:
@@ -41,7 +41,7 @@ class DryFoodDAO:
 
     def getAllDryfoodByName(self, name):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, name, purchaseTypeName, ammount, cost, expirationdate from Resources natural inner join resource_type natural inner join purchase_type natural inner join dry_food where aviable = true and name = %s order by resourceid;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, ounces, expirationdate from dry_food natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and name = %s order by resourceid;"
         cursor.execute(query, (name,))
         result = cursor.fetchall()
         for row in cursor:

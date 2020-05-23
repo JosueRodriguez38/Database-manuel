@@ -13,7 +13,7 @@ class PowerGeneratorDAO:
 
     def getAllPowerGenerators(self):
         cursor = self.conn.cursor()
-        query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources ;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,generatorfuel,capacity,size from  power_generator natural inner join resources natural inner join purchase_type natural inner join resource_type  ;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:
@@ -23,7 +23,7 @@ class PowerGeneratorDAO:
 
     def getPowerGeneratorByResourceID(self,resourceID):
         cursor = self.conn.cursor()
-        query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources where resourceid=%s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,generatorfuel,capacity,size from  power_generator natural inner join resources natural inner join purchase_type natural inner join resource_type  where resourceid=%s;"
         cursor.execute(query,[resourceID])
         result = cursor.fetchall()
         for row in cursor:
@@ -33,7 +33,7 @@ class PowerGeneratorDAO:
 
     def getPowerGeneratorByGeneratorFuel(self,generatorfuel):
         cursor = self.conn.cursor()
-        query = "select name,ammount,cost,generatorfuel,capacity,size from power_generator natural inner join resources where generatorfuel=%s order by generatorfuel;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,generatorfuel,capacity,size from  power_generator natural inner join resources natural inner join purchase_type natural inner join resource_type  where generatorfuel ~* %s order by generatorfuel;"
         cursor.execute(query,(generatorfuel))
         result = cursor.fetchall()
         for row in cursor:
