@@ -36,7 +36,7 @@ class RequestDAO:
 
     def getAllResourcesbyRequestID(self, requestid):
         cursor = self.conn.cursor()
-        query = "Select * from selected natural inner join resources where requestid = %s "
+        query = "select requestid,resourceid,name,resourcetypename,ammountselected,cost, purchasetypename,googlemapurl from selected natural inner join resources natural inner join supplies natural inner join location natural inner join purchase_type natural inner join resource_type where requestid = %s "
         cursor.execute(query, [requestid])
         result = cursor.fetchall()
         self.conn.commit()
@@ -44,7 +44,7 @@ class RequestDAO:
 
     def getAllResourcesbyResourceName(self, name):
         cursor = self.conn.cursor()
-        query = "Select * from selected natural inner join resources where name = %s "
+        query = "select requestid,resourceid,name,resourcetypename,ammountselected,cost, purchasetypenumber,googlemapurl from selected natural inner join resources natural inner join supplies natural inner join location natural inner join purchase_type natural inner join resource_type where name = %s "
         cursor.execute(query, [name])
         result = cursor.fetchall()
         self.conn.commit()
@@ -52,8 +52,8 @@ class RequestDAO:
 
     def get_request_by_requestid(self, requestid):
         cursor = self.conn.cursor()
-        query = "select * from request where requestid = %s "
+        query = "select requestid, userid ,firstname, lastname,request.status from request natural inner join users where requestid = %s "
         cursor.execute(query, [requestid])
-        result = cursor.fetchall()
+        result = cursor.fetchone()
         self.conn.commit()
         return result

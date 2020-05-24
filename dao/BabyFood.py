@@ -23,11 +23,9 @@ class BabyFoodDAO:
 
     def getBabyFoodByResourceID(self,resourceid):
         cursor = self.conn.cursor()
-        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, flavor,expirationdate from baby_food natural inner join resources natural inner join purchase_type natural inner join resource_type  where resourceid=%s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, flavor,expirationdate,googlemapurl  from baby_food natural inner join resources  natural inner join supplies natural inner join location natural inner join purchase_type natural inner join resource_type  where resourceid=%s;"
         cursor.execute(query, [resourceid])
-        result = cursor.fetchall()
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchone()
         self.conn.commit()
         return result
 

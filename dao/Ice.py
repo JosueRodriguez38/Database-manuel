@@ -23,7 +23,7 @@ class IceDAO:
 
     def getIceByResourceID(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, weight from ice natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, weight,googlemapurl from ice natural inner join resources natural inner join supplies natural inner join location  natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
         cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()

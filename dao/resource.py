@@ -15,7 +15,7 @@ class ResourcesDAO:
     # returns all the resources in the Resources table
     def getAllResources(self):
         cursor = self.conn.cursor()
-        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename from resources natural inner join purchase_type natural inner join resource_type  where aviable = true order by resourcetypename;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,googlemapurl from resources natural inner join supplies natural inner join location natural inner join purchase_type natural inner join resource_type  where aviable = true order by resourcetypename;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -116,7 +116,7 @@ class ResourcesDAO:
 
     def getResourcesByName(self,name):
         cursor = self.conn.cursor()
-        query = "select resourceid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type where name ~* %s and aviable = true order by name;"
+        query = "select resourceid, name, resourceTypeName, ammount, cost, purchaseTypeName,googlemapurl from Resources natural inner join supplies natural inner join location natural inner join resource_type natural inner join purchase_type where name ~* %s and aviable = true order by name;"
         cursor.execute(query, [name])
         result = []
         for row in cursor:

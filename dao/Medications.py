@@ -34,11 +34,9 @@ class MedicationDAO:
 
     def getMedicationByResourceID(self,resourceid):
         cursor = self.conn.cursor()
-        query = "select resourceid,name , resourcetypename , ammount, cost, purchasetypename ,activeingredient,description,concentration,quantity,expirationdate from resources natural inner join purchase_type natural inner join resource_type natural inner join medication where resourceid=%s;"
+        query = "select resourceid,name , resourcetypename , ammount, cost, purchasetypename ,activeingredient,description,concentration,quantity,expirationdate,googlemapurl  from resources  natural inner join supplies natural inner join location natural inner join purchase_type natural inner join resource_type natural inner join medication where resourceid=%s;"
         cursor.execute(query,[resourceid])
-        result = cursor.fetchall()
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchone()
         self.conn.commit()
         return result
 

@@ -13,7 +13,7 @@ class MedicalDeviceDAO:
 
     def getAllMedicalDevices(self):
         cursor = self.conn.cursor()
-        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, specs from  medical_devices natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true order by name;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, specs  from  medical_devices natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true order by name;"
         cursor.execute(query)
         result = cursor.fetchall()
         for row in cursor:
@@ -23,7 +23,7 @@ class MedicalDeviceDAO:
 
     def getMedicalDeviceById(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, specs from  medical_devices natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, specs,googlemapurl from  medical_devices natural inner join resources  natural inner join supplies natural inner join location natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
         cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()

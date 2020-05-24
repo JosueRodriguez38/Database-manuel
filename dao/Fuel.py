@@ -23,7 +23,7 @@ class FuelDAO:
 
     def getFuelByResourceId(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, fueltypename,litro from fuel natural inner join fuel_type natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename, fueltypename,litro,googlemapurl  from fuel natural inner join fuel_type natural inner join resources  natural inner join supplies natural inner join location natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
         cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()

@@ -12,6 +12,19 @@ class RequestHandler:
         result['status'] =row[4]
         return result
 
+    def build_resource_dict(self, row):
+        result = {}
+        result['requestid'] = row[0]
+        result['resourceid'] = row[1]
+        result['name'] = row[2]
+        result['resourcetypename'] = row[3]
+        result['Amount'] = row[4]
+        result['cost'] = row[5]
+        result['purchasetypename']=row[6]
+        result['location'] = row[7]
+
+        return result
+
     def insertRequest(self, form):
         userid=form['userId']
         resourceid=form['resourceId']
@@ -37,7 +50,9 @@ class RequestHandler:
 
     def getRequestByRequestID(self,requestid):
         dao = RequestDAO()
-        results = dao.get_request_by_requestid(requestid)
+        data = dao.get_request_by_requestid(requestid)
+        results= self.build_request_dict(data)
+
         return jsonify(Request=results)
 
 
@@ -56,7 +71,10 @@ class RequestHandler:
 
         elif name and not userid and not requestid:
             dao = RequestDAO()
-            results = dao.getAllResourcesbyResourceName(name)
+            data = dao.getAllResourcesbyResourceName(name)
+            results=[]
+            for row in data:
+                results.append(self.build_resource_dict(row))
             return jsonify(Requests=results)
 
         elif requestid and not name and not userid:
@@ -66,6 +84,10 @@ class RequestHandler:
     def getAllResourcesByRequestId(self, requestid):
 
         dao = RequestDAO()
-        results = dao.getAllResourcesbyRequestID(requestid)
+        data = dao.getAllResourcesbyRequestID(requestid)
+        results=[]
+        for row in data:
+            results.append(self.build_resource_dict(row))
+
         return jsonify(Requests=results)
 

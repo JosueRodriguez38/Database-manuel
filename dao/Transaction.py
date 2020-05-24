@@ -33,7 +33,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def getAllTransactionsByUserID(self, uid):
         cursor = self.conn.cursor()
-        query = "select * from transaction natural inner join request where userid = %s"
+        query = "Select transactionid, userid,firstname,lastname, paymentmethodname , requestid , cost,date from transaction natural inner join users natural inner join payment_methods natural inner join request where userid = %s"
         cursor.execute(query, [uid])
         result = cursor.fetchall()
         for row in cursor:
@@ -130,7 +130,7 @@ class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,to
 
     def get_transaction_by_transactionid(self,transactionid):
         cursor = self.conn.cursor()
-        query = "Select transactionid, userid , requestid, paymentmethodname , cost,date from transaction natural inner join payment_methods natural inner join request where transactionid = %s"
+        query = "Select transactionid, userid,firstname,lastname, paymentmethodname , requestid , cost,date from transaction natural inner join users natural inner join payment_methods natural inner join request where transactionid = %s"
         cursor.execute(query, (transactionid))
         result = cursor.fetchall()
         for row in cursor:

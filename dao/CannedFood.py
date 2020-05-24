@@ -32,7 +32,7 @@ class CannedFoodDAO:
 
     def getCannedFoodByResourceID(self, rid):
         cursor = self.conn.cursor()
-        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename , primaryingredient , ounces, expirationdate from canned_food natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename , primaryingredient , ounces, expirationdate,googlemapurl  from canned_food natural inner join resources natural inner join supplies natural inner join location  natural inner join purchase_type natural inner join resource_type  where aviable = true and resourceid = %s;"
         cursor.execute(query, [rid])
         result = cursor.fetchone()
         self.conn.commit()

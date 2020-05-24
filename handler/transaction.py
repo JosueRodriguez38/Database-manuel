@@ -8,14 +8,13 @@ class TransactionHandler:
     def build_transaction_dict(self, row):
         result = {}
         result['transactionid'] = row[0]
-        result['firstName'] = row[1]
-        result['lastName'] = row[2]
-        result['name'] = row[3]
-        result['ammountOrdered'] = row[4]
-        result['paymentMethodName'] = row[5]
+        result['userid']=row[1]
+        result['firstName'] = row[2]
+        result['lastName'] = row[3]
+        result['paymentMethodName'] = row[4]
+        result['requestid'] = row[5]
         result['cost'] = row[6]
         result['date'] = row[7]
-        result['purchaseTypeName'] = row[1]
         return result
 
     def searchTransaction(self,args):
@@ -40,15 +39,15 @@ class TransactionHandler:
         elif userid and not transactionid:
             results = dao.getAllTransactionsByUserID(userid)
             result_list = []
-            #for row in results:
-                #result_list.append(self.build_transaction_dict(row))
-            return jsonify(Transaction=results)
+            for row in results:
+                result_list.append(self.build_transaction_dict(row))
+            return jsonify(Transaction=result_list)
         elif transactionid and not userid and not purchadetypenumber:
             results = dao.get_transaction_by_transactionid(transactionid)
             result_list = []
-            #for row in results:
-               # result_list.append(self.build_transaction_dict(row))
-            return jsonify(Transaction = results)
+            for row in results:
+                result_list.append(self.build_transaction_dict(row))
+            return jsonify(Transaction = result_list)
         else:
             return jsonify(ERROR="invalid arguments")
 

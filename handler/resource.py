@@ -26,181 +26,27 @@ class ResourceHandler:
     # builds resource tuple with the space required to insert the information required
     def build_resource_dict(self, row):
         result = {}
-        result['rid'] = row[0]
-        result['sid'] = row[1]
-        result['rname'] = row[2]
-        result['cost'] = row[3]
-        result['resAmount'] = row[4]
-        result['buyable'] = row[5]
+        result['resourceid'] = row[0]
+        result['name'] = row[1]
+        result['resourcetypename'] = row[2]
+        result['Amount'] = row[3]
+        result['cost'] = row[4]
+        result['purchasetypename']=row[5]
         result['location'] = row[6]
 
         return result
 
-    #builds supplier tuple with the space required to insert the information required
-    def build_supplier_dict(self, row):
-        result = {}
-        result['sid'] = row[0]
-        result['sname'] = row[1]
-        result['sphone'] = row[2]
-        result['semail'] = row[3]
-        result['scity'] = row[4]
-        return result
 
     # builds tuple for resource with specified field values
     def build_resource_attributes(self, rid, sid, rname, cost, resv_amount):
         result = {}
-        result['rid'] = rid
-        result['sid'] = sid
+        result['resourceid'] = rid
+        result['userid'] = sid
         result['cost'] = rname
-        result['rname'] = cost
-        result['resv_amount'] = resv_amount
+        result['name'] = cost
+        result['ammount'] = resv_amount
         return result
 
-
-    #
-    #
-    #
-    #
-    # def build_water_dict(self, row):
-    #     result = {}
-    #     result['rid'] = row[0]
-    #     result['watertypenumber'] = row[1]
-    #     result['ounces'] = row[2]
-    #     return result
-    #
-    #
-    # def build_water_attributes(self, rid, watertypenunmber,ounces):
-    #     result = {}
-    #     result['rid'] = rid
-    #     result['watertypenumber'] = watertypenunmber
-    #     result['ounces'] = ounces
-    #     return result
-    #
-    # def build_tool_dict(self, row):
-    #     result = {}
-    #     result['rid'] = row[0]
-    #     result['size'] = row[1]
-    #     return result
-    #
-    # def build_tool_attributes(self, rid, size):
-    #     result = {}
-    #     result['rid'] = rid
-    #     result['size'] = size
-    #     return result
-    #
-    # def build_generator_dict(self, row):
-    #     result = {}
-    #     result['rid'] = row[0]
-    #     result['generatorfuel'] = row[1]
-    #     result['capacity'] = row[2]
-    #     result['size'] = row[3]
-    #     return result
-    #
-    # def build_generator_attributes(self, rid, generatorfuel, capacity, size):
-    #     result = {}
-    #     result['rid'] = rid
-    #     result['generatorfuel'] = generatorfuel
-    #     result['capacity'] = capacity
-    #     result['size'] = size
-    #     return result
-    #
-    # def build_medication_dict(self, row):
-    #     result = {}
-    #     result['rid'] = row[0]
-    #     result['active ingridient'] = row[1]
-    #     result['description'] = row[2]
-    #     result['concentration'] = row[3]
-    #     result['quantity'] = row[4]
-    #     result['expiration date'] = row[5]
-    #     return result
-    #
-    # def build_medication_attributes(self, rid,activeingridient, description, concentration, quatity, expirationdate):
-    #     result = {}
-    #     result['rid'] = rid
-    #     result['active ingridient'] = activeingridient
-    #     result['description'] = description
-    #     result['concentration'] = concentration
-    #     result['quantity'] = quatity
-    #     result['expiration date'] = expirationdate
-    #     return result
-    #
-    # def build_medicalDevice_dict(self, row):
-    #     result = {}
-    #     result['rid'] = row[0]
-    #     result['specs'] = row[1]
-    #     return result
-    #
-    # def build_medicalDevice_attributes(self, rid, specs):
-    #     result = {}
-    #     result['rid'] = rid
-    #     result['specs'] = specs
-    #     return result
-    #
-    # def build_ice_dict(self, row):
-    #     result = {}
-    #     result['rid'] = row[0]
-    #     result['weight'] = row[1]
-    #     return result
-    #
-    # def build_ice_attributes(self, rid, weight):
-    #     result = {}
-    #     result['rid'] = rid
-    #     result['weight'] = weight
-    #     return result
-    #
-    # def build_heavyequip_dict(self, row):
-    #     result = {}
-    #     result['rid'] = row[0]
-    #     result['fuel type'] = row[1]
-    #     return result
-    #
-    # def build_heavyequip_attributes(self, rid, fueltype ):
-    #     result = {}
-    #     result['rid'] = rid
-    #     result['fueltype'] = fueltype
-    #     return result
-    #
-    # def build_babyfood_dict(self, row):
-    #     result = {}
-    #     result['rid'] = row[0]
-    #     result['flavor'] = row[1]
-    #     result['expiration date'] = row[2]
-    #     return result
-    #
-    # def build_babyfood_attributes(self, rid, flavor, expirationdate):
-    #     result = {}
-    #     result['rid'] = rid
-    #     result['flavor'] = flavor
-    #     result['expiration date'] = expirationdate
-    #     return result
-    #
-    # def build_batteries_dict(self, row):
-    #     result = {}
-    #     result['rid'] = row[0]
-    #     result['batterytype'] = row[1]
-    #     result['quantity per pack'] = row[2]
-    #     return result
-    #
-    # def build_batteries_attributes(self, rid,batterytype, quantityperpack):
-    #     result = {}
-    #     result['rid'] = rid
-    #     result['batterytype'] = batterytype
-    #     result['quantity per pack'] = quantityperpack
-    #     return result
-    #
-    # def build_clothing_dict(self, row):
-    #     result = {}
-    #     result['rid'] = row[0]
-    #     result['agecategory'] = row[1]
-    #     result['size'] = row[2]
-    #     return result
-    #
-    # def build_clothing_attributes(self, rid, agecategory, size):
-    #     result = {}
-    #     result['rid'] = rid
-    #     result['agecategory'] = agecategory
-    #     result['size'] = size
-    #     return result
 
     # uses DAO method to access all resource tuples and adds them to a list, where jsonify is used
 
@@ -214,6 +60,7 @@ class ResourceHandler:
         result['purchasetypename'] = row[5]
         result['watertypename'] = row[6]
         result['ounces'] = row[7]
+        result['location'] = row[8]
         return result
 
     def build_toolbyresourceid_dict(self, row):
@@ -225,6 +72,7 @@ class ResourceHandler:
         result['cost'] = row[4]
         result['purchasetypename'] = row[5]
         result['size'] = row[6]
+        result['location'] = row[7]
         return result
 
     def build_powergeneratorbyresourceid_dict(self, row):
@@ -238,6 +86,7 @@ class ResourceHandler:
         result['generatorfuel'] = row[6]
         result['capacity'] = row[7]
         result['size'] = row[8]
+        result['location'] = row[9]
         return result
 
     def build_medicationbyresourceid_dict(self, row):
@@ -253,6 +102,7 @@ class ResourceHandler:
         result['concentration'] = row[8]
         result['quantity'] = row[9]
         result['expirationdate'] = row[10]
+        result['location'] = row[11]
         return result
 
     def build_medicaldevicebyresourceid_dict(self, row):
@@ -264,6 +114,7 @@ class ResourceHandler:
         result['cost'] = row[4]
         result['purchasetypename'] = row[5]
         result['specs'] = row[6]
+        result['location'] = row[7]
         return result
 
     def build_icebyresourceid_dict(self, row):
@@ -275,6 +126,7 @@ class ResourceHandler:
         result['cost'] = row[4]
         result['purchasetypename'] = row[5]
         result['weight'] = row[6]
+        result['location'] = row[7]
         return result
 
     def build_heavyequipmentbyresourceid_dict(self, row):
@@ -286,6 +138,7 @@ class ResourceHandler:
         result['cost'] = row[4]
         result['purchasetypename'] = row[5]
         result['fueltype'] = row[6]
+        result['location'] = row[7]
         return result
 
     def build_fuelbyresourceid_dict(self, row):
@@ -297,6 +150,8 @@ class ResourceHandler:
         result['cost'] = row[4]
         result['purchasetypename'] = row[5]
         result['fueltypename'] = row[6]
+        result['litro'] = row[7]
+        result['location'] = row[8]
         return result
 
     def build_dryfoodbyresourceid_dict(self, row):
@@ -309,6 +164,7 @@ class ResourceHandler:
         result['purchasetypename'] = row[5]
         result['ounces'] = row[6]
         result['expirationdate'] = row[7]
+        result['location'] = row[8]
         return result
 
     def build_clothingbyresourceid_dict(self, row):
@@ -321,6 +177,7 @@ class ResourceHandler:
         result['purchasetypename'] = row[5]
         result['agecategory'] = row[6]
         result['size'] = row[7]
+        result['location'] = row[8]
         return result
 
     def build_cannedfoodbyresourceid_dict(self, row):
@@ -334,6 +191,7 @@ class ResourceHandler:
         result['primaryingredient'] = row[6]
         result['ounces'] = row[7]
         result['expirationdate'] = row[8]
+        result['location'] = row[9]
         return result
 
     def build_batterybyresourceid_dict(self, row):
@@ -346,6 +204,7 @@ class ResourceHandler:
         result['purchasetypename'] = row[5]
         result['baterytype'] = row[6]
         result['quantityperpack'] = row[7]
+        result['location']= row[8]
         return result
 
     def build_babyfoodbyresourceid_dict(self, row):
@@ -358,16 +217,17 @@ class ResourceHandler:
         result['purchasetypename'] = row[5]
         result['flavor'] = row[6]
         result['expirationdate'] = row[7]
+        result['location'] = row[8]
         return result
 
     def getAllResources(self):
         dao = ResourcesDAO()
-        resources_list = dao.getAllResources()
+        data = dao.getAllResources()
         result_list = []
-        #for row in resources_list:
-           # result = self.build_resource_dict(row)
-            #result_list.append(result)
-        return jsonify(Resources=resources_list)
+        for row in data:
+            result = self.build_resource_dict(row)
+            result_list.append(result)
+        return jsonify(Resources=result_list)
 
     # uses DAO method to find a specific resource tuple
     def getResourceById(self, rid):
@@ -377,45 +237,56 @@ class ResourceHandler:
         if type==1:
             dao = WaterDAO()
             row = dao.getWaterbyResourceId(rid)
-
+            return jsonify(self.build_waterbyresourceid_dict(row))
         elif type == 2:
             dao = MedicationDAO()
             row = dao.getMedicationByResourceID(rid)
-
+            return jsonify(self.build_medicationbyresourceid_dict(row))
         elif type == 3:
             dao = BabyFoodDAO()
             row = dao.getBabyFoodByResourceID(rid)
-
+            return jsonify(self.build_babyfoodbyresourceid_dict(row))
         elif type == 4:
             dao = CannedFoodDAO()
             row = dao.getCannedFoodByResourceID(rid)
+            return jsonify(self.build_cannedfoodbyresourceid_dict(row))
         elif type == 5:
             dao = DryFoodDAO()
             row = dao.getDryFoodByResourceId(rid)
+            return jsonify(self.build_dryfoodbyresourceid_dict(row))
         elif type == 6:
             dao = IceDAO()
             row = dao.getIceByResourceID(rid)
+            return jsonify(self.build_icebyresourceid_dict(row))
         elif type == 7:
-            dao =  FuelDAO()
+            dao = FuelDAO()
             row = dao.getFuelByResourceId(rid)
+            return jsonify(self.build_fuelbyresourceid_dict(row))
+
         elif type == 8:
             dao = MedicalDeviceDAO()
             row = dao.getMedicalDeviceById(rid)
+            return jsonify(self.build_medicaldevicebyresourceid_dict(row))
         elif type == 9:
             dao = HeavyEquipmentDAO()
             row = dao.getHeavyEquipmentById(rid)
+            return jsonify(self.build_heavyequipmentbyresourceid_dict(row))
         elif type == 10:
             dao = ToolsDAO()
             row = dao.getToolByResourceId(rid)
+            return jsonify(self.build_toolbyresourceid_dict(row))
         elif type == 11:
             dao = ClothingDAO()
             row = dao.getClothingByresourceID(rid)
+            return jsonify(self.build_clothingbyresourceid_dict(row))
         elif type == 12:
             dao = PowerGeneratorDAO()
             row = dao.getPowerGeneratorByResourceID(rid)
+            return jsonify(self.build_powergeneratorbyresourceid_dict(row))
         elif type == 13:
             dao = BatteriesDAO()
             row = dao.getBatteryByResourceId(rid)
+            return jsonify(self.build_batterybyresourceid_dict(row))
 
         if not row:
             return jsonify(Error="Resource Not Found"), 404
@@ -432,13 +303,15 @@ class ResourceHandler:
         name = args.get("name")
         cost = args.get("cost")
         dao = ResourcesDAO()
-        resources_list = []
         if len(args) == 2 and name :
             resources_list = dao.getResourcesByNameAndCost(name, cost)
         elif len(args) == 1 and name:
-            resources_list = dao.getResourcesByName(name)
+            data = dao.getResourcesByName(name)
+            resources_list=[]
+            for row in data:
+                resources_list.append(self.build_resource_dict(row))
         elif len(args) == 1 :
-            resources_list = dao.getResourcesByCost(cost)
+            resources_list = dao.getAllResourcesOrderedByCost(cost)
         else:
             return jsonify(Error="Malformed query string"), 400
         #result_list = []
@@ -447,17 +320,6 @@ class ResourceHandler:
             #result_list.append(result)
         return jsonify(Resources=resources_list)
 
-    # Uses DAO method of the same name to find the resource with a specific id
-    def getSuppliersByResourceId(self, rid):
-        dao = ResourcesDAO()
-        if not dao.getResourceById(rid):
-            return jsonify(Error="Resource Not Found"), 404
-        suppliers_list = dao.getSuppliersByResourceId(rid)
-        result_list = []
-        for row in suppliers_list:
-            result = self.build_supplier_dict(row)
-            result_list.append(result)
-        return jsonify(Suppliers=result_list)
 
     # inserts a resource into the database,
     # Restrictions: must be proper length to fill all attributes, which need to be properly matched
