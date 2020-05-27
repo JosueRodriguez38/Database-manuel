@@ -15,7 +15,9 @@ from dao.Tools import ToolsDAO
 from dao.Clothing import ClothingDAO
 from dao.PowerGenerators import PowerGeneratorDAO
 from dao.Batteries import BatteriesDAO
-
+from dao.Request import RequestDAO
+from dao.Selected import SelectedDAO
+from dao.Need import NeededDAO
 
 
 # Uses resource DAO to build results for displaying in localhost
@@ -343,7 +345,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid,userid)
                     wdao = WaterDAO()
                     wdao.insertWater(resourceid,watertype,ounces)
-
+                    self.check_needed(resourceid,resourcetypenumber,ammount,purchasetypenumber,name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
 
             else:
@@ -362,6 +364,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     mdao = MedicationDAO()
                     mdao.insert(resourceid,active,descrp,concentration,quantity, date)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -376,6 +379,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     Bdao =BabyFoodDAO()
                     Bdao.insertBabyFood(resourceid,flavor,expirationdate)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -391,6 +395,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     cdao = CannedFoodDAO()
                     cdao.insert(resourceid, ingredient, ounces, expirationdate)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -405,6 +410,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     ddao=DryFoodDAO()
                     ddao.insert(resourceid,ounces,expirationdate)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -418,6 +424,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     idao=IceDAO()
                     idao.insert(resourceid,weight)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -432,6 +439,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     fdao = FuelDAO()
                     fdao.insert(resourceid, fueltypenumber,litro)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -445,6 +453,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     mdao= MedicalDeviceDAO()
                     mdao.insert(resourceid,specs)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -458,6 +467,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     fdao = HeavyEquipmentDAO()
                     fdao.insert(resourceid, fueltype)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -472,6 +482,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     tdao = ToolsDAO()
                     tdao.insertTools(resourceid, size)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -487,6 +498,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     cdao=ClothingDAO()
                     cdao.insert(resourceid, agecategory, size)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -503,6 +515,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     pdao = PowerGeneratorDAO()
                     pdao.insert(resourceid, generatorfuel, capacity, size)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -517,6 +530,7 @@ class ResourceHandler:
                     sdao.insertSupplies(resourceid, userid)
                     bdao = BatteriesDAO()
                     bdao.insert(resourceid, baterytype, quantityperpack)
+                    self.check_needed(resourceid, resourcetypenumber, ammount, purchasetypenumber, name)
                     return jsonify("New Resource has been added resourceid: " +str(resourceid))
             else:
                 return jsonify(ERROR="Invalid Argumments")
@@ -573,5 +587,24 @@ class ResourceHandler:
     def getCountByResourceId(self):
         dao = ResourcesDAO()
         result = dao.getCountByResourceId()
-        # print(self.build_resource_counts(result))
         return jsonify(ResourceCounts=self.build_resource_counts(result)), 200
+
+    def check_needed(self, resourceid, resourcetypenumber, ammount,purchasetypenumber,name):
+        rdao = ResourcesDAO()
+        necesitados = rdao.get_necesitados(resourcetypenumber,ammount,purchasetypenumber)
+
+        for row in necesitados:
+            resourceammount = rdao.get_resource_ammount(resourceid)[0]
+            if row[1]<= resourceammount:
+                reqdao = RequestDAO()
+                seldao = SelectedDAO()
+                requestid = reqdao.insertrequest(row[2])[0]
+                seldao.insertSelected(requestid,resourceid,row[1])
+                ndao =NeededDAO()
+                ndao.update_status(row[0],False)
+                print("Request added")
+            else:
+                pass
+        pass
+
+

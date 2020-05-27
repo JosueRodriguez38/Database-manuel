@@ -3,6 +3,7 @@ from handler.resource import ResourceHandler
 from handler.Request import RequestHandler
 from handler.User import UserHandler
 from handler.transaction import TransactionHandler
+from handler.Need import NeedHandler
 
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
@@ -99,7 +100,6 @@ def get_requests(rid):
 @app.route('/transaction', methods=['GET', 'POST'])
 def getAllTransactions():
     if request.method == 'POST':
-        print("REQUEST: ", request.json)
         return TransactionHandler().inserttransaction(request.json)
     else:
         if not request.args:
@@ -118,6 +118,35 @@ def getTransactionById(tid):
         return TransactionHandler().deleteTransaction(tid)
     else:
         return jsonify(Error="Method not allowed"), 405
+
+@app.route('/need', methods=['GET', 'POST'])
+def get_needed():
+    if request.method == 'POST':
+        return NeedHandler().insert_needed(request.json)
+    else:
+        if not request.args:
+            return NeedHandler().get_all_needed()
+        else:
+            return NeedHandler().search_needed(request.args)
+
+@app.route('/need/<int:tid>', methods=['GET', 'PUT', 'DELETE'])
+def get_needed_by_id(tid):
+    if request.method == 'GET':
+        return NeedHandler().get_needed_by_neededid(tid)
+    elif request.method == 'PUT':
+        return NeedHandler().update_needed_by_neededid(tid)
+    elif request.method == 'DELETE':
+        return NeedHandler().delete_needed_by_neededid(tid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/statistics', methods=['GET'])
+def estadisticas():
+    if not request.args:
+        return NeedHandler().get_statistic_by_senate_region()
+    else:
+        return NeedHandler().get_statistic_by_date(request.args)
+
 
 
 if __name__ == '__main__':

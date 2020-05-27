@@ -133,6 +133,39 @@ class ResourcesDAO:
         self.conn.commit()
         return result
 
+    def get_resources_by_date_since(self,date):
+        cursor = self.conn.cursor()
+        query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,googlemapurl from resources natural inner join supplies natural inner join location natural inner join purchase_type natural inner join resource_type  where where date>= %s;"
+        cursor.execute(query,(date))
+        result = cursor.fetchall()
+        self.conn.commit()
+        return result
+
     # deletes a resource (specified by id) if it exists
     def delete(self, rid):
             return
+
+
+    def get_min_resourceid_by_needed_atribute(self, resourcetypenumber, purchasetypenumber, ammountneeded,nameneeded):
+        cursor = self.conn.cursor()
+        query = "select min(resourceid)from resources where resourcetypenumber=%s and ammount>=%s and resources.purchasetypenumber=%s and name ~* %s resources.aviable=true "
+        cursor.execute(query,(resourcetypenumber,ammountneeded,purchasetypenumber,nameneeded))
+        results = cursor.fetchone()
+        self.conn.commit()
+        return results
+
+    def get_necesitados(self, resourcetypenumber, ammount, purchasetypenumber,name):
+        cursor = self.conn.cursor()
+        query = "select neededid ,ammountneeded,userid from needed where resourcetypenumber=%s and ammountneeded<=%s and purchasetypenumber=%s and status=true  and nameneeded ~* %s order by ammountneeded asc"
+        cursor.execute(query, (resourcetypenumber, ammount, purchasetypenumber,name))
+        results = cursor.fetchall()
+        self.conn.commit()
+        return results
+
+    def get_resource_ammount(self, resourceid):
+        cursor = self.conn.cursor()
+        query = "select ammount from resources where resourceid = %s"
+        cursor.execute(query, (resourceid))
+        results = cursor.fetchone()
+        self.conn.commit()
+        return results
