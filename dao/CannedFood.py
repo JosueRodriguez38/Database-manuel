@@ -2,8 +2,17 @@ from config.dbconfig import pg_config
 from config.tuple_config import user_cons
 import psycopg2
 
-# CannedFood Attributes:
+# CannedFood Attributes: (CannedFoodID, ResourceID, Primary ingredient, ounces, Expiration Date)
 
+# getAllCannedFood: extracts the canned food attributes plus
+# the resource id and typename of every tuple in the canned food table
+
+# getCannedFoodByResourceID: obtains the attributes of a specific tuple as specified by a resource id
+
+# getAllCannedFoodByFlavor/UserID/Cost/Primary ingredient: These methods obtain the canned Food tuples
+# that have the specified attribute
+
+# insert: inserts a new canned food tuple with the information specified
 class CannedFoodDAO:
     def __init__(self):
         connection_url = "dbname=%s user=%s password=%s host=24.54.205.36" % (pg_config['dbname'],
@@ -20,6 +29,7 @@ class CannedFoodDAO:
             result.append(row)
         self.conn.commit()
         return result
+
     def getAllCannedFood(self):
         cursor = self.conn.cursor()
         query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename , primaryingredient , ounces, expirationdate from canned_food natural inner join resources natural inner join purchase_type natural inner join resource_type  where aviable = true order by primaryingridient;"

@@ -11,7 +11,7 @@ class MedicationDAO:
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
-
+    # inserts a medication tuple with information given
     def insert(self, resourceid,activeingredient,description,concentration,quantity, expirationdate):
         cursor = self.conn.cursor()
         query = "INSERT INTO medication (resourceid,activeingredient,description,concentration,quantity, expirationdate) values(%s,%s,%s,%s,%s,%s) returning medicationid"
@@ -22,6 +22,7 @@ class MedicationDAO:
         self.conn.commit()
         return result
 
+    # returns a list of all medications in the medication table
     def getAllMedication(self):
         cursor = self.conn.cursor()
         query = "select resourceid,name , resourcetypename , ammount, cost, purchasetypename ,activeingredient,description,concentration,quantity,expirationdate from resources natural inner join purchase_type natural inner join resource_type natural inner join medication order by resourceid;"
@@ -32,6 +33,7 @@ class MedicationDAO:
         self.conn.commit()
         return result
 
+    # returns a specific medication with the resrouce id given
     def getMedicationByResourceID(self,resourceid):
         cursor = self.conn.cursor()
         query = "select resourceid,name , resourcetypename , ammount, cost, purchasetypename ,activeingredient,description,concentration,quantity,expirationdate,googlemapurl  from resources  natural inner join supplies natural inner join location natural inner join purchase_type natural inner join resource_type natural inner join medication where resourceid=%s;"
@@ -40,6 +42,7 @@ class MedicationDAO:
         self.conn.commit()
         return result
 
+    # returns all medications with the active ingredient given
     def getMedicationByActiveIngredient(self,active):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,activeingredient,description,concentration,quantity,expirationdate from medication natural inner join resources where activeingredient=%s;"
@@ -50,6 +53,7 @@ class MedicationDAO:
         self.conn.commit()
         return result
 
+    # returns a list of all medications ordered by active ingredient in ascending order
     def getAllMedicationsOrderedByActiveingredientsAsc(self):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,activeingredient,description,concentration,quantity,expirationdate from medication natural inner join resources order by activeingrediente Asc;"
@@ -60,6 +64,7 @@ class MedicationDAO:
         self.conn.commit()
         return result
 
+    # returns a list of all medications ordered by active ingredient in descending order
     def getAllMedicationsOrderedByActiveingredientsDesc(self):
         cursor = self.conn.cursor()
         query = "select name,ammount,cost,activeingredient,description,concentration,quantity,expirationdate from medication natural inner join resources order by activeingrediente desc;"

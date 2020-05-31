@@ -11,6 +11,7 @@ class PaysDAO:
                                                                            pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
+
     def getAllOrdersOfaTransaction(self,transactionid):
         cursor = self.conn.cursor()
         query ="SELECT name, ammountordered, resources.cost , purchasetypename from pays natural inner join orders natural inner join resources natural inner join purchase_type where transactionid = %s order by name;"

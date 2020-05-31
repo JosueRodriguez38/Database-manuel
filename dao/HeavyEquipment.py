@@ -4,6 +4,16 @@ import psycopg2
 
 # Heavy Equipment Attributes: name, fuelType
 
+# getAllHeavyEquipment: extracts the Heavy Equipment attributes plus
+# the resource id and typename of every tuple in the baby food table
+
+# getHeavyEquipmentById: obtains the attributes of a specific tuple as specified by a resource id
+
+# getAllHeavyEquipmentByName/UserID/FuelType: These methods obtain the heavy equipment tuples
+# that have the specified the specified attribute
+
+# insert: inserts a heavy equipment tuple with the information specified
+
 class HeavyEquipmentDAO:
     def __init__(self):
         connection_url = "dbname=%s user=%s password=%s host=24.54.205.36" % (pg_config['dbname'],

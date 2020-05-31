@@ -2,8 +2,17 @@ from config.dbconfig import pg_config
 from config.tuple_config import user_cons
 import psycopg2
 
-# Fuel Attributes: fuelTypeNumber, litro
+# Fuel Attributes: FuelID, ResourceID, fuelTypeNumber, litro)
 
+# getAllFuel: extracts the Fuel attributes plus
+# the resource id and typename of every tuple in the fuel table
+
+# getFuelByResourceId: obtains the attributes of a specific tuple as specified by a resource id
+
+# getAllFuelByFuelTypeName/UserID: These methods obtain the canned Food tuples
+# that have the specified attribute
+
+# insert: inserts a new fuel tuple with the information specified
 class FuelDAO:
     def __init__(self):
         connection_url = "dbname=%s user=%s password=%s host=24.54.205.36" % (pg_config['dbname'],

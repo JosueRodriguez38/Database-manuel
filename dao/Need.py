@@ -2,7 +2,8 @@ from config.dbconfig import pg_config
 from config.tuple_config import user_cons
 import psycopg2
 
-# Need = Reserved Goods
+# Need = Consumer enters information about a resource that they need. System looks for matches.
+
 
 class NeededDAO:
     def __init__(self):
@@ -27,6 +28,7 @@ class NeededDAO:
         self.conn.commit()
         return results
 
+    # get needed form information by its ID
     def get_needed_by_neededid(self,neededid):
         cursor = self.conn.cursor()
         query = "select neededid,userid,firstname,lastname, nameneeded, resourcetypename, ammountneeded, purchasetypename, dateneeded,pueblo, googlemapurl from needed natural inner join users natural inner join location natural inner join purchase_type natural inner join resource_type where neededid=%s and needed.status=true"
@@ -35,6 +37,7 @@ class NeededDAO:
         self.conn.commit()
         return results
 
+    # get needed form information by its resource name
     def get_needed_by_nameneeded(self,name):
         cursor = self.conn.cursor()
         query = "select neededid,userid,firstname,lastname, nameneeded, resourcetypename, ammountneeded, purchasetypename, dateneeded,pueblo, googlemapurl from needed natural inner join users natural inner join location natural inner join purchase_type natural inner join resource_type where nameneeded ~* %s and needed.status=true"
@@ -43,6 +46,7 @@ class NeededDAO:
         self.conn.commit()
         return results
 
+    # get needed form information by its resource type number (by general type of resource in data base)
     def get_needed_by_resourcetypenumber(self, resourcetypenumber):
         cursor = self.conn.cursor()
         query = "select neededid,userid,firstname,lastname, nameneeded, resourcetypename, ammountneeded, purchasetypename, dateneeded,pueblo, googlemapurl from needed natural inner join users natural inner join location natural inner join purchase_type natural inner join resource_type where resourcetypenumber=%s and needed.status=true"
@@ -60,6 +64,7 @@ class NeededDAO:
 
         return results
 
+    # get needed form information within a 1 day interval of submission
     def get_needed_by_date_since1(self,date):
         cursor = self.conn.cursor()
         query = "select * from (select count(*) as \"In need\" from needed where status = true and dateneeded>= current_date - interval \'1 days\') as T1, (select count(*) as \"Aviable\" from resources where aviable=true and dateaviable >= current_date - interval \'1 days\') as t2, (select count(*) as \"Matched\"  from atendido natural inner join request natural inner join selected where dateselected >=  current_date - interval \'1 days\' )as t3"
@@ -67,6 +72,8 @@ class NeededDAO:
         results = cursor.fetchone()
         self.conn.commit()
         return results
+
+    # get needed form information within a 7 day interval of submission
     def get_needed_by_date_since7(self,date):
         cursor = self.conn.cursor()
         query = "select * from (select count(*) as \"In need\" from needed where status = true and dateneeded>= current_date - interval \'7 days\') as T1, (select count(*) as \"Aviable\" from resources where aviable=true and dateaviable >= current_date - interval \'7 days\') as t2, (select count(*) as \"Matched\"  from atendido natural inner join request natural inner join selected where dateselected >=  current_date - interval \'7 days\' )as t3"
@@ -75,6 +82,7 @@ class NeededDAO:
         self.conn.commit()
         return results
 
+    # update whether needed resource was matched with resource inside database
     def update_status(self,neededid, param):
         cursor = self.conn.cursor()
         query = "update needed set status = %s where neededid=%s returning neededid"
@@ -83,6 +91,7 @@ class NeededDAO:
         self.conn.commit()
         return results
 
+    # combines the needed resource id with the request id of the resource in the data base
     def insert_atendido(self, neededid, requestid):
         cursor = self.conn.cursor()
         query = "insert into atendido(neededid,requestid) values(%s,%s) returning atendidoid"
