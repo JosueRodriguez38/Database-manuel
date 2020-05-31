@@ -2,7 +2,19 @@ from config.dbconfig import pg_config
 from config.tuple_config import user_cons
 import psycopg2
 
-# The purpose of the consumer DAO is to extract the information regarding a consumer that has been requested
+# Clothing Attributes: AgeCategory, Size
+
+# getAll: gets all clothing tuples
+
+# getByResourceID: gets tuple with the specified ResourceID
+
+# getAllByAgeCategory/Size/Cost: Obtains all the clothing items, ordered by the attribute given
+
+# getByUserID: gives tuple ordered by specific user
+
+# getByUserIDAndAgeCategory: gives the tuples ordered by the user and with the specified ageCategory
+
+# insert: adds a new tuple
 
 class ClothingDAO:
     def __init__(self):

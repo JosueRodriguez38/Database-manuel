@@ -2,7 +2,18 @@ from config.dbconfig import pg_config
 from config.tuple_config import user_cons
 import psycopg2
 
-# Atributos de Baby Food: (Name, Flavor, Size, Expiration Date, ResourceID)
+# BabyFood Attributes: (Name, Flavor, Size, Expiration Date)
+
+
+# getAllBabyFood: extracts the baby food attributes plus
+# the resource id and typename of every tuple in the baby food table
+
+# getBabyFoodByResourceID: obtains the attributes of a specific tuple as specified by a resource id
+
+# getBabyFoodByFlavor/Size/ExpirationDate: These methods obtain the Baby Food tuples
+# that have the specified the specified attribute
+
+# insertBabyFood: inserts a new baby food tuple with the information specified
 
 class BabyFoodDAO:
     def __init__(self):

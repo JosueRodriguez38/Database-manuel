@@ -1,7 +1,7 @@
 from config.dbconfig import pg_config
 import psycopg2
 
-# Atributos de Baby Food: (Name, Flavor, Size, Expiration Date, ResourceID)
+# This class handles requests made by users of goods that arent available at the moment
 
 class RequestDAO:
     def __init__(self):

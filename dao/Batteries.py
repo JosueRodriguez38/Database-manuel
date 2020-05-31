@@ -2,7 +2,22 @@ from config.dbconfig import pg_config
 from config.tuple_config import user_cons
 import psycopg2
 
-# The purpose of the consumer DAO is to extract the information regarding a consumer that has been requested
+# Batteries Attributes: name, batteryType quantityPerPack
+# The purpose of the batteries DAO is to extract the information of the tuple specified
+
+# getAllBatteries: extracts the batteries attributes plus
+# the resource id and typename of every tuple in the batteries table
+
+# getBatteryByResourceId: brings out the tuple with the specified resource id
+
+# getAllBatteriesByBatteryType/Cost: obtains the tuples with the specified battery type or cost
+
+# getAllBatteriesByUserID: obtains the batteries tuple that the userID has bought/reserved
+
+# getBatteryByUserIDAndBatteryType: obtains the tuple that has both the parameters specified.
+
+# insert: adds a new batteries tuple with the specified resourceID, batteryType and quantityPerPack
+
 
 class BatteriesDAO:
     def __init__(self):

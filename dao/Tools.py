@@ -2,7 +2,7 @@ from config.dbconfig import pg_config
 from config.tuple_config import user_cons
 import psycopg2
 
-# The purpose of the consumer DAO is to extract the information regarding a consumer that has been requested
+# Tool Attributes: Size
 
 class ToolsDAO:
     def __init__(self):

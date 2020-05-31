@@ -2,7 +2,17 @@ from config.dbconfig import pg_config
 from config.tuple_config import user_cons
 import psycopg2
 
-# The purpose of the consumer DAO is to extract the information regarding a consumer that has been requested
+# DryFoodAttributes: Name
+
+# getAll: Brings all the tuples
+
+# getByResourceID: obtains specific tuple with the ID
+
+# getByUserID: Brings tuple that the user ordered
+
+# getAllDryFoodByName: Obtains tuple with the specified name
+
+# insert: inserts a new tuple
 
 class DryFoodDAO:
     def __init__(self):

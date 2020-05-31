@@ -2,7 +2,17 @@ from config.dbconfig import pg_config
 from config.tuple_config import order,user_cons
 import psycopg2
 
+# insertUserConsumer: inserts a user with their info
 
+# insertOrder: inserts a tuple of a new created order
+
+# getAllResources: Returns all resources
+
+# getResourcebyid: returns specific order that has the ID
+
+# getOrdersbyUser: Returns all the orders by a specific user
+
+# getOrderByID: Returns a specific order
 
 class esencialesDAO:
     def __init__(self):

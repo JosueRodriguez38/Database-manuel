@@ -2,7 +2,8 @@
 from config.dbconfig import pg_config
 import psycopg2
 
-# The purpose of the user DAO is to extract and insert the information regarding a consumer that has been requested
+# Manages user account credentials
+# Attributes are user, password
 
 class UserCredentialDAO:
     def __init__(self):

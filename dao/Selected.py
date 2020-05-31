@@ -2,7 +2,7 @@ from config.dbconfig import pg_config
 from config.tuple_config import user_cons
 import psycopg2
 
-# Atributos de Baby Food: (Name, Flavor, Size, Expiration Date, ResourceID)
+#
 
 class SelectedDAO:
     def __init__(self):

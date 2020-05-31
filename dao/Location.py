@@ -2,7 +2,8 @@ from config.dbconfig import pg_config
 
 import psycopg2
 
-# The purpose of the user DAO is to extract and insert the information regarding a consumer that has been requested
+# Location Attributes: ADL1, ADL2, city, country, postal code, googleMapURL
+#ADL = Address Line
 
 class LocationDAO:
     def __init__(self):

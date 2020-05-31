@@ -2,9 +2,11 @@ from config.dbconfig import pg_config
 from config.tuple_config import user_cons
 import psycopg2
 
-# The purpose of the consumer DAO is to extract the information regarding a consumer that has been requested
+# Transactions Attributes: transactionID, paymentMethodNumber, transaction.cost, transaction.name
 
-class TransactionDAO:   #transaction atributes (tid, uid, paymentmethodnumber,totalcost,datebought)
+# transaction attributes (tid, uid, paymentmethodnumber,totalcost,datebought)
+
+class TransactionDAO:
     def __init__(self):
         connection_url = "dbname=%s user=%s password=%s host=24.54.205.36" % (pg_config['dbname'],
                                                                            pg_config['user'],
