@@ -23,6 +23,7 @@ class TransactionDAO:
         self.conn.commit()
         return result
 
+    # returns a list of all transactions with specified payment method
     def getAllTransactionsByPaymentMethod(self, paymentmethodNumber):
         cursor = self.conn.cursor()
         query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where paymentmthodnumber = %s order by resourcetypename;"
@@ -33,6 +34,7 @@ class TransactionDAO:
         self.conn.commit()
         return result
 
+    # returns all transacations made by a user id
     def getAllTransactionsByUserID(self, uid):
         cursor = self.conn.cursor()
         query = "Select transactionid, userid,firstname,lastname, paymentmethodname , requestid , cost,date from transaction natural inner join users natural inner join payment_methods natural inner join request where userid = %s"
@@ -43,6 +45,7 @@ class TransactionDAO:
         self.conn.commit()
         return result
 
+    # returns a list of all transactions with a specified transaction id
     def getTransactionsByID(self, tid):
         cursor = self.conn.cursor()
         query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where tid = %s order by resourcetypename;"
@@ -53,6 +56,7 @@ class TransactionDAO:
         self.conn.commit()
         return result
 
+    # returns a list of all transactions that contain the specified resource name
     def getAllTransactionsByResourceName(self, resourceTypeName):
         cursor = self.conn.cursor()
         query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where resourceTypeName = %s order by resourcetypename;"
@@ -63,6 +67,7 @@ class TransactionDAO:
         self.conn.commit()
         return result
 
+    #
     def getTransactionsByOrderID(self, oid):
         cursor = self.conn.cursor()
         query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where oid = %s order by resourcetypename;"
@@ -73,6 +78,7 @@ class TransactionDAO:
         self.conn.commit()
         return result
 
+    # returns a list of all transactions that were made in the specified date
     def getTransactionsByDate(self, dateBought):
         cursor = self.conn.cursor()
         query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where dateBought = %s order by resourcetypename;"
@@ -83,6 +89,7 @@ class TransactionDAO:
         self.conn.commit()
         return result
 
+    # returns list of all transactions containing specified information
     def getAllTransactionsByUserIDAndResourceName(self, uid, resourceTypeName):
         cursor = self.conn.cursor()
         query = "SELECT transactionid, userid, orderid, resourcetypename, amountordered, paymentmethodname, transaction.cost, datebought FROM transaction natural inner join payment_methods natural inner join transaction_orders natural inner join order natural inner join resources natural inner join resource_types where uid = %s and resourceTypeName = %s order by resourcetypename;"
@@ -93,6 +100,7 @@ class TransactionDAO:
         self.conn.commit()
         return result
 
+    # returns list of all transactions containing specified information
     def getTransactionsByPurchaseType(self,PurchaseTypeNumber):
         cursor = self.conn.cursor()
         query = "SELECT transactionid, firstname,resources.name, ammountordered, paymentmethodname, resources.cost*ammountordered as cost, transaction.date,PurchaseTypeName FROM transaction natural inner join payment_methods natural inner join pays left join orders on pays.orderid=orders.orderid left join resources on orders.resourceid=resources.resourceid natural inner join Purchase_type lef join users on transaction.userid=users.userid where PurchaseTypeNumber = %s ;"
@@ -103,6 +111,7 @@ class TransactionDAO:
         self.conn.commit()
         return result
 
+    # returns list of all transactions containing specified information
     def getResourcesFromTransactionByTransactionId(self,transactionid):
         cursor = self.conn.cursor()
         query = "SELECT name, ammount, resourcetypename ,resources.cost, purchasetypename from transaction natural inner join pays left join orders on orders.orderid=pays.orderid left join resources on resources.resourceid=orders.resourceid natural inner join purchase_type natural inner join resource_type where transactionid=%s;"
@@ -112,6 +121,8 @@ class TransactionDAO:
             result.append(row)
         self.conn.commit()
         return result
+
+
     def inserttransaction(self, requestid,paymentmethodnumber,datebought ):
         cursor = self.conn.cursor()
         query = "insert into transaction (paymentmethodnumber, cost, date, requestid) values (%s,(Select sum(ammountselected*cost) from selected natural inner join resources where requestid = %s), %s,%s) returning transactionid;"
@@ -120,6 +131,7 @@ class TransactionDAO:
         self.conn.commit()
         return tid
 
+    # returns list of all transactions containing specified information
     def getTransactionsByPurchaseTypeAndUserId(self, purchadetypenumber, userid):
         cursor = self.conn.cursor()
         query = "Select transactionid, userid , requestid, paymentmethodname , resources.cost,date from transaction natural inner join payment_methods natural inner join request natural inner join selected left join resources on selected.resourceid = resources.resourceid where PurchaseTypeNumber = %s and userid=%s;"
@@ -130,6 +142,7 @@ class TransactionDAO:
         self.conn.commit()
         return result
 
+    # returns list of all transactions containing specified information
     def get_transaction_by_transactionid(self,transactionid):
         cursor = self.conn.cursor()
         query = "Select transactionid, userid,firstname,lastname, paymentmethodname , requestid , cost,date from transaction natural inner join users natural inner join payment_methods natural inner join request where transactionid = %s"

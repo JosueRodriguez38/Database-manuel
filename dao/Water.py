@@ -29,6 +29,7 @@ class WaterDAO:
         self.conn.commit()
         return result
 
+    # returns a list of water given by the water type specified (bottled, 1L)
     def getAllWaterbyType(self,watertypenumber):
         cursor = self.conn.cursor()
         query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources where watertypenumber=%s;"
@@ -71,6 +72,7 @@ class WaterDAO:
         self.conn.commit()
         return result
 
+    # returns water tuples ordered by their type in ascending order
     def getWaterOrderedByTypeAsc(self):
         cursor = self.conn.cursor()
         query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources order by watertypenumber Asc;"
@@ -81,6 +83,7 @@ class WaterDAO:
         self.conn.commit()
         return result
 
+    # returns water tuples ordered by their type in descending order
     def getWaterOrderedByTypeDesc(self):
         cursor = self.conn.cursor()
         query = "select ammount,cost,watertypename, ounces from (water natural inner join water_type)natural inner join resources order by watertypenumber desc;"
@@ -90,6 +93,7 @@ class WaterDAO:
             result.append(row)
         self.conn.commit()
         return result
+
 
     def insertWater(self, resourceid, watertypenumber,ounces):
         wcursor = self.conn.cursor()

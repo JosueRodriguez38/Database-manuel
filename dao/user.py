@@ -11,6 +11,7 @@ class UserDAO:
                                                              pg_config['passwd'])
         self.conn = psycopg2.connect(connection_url)
 
+    # inserts a new user with given informaiton
     def insertUser(self,accountType, name, lastName, phone, email):
         cursor = self.conn.cursor()
         query = "insert into users(accounttype,firstname,lastname,phone,email,status) values (%s, %s, %s,%s,%s,true) returning userid;"
@@ -36,6 +37,7 @@ class UserDAO:
     def getAllUsersByStatus(self,status):
         return
 
+    # returns users if they are suppliers or consumers or admins
     def getAllUserByAccountType(self, accountType):
         cursor = self.conn.cursor()
         query = "select userid, accounttypename, firstname, lastname , phone, email,adressline1, adressline2, pueblo, pais, codigopostal,googlemapurl, status from users natural inner join location left join account_type on accounttype=accounttypenumber where accounttype=%s;"

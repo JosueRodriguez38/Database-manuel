@@ -22,6 +22,7 @@ class ResourcesDAO:
             result.append(row)
         return result
 
+    # returns resource type name given the resource id
     def getResourceTypeByResourceId(self,resourceid):
         cursor = self.conn.cursor()
         query = "select resourceTypeName,resourceTypeNumber  from Resources natural inner join resource_type where resourceid = %s;"
@@ -77,6 +78,7 @@ class ResourcesDAO:
         self.conn.commit()
         return result
 
+    # returns all resource currently being requested
     def getAllResourcesBeingRequested(self):
         cursor = self.conn.cursor()
         query = "select resourceid, orderid, resourceTypeName, purchaseTypeName, ammount, cost from Resources natural inner join resource_type natural inner join purchase_type natural inner join orders where aviable = true order by resourcetypename;"
@@ -133,6 +135,7 @@ class ResourcesDAO:
         self.conn.commit()
         return result
 
+    # returns resources added in a given date
     def get_resources_by_date_since(self,date):
         cursor = self.conn.cursor()
         query = "select resourceid,name , resourcetypename ,ammount,cost,purchasetypename,googlemapurl from resources natural inner join supplies natural inner join location natural inner join purchase_type natural inner join resource_type  where where date>= %s;"
@@ -145,7 +148,7 @@ class ResourcesDAO:
     def delete(self, rid):
             return
 
-
+    #
     def get_min_resourceid_by_needed_atribute(self, resourcetypenumber, purchasetypenumber, ammountneeded,nameneeded):
         cursor = self.conn.cursor()
         query = "select min(resourceid)from resources where resourcetypenumber=%s and ammount>=%s and resources.purchasetypenumber=%s and name ~* %s resources.aviable=true "
@@ -154,6 +157,7 @@ class ResourcesDAO:
         self.conn.commit()
         return results
 
+    # returns a list of all the resources currently needed
     def get_necesitados(self, resourcetypenumber, ammount, purchasetypenumber,name):
         cursor = self.conn.cursor()
         query = "select neededid ,ammountneeded,userid from needed where resourcetypenumber=%s and ammountneeded<=%s and purchasetypenumber=%s and status=true  and nameneeded ~* %s order by ammountneeded asc"

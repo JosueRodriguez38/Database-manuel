@@ -12,7 +12,7 @@ class UserCredentialDAO:
                                                              pg_config['passwd'])
         self.conn = psycopg2.connect(connection_url)
 
-
+    # inserts new username and password for a new user
     def insertUserCredential(self,username,password,userid):
         cursor = self.conn.cursor()
         query = "insert into user_credentials(username,userpassword,userid) values (%s, %s, %s) returning usercredid;"
@@ -21,7 +21,7 @@ class UserCredentialDAO:
         self.conn.commit()
         return uid
 
-
+    # returns user name from the user id given
     def getUsernameByUid(self, uid):
         cursor = self.conn.cursor()
         query = "select username from user_credentials natural inner join users where userid = %s"
@@ -30,7 +30,7 @@ class UserCredentialDAO:
         self.conn.commit()
         return result
 
-
+    # returns password from the user id given
     def getPasswordByUid(self, uid):
         cursor = self.conn.cursor()
         query = "select userpassword from user_credentials natural inner join users where userid = %s"
@@ -40,7 +40,7 @@ class UserCredentialDAO:
         return result
 
 
-
+    # returns user name and password from the user id given
     def getCredetialsByUid(self, uid):
         cursor = self.conn.cursor()
         query = "select username, userpassword from user_credentials natural inner join users where userid = %s"
