@@ -1,43 +1,108 @@
-User(UserID serial primary key, UserName varchar(20), UserPassword varchar(20), FirstName varchar(20), LastName varchar(20), Phone char(10), Email char(20), Location char(40))  
--Mother entity that holds admin, supplier and consumer information.
+Describing ER Model
+						DB Disaster
+Emmanuel Alonso
+Ismael Rios
+Brandon Cobo
+Josue Mercado
  
-Admin(AdminID serial primary key, UserID integer refrences User(UserID)) 
--Supervises consumer and supplier. Admin personal information
+ER Diagram:
+https://drive.google.com/file/d/1V7feFpfzXHDumjDZj6RCErXUhSNefQzz/view?usp=sharing
+(open with/abrir con diagrams.net once you clicked)
  
-Supplier(SupplierID serial primary key, UserID integer refrences User(UserID), AdminID integer refrences Admin(AdminID)) 
--Contains information of the supplier and admin id that supervises the user. Inherits User atributes.
- 
-Consumer(ConsumerID serial primary key, UserID integer refrences User(UserID), AdminID integer refrences Admin(AdminID)) 
--Contains information of the Consumer and admin id that supervises the user. Inherits User atributes.
- 
-Transaction(TransactionID serial primary key, ConsumerID integer references Consumer(ConsumerID), PaymentMethod) 
--Information about how to pay for resources
- 
-Resources(ResourceID serial primary key, SupplierID integer references Supplier(SupplierID), ResourceName varchar(10), Cost int, ReservedAmmount int, BuyableAmmount int, Location char(40)) 
--Information about the resources. 
- 
-Water(WaterID serial primary key, ResourceID integer references Resource(ResourceID), WaterName varchar(10)) 
--inherits resource information from Resource. contains distinction between types of water.
-Fuel(FuelID serial primary key, ResourceID integer references Resource(ResourceID), FuelName varchar(10)) 
--inherits resource information from Resource. contains distinction between types of Fuel.
+*Tablas en Bold
+**variables no tendrán exactamente el mismo nombre en las tablas
  
  
-Supplies(SupplierID integer references Supplier(SupplierID), ResourceID integer references Resource(ResourceID), primary key(SupplierID, ResourceID)) 
--Relationship that links supplier to resource
+Users(UserID serial primary key, AccountTypeNumber integer references Account_Types(AccountTypeNumber), FirstName varchar(20), LastName varchar(20), Phone varchar(10), Email varchar(40), Status boolean)  
+Tabla que contiene la información general de cada usuario.
  
-Order(OrderID serial primary key, ResourceID integer references Resource(ResourceID), ConsumerID integer references Consumer(ConsumerID), Date) 
--Entity that contains information of an order of a resource that a consumer requested 
+Account_Types(AccountTypeNumber integer primary key, AccountTypeName varchar(12))
+Define que tipo de usuario es el usuario. 1 = suplidor, 2 = consumidor, 3 = admin.
  
-Belongs(OrderID integer references Order(OrderID), ResourceID integer references Resource(ResourceID), primary key(OrderID, ResourceID)) 
--Relationship that links and order with a resource requested
+User_Credentials(UserCredid serial primary key, UserName varchar(20), UserPassword varchar(20), UserID references Users(UserID))
+Información del usuario para log in.
  
-Pays(TransactionID integer references Transaction(TransactionID), OrderID integer references Order(OrderID), primary key(OrderID, TransactionID)) 
--Realtionship that links the transaction entity with the order entity.
+Cards(CardID serial primary key, UserID integer references Users(UserID), CardNumber int, ExpirationMonth int, ExpirationYear int, NameOnCard varchar(40))
+Información de tarjetas de credito/debito del usuario para pagos.
+ 
+Location(LocationID serial primary key, AddressLine1 varchar(20), AddressLine2 varchar(20), Pueblo varchar(20), Pais varchar(20), ZipCode int(5), GoogleMap varchar(100), UserID integer references Users(UserID))
+Localización del usuario
+ 
+Resource Types(ResourceTypeNumber serial primary key, ResourceTypeName char(15))
+Información que define los tipos de recursos. 1 = agua, 2 = ropa, 3 = comida enlatada.
+ 
+Resources(ResourceID serial primary key, ResourceTypeNumber references Resource_Types(ResourceTypeNumber), Ammount int, Cost double,  Aviable Boolean,  Name varchar(20), PurchaseTypeNumber references Purchase_Type(PurchaseTypeNumber)) 
+Tabla que contiene la información general de los Recursos.
+ 
+Water(WaterID serial primary key, WaterTypeNumber references Water_Type(WaterTypeName, ResourceID references Resources(ResourceID), Ounces double)
+Información específica para el agua.
+ 
+Water_Type(WaterTypeNumber serial primary key, WaterTypeName varchar(20))
+Define si el agua es embotellada o de litros.
  
  
+Fuel(FuelID serial primary key, ResourceID references Resources(ResourceID), FuelTypeNumber references Fuel_Type(FuelTypeNumber), Litro double) 
+Información específica para el Fuel.
+ 
+Fuel_Type(FuelTypeNumber serial primary key, FuelTypeName varchar(20))
+Define que combustible es. 1 = gasolina, 2 = propano.
+ 
+Canned_Food(CannedFoodID serial primary key, ResourceID references Resources(resourceID), PrimaryIngredient varchar(20), Ounces double, ExpirationDate date)
+Información específica para la comida enlatada.
+ 
+Dry_Food(DryFoodID serial primary key, ResourceID references Resources(ResourceID), Ounces double, ExpirationDate date)
+Información específica para la comida seca.
+ 
+Clothing(ClothingID serial primary key, ResourceID references Resources(ResourceID), AgeCategory varchar(15), Size varchar(5))
+Información específica para la ropa.
+ 
+Batteries(BatteryID serial primary key, ResourceID references Resources(ResourceID), BatteryType varchar(20), QuantityPerPack int)
+Información específica para las baterías.
+ 
+Ice(IceID serial primary key, ResourceID references Resources(ResourceID), Weight double)
+Información específica para el hielo.
+ 
+Power_Generator(PowerGeneratorID serial primary key, ResourceID references Resources(ResourceID),G eneratorFuel varchar(20), Capacity varchar(20), Size varchar(20))
+Información específica para los generadores de electricidad.
+ 
+Tool(ToolID serial primary key, ResourceID references Resources(ResourceID), Size varchar(20))
+Información específica para las herramientas.
+ 
+Baby_Food(BabyFoodID serial primary key, ResourceID references Resources(ResourceID), Flavor varchar(20), ExpirationDate date)
+Información específica para la comida de bebé.
+ 
+Medical_Devices(MedicalDevicesID serial primary key,RresourceID references Resources(ResourceID), Specs varchar(100))
+Información específica para los dispositivos médicos.
+ 
+Medication(MedicationID serial primary key, ResourceID references Resources(ResourceID), ActiveIngredient varchar(30), Description varchar(100), Concentration varchar(10), Quantity int, ExpirationDate date)
+Información específica para los medicamentos.
+ 
+Heavy_Equipment(HeavyEquipmentid serial primary key, Resourceid references Resources(ResourceID), FuelType varchar(20))
+Información específica para la maquinaria pesada.
+ 
+Supplies(ResourceID integer references Resources(ResourceID), UserID Primary key integer references Users(UserID)) 
+Tabla que indica quien suple los recursos, conecta el usuario con los recursos.
+ 
+Purchase_Type(PurchaseTypeNumber serial primary key, PurchaseTypeName varchar(20) )
+Define que tipo de compra es el recurso. 1 = se puede reservar, 2 = se vende.
+ 
+Selected(SelectedID serial primary key, RequestID integer references Request(RequestID), AmmountSelected int, DateSelected date, ResourceID integer references Resources(ResourceID)) 
+Informacion de recursos escogidos por usuarios pero no han sido comprados o reservados.
+ 
+Request(RequestID serial primary key, UserID integer references Users(Userid), Status boolean)
+Lista de que recursos los usuarios están pidiendo.
  
  
+Atendido(AtendidoID serial primary key, RequestID integer references Request(RequestID), NeededID integer references Needed(NeededID))
+Tabla que une Needed con Request cuando se encuentra un match entre la informacion de recursos.
+ 
+Needed(NeededId serial primary key, UserID references Users(UserID), ResourceTypeNumber references Resource_Types(ResourceTypeNumber), AmmountNeeded integer, PurchaseTypeNumber references Purchase_Type(PurchaseTypeNumber), DateNeeded date, NameNeeded varchar(40), Status boolean)
+Tabla que contiene la informacion del recurso que el consumidor esta buscando. Luego se busca en la base de datos por un match para conectar ambas cosas en una orden que el consumidor compra o reserva.
+ 
+Payment Methods(PaymentMethodName varchar(15), PaymentMethodNumber serial primary key)
+Define que tipo de transaccion se hara por los recursos. 1 = tarjeta de credito, 2 = ath movil, 3 = paypal.
+ 
+Transaction(TransactionID serial primary key, RequestID integer references Request(RequestID), PaymentMethodNumber integer references Payment Methods(PaymentMethodNumber), CostTotal double, Date date) 
+Tabla que contiene la evidencia de que el recurso se compró o se reservó. 
  
  
- 
-
