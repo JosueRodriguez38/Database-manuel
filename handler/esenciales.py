@@ -9,7 +9,7 @@ from dao.esenciales import esencialesDAO
 
 class EsencialesHandler:
 
-    # builds resource tuple with the space required to insert the information required
+    # all builds methods prepare tuple with proper order and info type
     def build_user_dict(self, row):
         result = {}
         result['userid'] = row[0]

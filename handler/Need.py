@@ -4,9 +4,9 @@ from dao.resource import ResourcesDAO
 from dao.Request import  RequestDAO
 from dao.Selected import SelectedDAO
 
-#
-
 class NeedHandler:
+
+    # Builds tuple with proper information and order
     def build_needed_dicc(self, row):
         results={}
         results['neededid']= row[0]
@@ -21,6 +21,8 @@ class NeedHandler:
         results['pueblo'] = row[9]
         results['location'] = row[10]
         return results
+
+    # inserts a needed resource with help of NeededDAO methods
 
     def insert_needed(self, form):
         resourcetypenumber  = form['resourcetypenumber']
@@ -47,6 +49,8 @@ class NeedHandler:
         else:
             return jsonify(Error="Invalid arguments")
 
+    # gets all needed resources
+
     def get_all_needed(self):
         dao = NeededDAO()
         data = dao.get_all_needed()
@@ -59,6 +63,8 @@ class NeedHandler:
     def search_needed(self, args):
         dao = NeededDAO()
         pass
+
+    # gets specific needed resource
 
     def get_needed_by_neededid(self, neededid):
         dao = NeededDAO()
@@ -78,6 +84,7 @@ class NeedHandler:
 
         pass
 
+    # gets needed resource via the specified date
     def get_statistic_by_date(self, args):
         dao = NeededDAO()
         date = args.get('date')

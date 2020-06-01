@@ -48,6 +48,7 @@ class RequestHandler:
             result.append(self.build_request_dict(row))
         return jsonify(requests=result)
 
+    # Uses requestID to find a request
     def getRequestByRequestID(self,requestid):
         dao = RequestDAO()
         data = dao.get_request_by_requestid(requestid)
@@ -55,8 +56,7 @@ class RequestHandler:
 
         return jsonify(Request=results)
 
-
-
+    # Searches for a specific request, depending on arguments entered
     def searchRequest(self, args):
         userid = args.get("userid")
         name = args.get("name")

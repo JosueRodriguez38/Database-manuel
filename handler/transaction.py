@@ -4,6 +4,9 @@ from dao.Pays import PaysDAO
 from dao.Request import RequestDAO
 from dao.Selected import SelectedDAO
 
+# Transaction Handler builds tuple and uses DAO to execute queries like getALL, search by arguments specified
+# or insert
+
 class TransactionHandler:
     def build_transaction_dict(self, row):
         result = {}

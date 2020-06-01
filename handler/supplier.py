@@ -1,6 +1,7 @@
 from flask import jsonify
 from dao.user import UserDAO
 
+# Supplier Handler builds tuple structure and uses DAO functions to execute queries
 
 class SupplierHandler:
     def build_supplier_dict(self, row):
