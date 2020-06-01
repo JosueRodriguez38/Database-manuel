@@ -3,6 +3,9 @@ from dao.Need import NeededDAO
 from dao.resource import ResourcesDAO
 from dao.Request import  RequestDAO
 from dao.Selected import SelectedDAO
+
+#
+
 class NeedHandler:
     def build_needed_dicc(self, row):
         results={}
@@ -18,6 +21,7 @@ class NeedHandler:
         results['pueblo'] = row[9]
         results['location'] = row[10]
         return results
+
     def insert_needed(self, form):
         resourcetypenumber  = form['resourcetypenumber']
         userid = form['userid']
@@ -25,6 +29,7 @@ class NeedHandler:
         ammountneeded = form['ammountneeded']
         dateneeded = form['dateneeded']
         nameneeded = form['nameneeded']
+
         if resourcetypenumber and userid and purchasetypenumber and ammountneeded and dateneeded and nameneeded:
             dao = NeededDAO()
             neededid = dao.insert_needed(resourcetypenumber,userid,purchasetypenumber,ammountneeded,dateneeded,nameneeded)
@@ -63,11 +68,11 @@ class NeedHandler:
 
     def update_needed_by_neededid(self, tid):
         dao = NeededDAO()
-        return jsonify("Incomplet implementation")
+        return jsonify("Incomplete implementation")
 
     def delete_needed_by_neededid(self, tid):
         dao = NeededDAO()
-        return jsonify("Incomplet implementation")
+        return jsonify("Incomplete implementation")
 
     def get_statistic_by_senate_region(self):
 
