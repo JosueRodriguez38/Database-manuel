@@ -591,7 +591,7 @@ class ResourceHandler:
 
     def check_needed(self, resourceid, resourcetypenumber, ammount,purchasetypenumber,name):
         rdao = ResourcesDAO()
-        necesitados = rdao.get_necesitados(resourcetypenumber,ammount,purchasetypenumber)
+        necesitados = rdao.get_necesitados(resourcetypenumber,ammount,purchasetypenumber,name)
 
         for row in necesitados:
             resourceammount = rdao.get_resource_ammount(resourceid)[0]

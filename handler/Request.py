@@ -34,9 +34,9 @@ class RequestHandler:
             dao =RequestDAO()
             requestid = dao.insertrequest(userid)[0]
             dao = SelectedDAO()
-            selectedid = dao.insertSelected(requestid,resourceid,ammount,date)[0]
+            selectedid = dao.insertSelected(requestid,resourceid,ammount)[0]
 
-            return jsonify(ResquestID="New request has been added with resourceid = "+resourceid)
+            return jsonify(ResquestID="New request has been added with requestid = "+str(requestid))
         else:
             return jsonify(Error="Invalid Json Arguments")
 
