@@ -151,7 +151,7 @@ class ResourcesDAO:
     #
     def get_min_resourceid_by_needed_atribute(self, resourcetypenumber, purchasetypenumber, ammountneeded,nameneeded):
         cursor = self.conn.cursor()
-        query = "select min(resourceid)from resources where resourcetypenumber=%s and ammount>=%s and resources.purchasetypenumber=%s and name ~* %s resources.aviable=true "
+        query = "select min(resourceid)from resources where resourcetypenumber=%s and ammount>=%s and resources.purchasetypenumber=%s and name ~* %s and resources.aviable=true "
         cursor.execute(query,(resourcetypenumber,ammountneeded,purchasetypenumber,nameneeded))
         results = cursor.fetchone()
         self.conn.commit()

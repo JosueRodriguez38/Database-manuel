@@ -39,7 +39,7 @@ class NeedHandler:
                 reqdao = RequestDAO()
                 requestid=reqdao.insertrequest(userid)[0]
                 sdao = SelectedDAO()
-                sdao.insertSelected(requestid,resourceid,ammountneeded,dateneeded)
+                sdao.insertSelected(requestid,resourceid,ammountneeded)
                 dao.update_status(neededid,False)
                 dao.insert_atendido(neededid,requestid)
                 return jsonify("New needed has been added neededid: "+str(neededid)+" Resource found  new request has been added: "+str(requestid))

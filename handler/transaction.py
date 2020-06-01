@@ -68,7 +68,7 @@ class TransactionHandler:
         if payment and date and requestid:
             tid=dao.inserttransaction(requestid,payment,date)
             if tid:
-                return jsonify(PostStatus="new Transaction added")
+                return jsonify(PostStatus="new Transaction added with transactionid:" +str(tid))
             else:
                 return jsonify(Error="new Transaction couldn't be inserted")
         else:
